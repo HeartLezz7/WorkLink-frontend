@@ -23,20 +23,20 @@ export default function RegisterPage() {
   const handleRegister = async (e) => {
     try {
       e.preventDefault();
-      const validateError = validateSchema(registerSchema, input);
-      console.log(validateError, "validateError ");
-      if (validateError) {
-        return setError(validateError);
+      const result = validateSchema(registerSchema, input);
+      console.log(result.error, "validateError ");
+      if (result.error) {
+        return setError(result.error);
       }
       setError({});
-      await register();
+      await register(result.value);
     } catch (err) {
       console.log(err);
     }
   };
   return (
     <form
-      className="m-auto border max-w-md rounded-xl flex flex-col justify-center items-center p-5 gap-[17px]"
+      className="m-auto border border-graylight max-w-md rounded-xl flex flex-col justify-center items-center p-5 gap-[17px]"
       onSubmit={handleRegister}
     >
       <div className="text-3xl font-semibold text-primary">WorkLink</div>

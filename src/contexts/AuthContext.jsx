@@ -7,9 +7,20 @@ export const AuthContext = createContext();
 export default function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
+  // useEffect(()=>{
+  //   if(getAccessToken()){
+
+  //   }
+  // },[])
+
+  // const getUser = async() =>{
+  //   const getData = await axios.get()
+  // }
+
   const register = async (registerInput) => {
-    const res = await axios.post("/auth/register", registerInput);
-    console.log(res);
+    const registerData = await axios.post("/auth/register", registerInput);
+    createAccessToken(registerData.data.accessToken);
+    setUser(registerData.data.user);
   };
 
   const login = async (loginInput) => {
@@ -24,7 +35,7 @@ export default function AuthContextProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ register, user }}>
+    <AuthContext.Provider value={{ register, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
