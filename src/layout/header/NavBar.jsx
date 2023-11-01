@@ -19,34 +19,38 @@ export default function NavBar() {
   //   }
 
   return (
-    <nav className="flex items-center justify-end gap-[24px] text-whitetext h-full">
+    <nav className="flex items-center justify-end gap-[24px] text-whitetext h-full font-bold text-2xl">
       <Link
         to="/"
-        className={`text-2xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
-          pathname === "/" && "underline underline-offset-1"
+        className={`text-4xl  hover:scale-105 cursor-pointer active:scale-90 ${
+          pathname === "/"
+            ? "underline underline-offset-4 scale-105"
+            : "text-disable"
         }`}
       >
-        <p className="whitespace-nowrap ">Home</p>
+        <p className="whitespace-nowrap font-bold text-xl ">Home</p>
       </Link>
       <Link
         to="/findwork"
-        className={`text-2xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
-          pathname === "/findwork" && "underline underline-offset-1"
+        className={`text-3xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
+          pathname === "/findwork"
+            ? "underline underline-offset-4 scale-105"
+            : "text-disable"
         }`}
       >
-        <p className="whitespace-nowrap ">Find Work</p>
+        <p className="whitespace-nowrap font-bold text-xl">Find Work</p>
       </Link>
       <Link
         to="/login"
-        className="text-whitetext font-semibold bg-gradient-to-r from-primaryLight via-primary to-primaryDark hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-graylight shadow-md shadow-primaryDark font-md rounded-lg text-sm px-5 py-2 text-center"
+        className="text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm px-5 py-1.5 text-center"
       >
-        <p className="whitespace-nowrap ">Login</p>
+        <p className="whitespace-nowrap font-bold text-lg">Login</p>
       </Link>
       <Link
         to="/register"
-        className="text-whitetext font-semibold bg-gradient-to-r from-secondaryLight via-secondary to-secondaryDark hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-graylight shadow-md shadow-primaryDark font-md rounded-lg text-sm px-5 py-2 text-center"
+        className="text-whitetext font-semibold bg-gradient-to-r from-secondaryLight via-secondary to-secondaryDark hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-graylight shadow-md shadow-primaryDark font-md rounded-lg text-sm px-5 py-1.5 text-center"
       >
-        <p className="whitespace-nowrap ">Register</p>
+        <p className="whitespace-nowrap font-bold text-lg">Register</p>
       </Link>
     </nav>
   );

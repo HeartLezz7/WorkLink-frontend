@@ -4,6 +4,7 @@ import HomePage from "../pages/homepage/HomePage";
 import FindWorkPage from "../pages/findworkpage/FindWorkPage";
 import RegisterPage from "../pages/registerpage/RegisterPage";
 import LoginPage from "../pages/loginpage/LoginPage";
+import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <HomePage /> },
       { path: "findwork", element: <FindWorkPage /> },
+      { path: "userProfile/:userProfileId", element: <UserProfilePage /> },
     ],
   },
   {
