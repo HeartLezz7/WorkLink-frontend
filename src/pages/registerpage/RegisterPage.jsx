@@ -29,7 +29,6 @@ export default function RegisterPage() {
         return setError(result.error);
       }
       setError({});
-      // delete input.confirmPassword;
       await register(result.value);
     } catch (err) {
       console.log(err);
