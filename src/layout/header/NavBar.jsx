@@ -2,11 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function NavBar() {
   const { pathname } = useLocation();
-  let navLists = [
-    { id: 1, to: "/", message: "หน้าหลัก" },
-    { id: 2, to: "/login", message: "login" },
-    { id: 3, to: "/register", message: "register" },
-  ];
+
   //   if (authUser?.status == "User") {
   //     menus = [
   //       { id: 1, to: "/admin/orders", message: "จัดการออเดอร์" },
@@ -26,9 +22,19 @@ export default function NavBar() {
     <nav className="flex items-center justify-end gap-[24px] text-whitetext h-full">
       <Link
         to="/"
-        className={`text-2xl font-bold hover:scale-110 cursor-pointer active:scale-90 underline underline-offset-1`}
+        className={`text-2xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
+          pathname === "/" && "underline underline-offset-1"
+        }`}
       >
         <p className="whitespace-nowrap ">Home</p>
+      </Link>
+      <Link
+        to="/findwork"
+        className={`text-2xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
+          pathname === "/findwork" && "underline underline-offset-1"
+        }`}
+      >
+        <p className="whitespace-nowrap ">Find Work</p>
       </Link>
       <Link
         to="/login"
