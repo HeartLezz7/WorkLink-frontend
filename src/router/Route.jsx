@@ -5,6 +5,7 @@ import FindWorkPage from "../pages/findworkpage/FindWorkPage";
 import RegisterPage from "../pages/registerpage/RegisterPage";
 import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
+import ValidatePage from "../pages/validatepage/ValidatePage";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage />,
+  },
+  {
+    path: "/validate/:userId",
+    element: <ValidatePage />,
   },
 ]);
 
