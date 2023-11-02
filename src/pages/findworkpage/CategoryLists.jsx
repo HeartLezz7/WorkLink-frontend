@@ -33,7 +33,7 @@ export default function CategoryLists() {
   };
   //   console.log(isHover);
   return (
-    <div className="bg-background min-w-[90%] h-[170px] rounded-lg mt-10 flex items-end p-3 gap-4">
+    <div className="bg-backgroundWhiteBlue min-w-[90%] h-[180px] rounded-3xl mt-10 flex items-end p-3 gap-4  ">
       {categoryLists.map((el) => (
         <CategoryItem
           key={el.id}

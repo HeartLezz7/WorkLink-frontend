@@ -12,7 +12,7 @@ export default function WorkCard() {
     <div className="relative text-textGrayDark">
       <a.div
         onClick={() => set((state) => !state)}
-        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 absolute cursor-pointer bg-backgroundWhiteBlue ${
+        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 absolute cursor-pointer bg-background ${
           flipped ? "z-[-5]" : "z-[5]"
         } `}
         style={{ opacity: opacity.to((o) => 1 - o), transform }}
@@ -43,25 +43,25 @@ export default function WorkCard() {
       >
         <div className="bg-textWhite flex flex-col justify-between h-full p-3">
           <div className="flex flex-col justify-start flex-[8] overflow-y-scroll">
-            <p className=" text-xl font-semibold pt-1 pb-2">
+            <p className=" text-xl font-semibold pt-1 pb-2 text-textNavy">
               Need someone take care my dog 1 day
             </p>
             <hr className="w-[95%] mx-auto py-1" />
 
             <div className="flex gap-2 pb-1">
-              <p className=" font-semibold whitespace-nowrap text-lg">
+              <p className=" font-semibold whitespace-nowrap text-lg text-secondary">
                 Price :
               </p>
               <p className=" text-lg">400 THB</p>
             </div>
             <div className="flex gap-2 pb-1">
-              <p className=" font-semibold whitespace-nowrap text-lg">
+              <p className=" font-semibold whitespace-nowrap text-lg text-secondary">
                 Duration :
               </p>
               <p className=" text-lg">20/11/66 - 20/11/66</p>
             </div>
             <p className="">
-              <span className=" font-semibold whitespace-nowrap">
+              <span className=" font-semibold whitespace-nowrap text-secondary text-lg">
                 Description :
               </span>{" "}
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel,
