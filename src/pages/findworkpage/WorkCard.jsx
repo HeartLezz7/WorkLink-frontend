@@ -9,21 +9,21 @@ export default function WorkCard() {
     config: { mass: 5, tension: 500, friction: 80 },
   });
   return (
-    <div className="relative">
+    <div className="relative text-textGrayDark">
       <a.div
         onClick={() => set((state) => !state)}
-        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-darktext/60 absolute cursor-pointer ${
+        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 absolute cursor-pointer ${
           flipped ? "z-[-5]" : "z-[5]"
         } `}
         style={{ opacity: opacity.to((o) => 1 - o), transform }}
       >
-        <div className="h-[60%]">
+        <div className="h-[60%]  overflow-hidden">
           <img
             src="/workDefault/petcareDefault.png"
-            className="w-full object-contain min-h-0"
+            className=" min-h-full w-full object-cover"
           />
         </div>
-        <div className=" flex flex-col justify-between h-[40%] p-3 bg-whitetext">
+        <div className=" flex flex-col justify-between h-[40%] p-3">
           <p className="text-2xl line-clamp-2">
             Need someone take care my dog 1 day
           </p>
@@ -34,14 +34,14 @@ export default function WorkCard() {
         </div>
       </a.div>
       <a.div
-        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-darktext/60 `}
+        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 `}
         style={{
           opacity,
           transform,
           rotateY: "-180deg",
         }}
       >
-        <div className="bg-[#ebeaea] flex flex-col justify-between h-full p-3">
+        <div className="bg-textWhite flex flex-col justify-between h-full p-3">
           <div className="flex flex-col justify-start flex-[8] overflow-y-scroll">
             <p className=" text-xl font-semibold pt-1 pb-2">
               Need someone take care my dog 1 day
@@ -74,12 +74,12 @@ export default function WorkCard() {
             </p>
           </div>
           <div className="flex flex-col items-center justify-center gap-2 flex-[2] pt-2">
-            <button className="bg-primary px-5 py-2 text-xl font-semibold rounded-full text-whitetext">
+            <button className="bg-secondary px-5 py-2 text-xl font-semibold rounded-full text-textWhite">
               Sing-Up
             </button>
             <p
               onClick={() => set((state) => !state)}
-              className="text-secondaryDark underline text-lg cursor-pointer"
+              className="text-textGrayDark underline text-lg cursor-pointer"
             >
               Close
             </p>
