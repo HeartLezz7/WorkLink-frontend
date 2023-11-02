@@ -2,7 +2,7 @@ import { TypeAnimation } from "react-type-animation";
 
 export default function TypeTextAnimation() {
   return (
-    <div className="text-whitetext mx-auto w-fit text-center">
+    <div className="text-textNavy mx-auto w-[95%] text-center truncate overflow-ellipsis">
       <TypeAnimation
         sequence={[
           "Find your best partner here",
@@ -15,7 +15,11 @@ export default function TypeTextAnimation() {
         speed={40}
         repeat={Infinity}
         wrapper="h5"
-        // style={{ fontSize: "2em" }}
+        style={{
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflowL: "ellipsis",
+        }}
       />
     </div>
   );
