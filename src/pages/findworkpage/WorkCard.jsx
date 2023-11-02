@@ -12,7 +12,7 @@ export default function WorkCard() {
     <div className="relative text-textGrayDark">
       <a.div
         onClick={() => set((state) => !state)}
-        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 absolute cursor-pointer ${
+        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 absolute cursor-pointer bg-backgroundWhiteBlue ${
           flipped ? "z-[-5]" : "z-[5]"
         } `}
         style={{ opacity: opacity.to((o) => 1 - o), transform }}

@@ -2,9 +2,9 @@ import { FaStar } from "react-icons/fa";
 
 export default function UserDetail() {
   return (
-    <div className="p-5 w-[90%] shadow-lg shadow-primaryDark/70 bg-background/80 rounded-xl">
+    <div className="p-5 w-[90%] shadow-lg shadow-primaryDark/70 bg-background/80 rounded-xl h-fit">
       <div className="flex gap-5 items-center">
-        <div className="rounded-full overflow-hidden w-fit shadow-md">
+        <div className="rounded-full overflow-hidden w-[150px] shadow-md">
           <img
             src="/defaultImage.jpg"
             className="w-[150px] aspect-square object-cover"
@@ -12,8 +12,8 @@ export default function UserDetail() {
         </div>
         <div className="space-y-1">
           <div>
-            <h6 className="text-textGrayDark truncate">username</h6>
-            <h6 className="text-textGrayDark truncate">lastname</h6>
+            <h6 className="text-textNavy truncate">username</h6>
+            <h6 className="text-textNavy truncate">lastname</h6>
           </div>
           <div className="flex items-start gap-1">
             <FaStar color="#FFC911" size={25} />

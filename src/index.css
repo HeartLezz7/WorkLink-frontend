@@ -18,7 +18,8 @@
 
   
 *::-webkit-scrollbar{
-    width: 6px;
+    width: 8px;
+    height: 8px;
     /* display: none; */
 
   }
@@ -32,7 +33,7 @@
   body {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
-    background-color: #E6E9EC;
+    background-color: #FFF;
     min-width: 650px;
   }
   
