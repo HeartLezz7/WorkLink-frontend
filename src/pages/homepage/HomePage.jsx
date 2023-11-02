@@ -96,10 +96,10 @@ export default function HomePage() {
             <div className="text-textWhite flex flex-col items-center">
               <h2>A go-to team at <br />
                 your fingertips</h2>
-              <h6>Build your team of local,<br />
-                background-checked Work Link <br />
-                to help with — and for — life.<br />
-                Whatever you need, they’ve got<br />
+              <h6><br />Build your team of local,
+                background-checked Work Link
+                to help with — and for — life.
+                Whatever you need, they’ve got
                 it covered.</h6>
             </div>
 
