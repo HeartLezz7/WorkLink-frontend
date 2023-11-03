@@ -1,22 +1,34 @@
+import ReviewCard from "./ReviewCard";
+import ShowCase from "./ShowCase";
+import UserDetail from "./UserDetail";
+import { FaStar } from "react-icons/fa";
 export default function UserProfilePage() {
   return (
-    <>
-      <div className="absolute w-full h-[430px] bg-primaryLight z-[-5]"></div>
-      <div className="max-w-[1440px] mx-auto">
-        <div className="flex gap-10">
-          <div className="bg-black flex-[5] flex justify-center">
-            <div className="px-5 bg-secondaryLight">
-              <div className="rounded-full overflow-hidden w-fit">
-                <img
-                  src="/defaultImage.jpg"
-                  className="w-[150px] aspect-square object-cover"
-                />
+    <div className="">
+      <div className="absolute w-full h-[340px] bg-primaryLight z-[-10]"></div>
+      <div className="max-w-[1440px] mx-auto p-10">
+        <div className="flex gap-6 pt-[30px]">
+          <div className=" flex-[3] flex justify-center  max-w-[400px]">
+            <UserDetail />
+          </div>
+          <div className=" flex-[5] flex flex-col items-start gap-2 p-5 rounded-2xl z-[10] max-w-[900px]">
+            <ShowCase />
+            <div className=" w-full rounded-md flex flex-col items-center py-3">
+              <div className="w-[90%] place-items-center flex gap-3 my-5 px-5">
+                <div className="bg-textGrayDark h-[2px] w-full"></div>
+                <h5 className="w-fit mx-auto text-textNavy">Review</h5>
+                <div className="bg-textGrayDark h-[2px] w-full"></div>
+              </div>
+              <div className="flex flex-col gap-5">
+                <ReviewCard />
+                <ReviewCard />
+                <ReviewCard />
               </div>
             </div>
+            <div></div>
           </div>
-          <div className="bg-background flex-[10] w-full">dasljsl</div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

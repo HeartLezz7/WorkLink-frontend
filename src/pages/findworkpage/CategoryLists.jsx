@@ -6,6 +6,13 @@ export default function CategoryLists() {
   //   console.log(categoryId);
   const categoryLists = [
     {
+      id: 0,
+      onImage: "/categoryIcon/all-on.svg",
+      offImage: "/categoryIcon/all-off.svg",
+      message1: "All",
+      message2: "",
+    },
+    {
       id: 1,
       onImage: "/categoryIcon/com-on.svg",
       offImage: "/categoryIcon/com-off.svg",
@@ -18,6 +25,13 @@ export default function CategoryLists() {
       offImage: "/categoryIcon/graphic-off.svg",
       message1: "Graphic",
       message2: "& Design",
+    },
+    {
+      id: 3,
+      onImage: "/categoryIcon/doc-on.svg",
+      offImage: "/categoryIcon/doc-off.svg",
+      message1: "Document",
+      message2: "",
     },
     // {
     //   id: 3,
@@ -33,7 +47,7 @@ export default function CategoryLists() {
   };
   //   console.log(isHover);
   return (
-    <div className="bg-background min-w-[90%] h-[170px] rounded-lg mt-10 flex items-end p-3 gap-4">
+    <div className="bg-background min-w-[90%] h-[180px] rounded-3xl mt-10 flex items-end p-3 gap-4  ">
       {categoryLists.map((el) => (
         <CategoryItem
           key={el.id}

@@ -15,6 +15,8 @@ export default {
       gradiantPrimaryDark: "#18BC66",
       gradiantPrimaryLight: "#68C170",
       background: "#FFFFFF",
+      backgroundWhiteBlue: "#E6E9EC",
+      backgroundWhiteGray: "#ECECEC",
       disable: "#DADFE7",
       textNavy: "#0E1446",
       textWhite: "#FFFFFF",
@@ -23,6 +25,7 @@ export default {
       black: "#000",
       success: "#42C173",
       error: "#F03800",
+      yellow: "#FFC911",
     },
     fontWeight: {
       light: "300",

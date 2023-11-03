@@ -23,24 +23,30 @@ export default function SearchContainer() {
         <p className="text-textNavy text-2xl font-bold">OrderBy :</p>
         <p
           onClick={() => setOrderBy("all")}
-          className={` cursor-pointer px-2 font-semibold text-2xl ${
-            orderBy === "all" ? "text-textNavy" : "text-textGrayLight "
+          className={` cursor-pointer px-3 font-semibold text-2xl ${
+            orderBy === "all"
+              ? "text-textNavy bg-secondaryLight rounded-full"
+              : "text-textGrayLight "
           }`}
         >
           All
         </p>
         <p
           onClick={() => setOrderBy("nearme")}
-          className={` cursor-pointer px-2 font-semibold text-2xl ${
-            orderBy === "nearme" ? "text-textNavy" : "text-textGrayLight "
+          className={` cursor-pointer px-3 font-semibold text-2xl ${
+            orderBy === "nearme"
+              ? "text-textNavy bg-secondaryLight rounded-full"
+              : "text-textGrayLight "
           }`}
         >
           Near me
         </p>
         <p
           onClick={() => setOrderBy("soon")}
-          className={` cursor-pointer px-2 font-semibold text-2xl ${
-            orderBy === "soon" ? "text-textNavy" : "text-textGrayLight "
+          className={` cursor-pointer px-3 font-semibold text-2xl ${
+            orderBy === "soon"
+              ? "text-textNavy bg-secondaryLight rounded-full"
+              : "text-textGrayLight "
           }`}
         >
           Coming Soon
