@@ -42,13 +42,13 @@ export default function NavBar() {
       </Link>
       <Link
         to="/login"
-        className="text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm px-5 py-1.5 text-center"
+        className="text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm px-5 py-1.5 text-center"
       >
         <p className="whitespace-nowrap font-bold text-lg">Login</p>
       </Link>
       <Link
         to="/register"
-        className="text-whitetext font-semibold bg-gradient-to-r from-secondaryLight via-secondary to-secondaryDark hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-graylight shadow-md shadow-primaryDark font-md rounded-lg text-sm px-5 py-1.5 text-center"
+        className="text-whitetext font-semibold bg-gradient-to-tl from-secondaryLight via-secondary to-secondaryDark hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-secondary shadow-md shadow-primaryDark font-md rounded-lg text-sm px-5 py-1.5 text-center"
       >
         <p className="whitespace-nowrap font-bold text-lg">Register</p>
       </Link>
