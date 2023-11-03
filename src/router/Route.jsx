@@ -15,16 +15,11 @@ const router = createBrowserRouter([
       { path: "", element: <HomePage /> },
       { path: "findwork", element: <FindWorkPage /> },
       { path: "userProfile/:userProfileId", element: <UserProfilePage /> },
+      { path: "/login", element: <LoginPage /> },
+      { path: "/register", element: <RegisterPage /> },
     ],
   },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-  },
+
   {
     path: "/validate/:userId",
     element: <ValidatePage />,

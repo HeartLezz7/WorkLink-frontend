@@ -4,6 +4,7 @@ import ActionButton from "../../components/ActionButton";
 import { registerSchema } from "../../utils/auth-validator";
 import validateSchema from "../../utils/validate-schema";
 import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [input, setInput] = useState({
@@ -15,6 +16,8 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
   const [error, setError] = useState({});
+
+  const navigate = useNavigate();
 
   const { register } = useAuth();
 
@@ -31,7 +34,9 @@ export default function RegisterPage() {
         return setError(result.error);
       }
       setError({});
-      await register(result.value);
+      const user = await register(result.value);
+      console.log(user, "user");
+      navigate(`/validate/${user.id}`);
     } catch (err) {
       console.log(err);
     }
