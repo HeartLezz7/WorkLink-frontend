@@ -9,13 +9,16 @@ export default function WorkCard() {
     config: { mass: 5, tension: 500, friction: 80 },
   });
   return (
-    <div className="relative text-textGrayDark">
+    <div className="relative text-textGrayDark ">
       <a.div
         onClick={() => set((state) => !state)}
-        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 absolute cursor-pointer bg-background ${
+        className={`border border-textGrayLight rounded-xl overflow-hidden h-[400px] w-[350px] shadow shadow-black/40 absolute cursor-pointer bg-background whiteDivShadow ${
           flipped ? "z-[-5]" : "z-[5]"
         } `}
-        style={{ opacity: opacity.to((o) => 1 - o), transform }}
+        style={{
+          opacity: opacity.to((o) => 1 - o),
+          transform,
+        }}
       >
         <div className="h-[60%]  overflow-hidden">
           <img
@@ -34,7 +37,7 @@ export default function WorkCard() {
         </div>
       </a.div>
       <a.div
-        className={`rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 `}
+        className={`border border-textGrayLight rounded-xl overflow-hidden h-[400px] w-[350px] shadow-lg shadow-black/40 whiteDivShadow `}
         style={{
           opacity,
           transform,
