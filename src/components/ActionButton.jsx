@@ -1,7 +1,7 @@
-export default function ActionButton({ title, color, type = "submit" }) {
+export default function ActionButton({ title, type = "submit" }) {
   return (
     <button
-      className={`${color} rounded-2xl text-whitetext w-[180px] h-[50px]`}
+      className="rounded-2xl text-textWhite bg-secondaryLight w-[180px] h-[50px]"
       type={type}
     >
       {title}

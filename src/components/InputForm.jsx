@@ -16,7 +16,7 @@ export default function InputForm({
         name={name}
         value={value}
         onChange={onChange}
-        className=" rounded-xl py-2 px-4 border border-graylight"
+        className=" rounded-xl py-2 px-4 border border-textGrayLight"
       />
       {{ errorInput } && <InputErrorMessage message={errorInput} />}
     </div>
