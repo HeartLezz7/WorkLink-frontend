@@ -95,6 +95,7 @@ export default function ValidatePage() {
           </div>
           <div className="grid grid-cols-2  gap-2">
             <InputForm
+              type="date"
               placeholder="Date of birth"
               name="birthDate"
               value={validateInput.birthDate}
