@@ -6,6 +6,7 @@ import RegisterPage from "../pages/registerpage/RegisterPage";
 import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
+import ChatPage from "../pages/chat/ChatPage";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: "userProfile/:userProfileId", element: <UserProfilePage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
+      { path: "/chatroom", element: <ChatPage /> },
     ],
   },
 
