@@ -3,12 +3,13 @@ import InputForm from "../../components/InputForm";
 import useAuth from "../../hooks/useAuth";
 import validateSchema from "../../utils/validate-schema";
 import { loginSchema } from "../../utils/auth-validator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
 
 export default function LoginPage() {
   const [input, setInput] = useState({ emailOrPhoneNumber: "", password: "" });
   const [error, setError] = useState({});
+  const navigate = useNavigate();
 
   const { login } = useAuth();
 
@@ -26,6 +27,7 @@ export default function LoginPage() {
       setError({});
       console.log("before");
       await login(result.value);
+      navigate("/dashboard");
       console.log("after");
     } catch (err) {
       console.log(err);

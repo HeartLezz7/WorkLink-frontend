@@ -5,19 +5,24 @@ import { useRef } from "react";
 import { identifySchema } from "../../utils/auth-validator";
 import validateSchema from "../../utils/validate-schema";
 import axios from "../../configs/axios";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function ValidatePage() {
+  const { user } = useAuth();
   const [validateInput, setValidateInput] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    email: "",
+    firstName: user?.userProfile.firstName,
+    lastName: user?.userProfile.lastName,
+    phoneNumber: user?.phoneNumber,
+    email: user?.email,
     birthDate: "",
     identifyId: "",
   });
+  console.log(user);
+
   const [file, setFile] = useState(null);
   const [error, setError] = useState({});
-
+  const navigate = useNavigate();
   const idImage = useRef();
 
   const handleInput = (e) => {
@@ -26,6 +31,7 @@ export default function ValidatePage() {
 
   const handleFormData = () => {
     const formData = new FormData();
+
     const { value, error } = validateSchema(identifySchema, validateInput);
     if (error) {
       setError(error);
@@ -43,7 +49,9 @@ export default function ValidatePage() {
     try {
       e.preventDefault();
       const data = handleFormData();
-      await axios.post("/user/createprofile", data);
+      console.log(data);
+      await axios.patch("/user/validateprofile", data);
+      navigate(`/userprofile/${user.userProfile.id}`);
     } catch (error) {
       console.log(error);
     }

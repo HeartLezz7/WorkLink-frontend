@@ -7,6 +7,8 @@ import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
+import RedirectIfNotVerify from "./redirect/RedirectIfNotVerify";
+import RedirectIfUser from "./redirect/RedirectIfUser";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +19,10 @@ const router = createBrowserRouter([
       { path: "findwork", element: <FindWorkPage /> },
       { path: "userprofile/:userProfileId", element: <UserProfilePage /> },
       { path: "dashboard", element: <UserDashBoardPage /> },
-      { path: "login", element: <LoginPage /> },
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
       { path: "register", element: <RegisterPage /> },
     ],
   },

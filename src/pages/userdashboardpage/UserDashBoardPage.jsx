@@ -1,4 +1,3 @@
-import { FaStar } from "react-icons/fa";
 import UserWallet from "./UserWallet";
 
 export default function UserDashBoardPage() {
@@ -17,5 +16,3 @@ export default function UserDashBoardPage() {
     </div>
   );
 }
-const today = new Date();
-console.log(today);
