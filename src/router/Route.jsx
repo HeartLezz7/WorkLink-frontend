@@ -6,6 +6,7 @@ import RegisterPage from "../pages/registerpage/RegisterPage";
 import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
+import ValidatePage from "../pages/validatepage/ValidatePage";
 
 const router = createBrowserRouter([
   {
@@ -16,15 +17,14 @@ const router = createBrowserRouter([
       { path: "findwork", element: <FindWorkPage /> },
       { path: "userprofile/:userProfileId", element: <UserProfilePage /> },
       { path: "dashboard", element: <UserDashBoardPage /> },
-      {
-        path: "login",
-        element: <LoginPage />,
-      },
-      {
-        path: "register",
-        element: <RegisterPage />,
-      },
+      { path: "login", element: <LoginPage /> },
+      { path: "register", element: <RegisterPage /> },
     ],
+  },
+
+  {
+    path: "/validate/:userId",
+    element: <ValidatePage />,
   },
 ]);
 
