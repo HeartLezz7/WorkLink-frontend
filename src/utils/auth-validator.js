@@ -1,5 +1,7 @@
 import Joi from "joi";
 const registerSchema = Joi.object({
+  firstName: Joi.string().trim().required(),
+  lastName: Joi.string().trim().required(),
   email: Joi.string()
     .email({ tlds: { allow: ["com"] } })
     .pattern(/@(gmail|hotmail)\.com$/)
@@ -34,4 +36,23 @@ const loginSchema = Joi.object({
     .trim()
     .pattern(/^[a-zA-Z0-9]{6,30}$/),
 });
-export { registerSchema, loginSchema };
+
+const identifySchema = Joi.object({
+  firstName: Joi.string().trim().required(),
+  lastName: Joi.string().trim().required(),
+  email: Joi.string()
+    .email({ tlds: { allow: ["com"] } })
+    .pattern(/@(gmail|hotmail)\.com$/)
+    .trim()
+    .required(),
+  phoneNumber: Joi.string()
+    .pattern(/^[0-9]{10}$/)
+    .trim()
+    .required(),
+  birthDate: Joi.string().trim().required(),
+  identifyId: Joi.string()
+    .trim()
+    .pattern(/^[0-9]{13}$/)
+    .required(),
+});
+export { registerSchema, loginSchema, identifySchema };

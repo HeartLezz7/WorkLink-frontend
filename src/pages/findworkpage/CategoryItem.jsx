@@ -33,12 +33,16 @@ export default function CategoryItem({
       ) : (
         ""
       )}
-      <p className="text-center text-lg font-semibold text-textGrayDark">
+      <p className="text-center text-lg font-bold text-textGrayDark">
         {message1}
       </p>
-      <p className="text-center text-lg font-semibold text-textGrayDark">
-        {message2}
-      </p>
+      {message2 ? (
+        <p className="text-center text-lg font-bold text-textGrayDark">
+          {" " && message2}
+        </p>
+      ) : (
+        <div className="w-1 h-[28px]"></div>
+      )}
     </div>
   );
 }
