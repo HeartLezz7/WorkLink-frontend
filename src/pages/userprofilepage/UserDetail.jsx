@@ -1,50 +1,82 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
+import axios from "../../configs/axios";
+import { useParams } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import calculateAge from "../../utils/calculateAge";
+import EditProfileModal from "../../components/modal/EditProfileModal";
+
 export default function UserDetail() {
+  const [profileData, setProfileData] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
+  const { userId } = useParams();
+  console.log(profileData);
+  useEffect(() => {
+    axios
+      .get(`/user/getuserprofile/${userId}`)
+      .then((res) => {
+        let profileAge = calculateAge(res.data.profileData.birthDate);
+        console.log(profileAge);
+        res.data.profileData.age = profileAge;
+        setProfileData(res.data.profileData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className="p-5 w-[90%] shadow-lg shadow-primaryDark/70 bg-background/80 rounded-xl h-fit">
       <div className="flex gap-5 items-center">
-        <div className="rounded-full overflow-hidden w-[150px] shadow-md">
-          <img
-            src="/defaultImage.jpg"
-            className="w-[150px] aspect-square object-cover"
-          />
-        </div>
+        <img
+          src={profileData?.profileImage}
+          className="w-[100px] aspect-square rounded-full object-cover shadow-md"
+        />
+
         <div className="space-y-1">
           <div>
-            <h6 className="text-textNavy truncate">username</h6>
-            <h6 className="text-textNavy truncate">lastname</h6>
+            <h6 className="text-textNavy truncate">{profileData?.firstName}</h6>
+            <h6 className="text-textNavy truncate">{profileData?.lastName}</h6>
           </div>
           <div className="flex items-start gap-1">
             <FaStar color="#FFC911" size={25} />
-            <p className="text-xl font-semibold text-textGrayDark">5.0/5.0</p>
+            <p className="text-xl font-semibold text-textGrayDark">รอข้อมูล</p>
           </div>
         </div>
       </div>
       <div className=" flex flex-col gap-3 mt-4">
         <p className="text-xl">
-          <span className="text-xl font-semibold">Age :</span> 25 years
+          <span className="text-xl font-semibold">Age :</span>{" "}
+          {profileData?.age} years
         </p>
         <p className="text-xl">
-          <span className="text-xl font-semibold">Address :</span> Bangkok,
-          Thailand
+          <span className="text-xl font-semibold">Address :</span>{" "}
+          {profileData?.address ? profileData?.address : "Not specified"}
         </p>
         <div>
           <p className="text-xl font-semibold">Personal description :</p>
           <p className="">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis
-            maxime, vel quibusdam beatae eos excepturi necessitatibus voluptatem
-            quidem sed praesentium exercitationem libero numquam dolores
-            reprehenderit assumenda, dignissimos nemo deleniti doloribus
-            reiciendis. Voluptates labore laboriosam eaque quasi facere? Ab
-            consequatur voluptatem nobis, ipsa praesentium ipsum mollitia eos
-            aspernatur. Animi, cupiditate nobis!
+            {profileData?.personalDescription
+              ? profileData?.personalDescription
+              : "Not specified"}
           </p>
         </div>
         <div className="w-full flex justify-center">
-          <button className="bg-textGrayLight text-textGrayDark px-3 py-2 rounded-md font-semibold">
+          <button
+            onClick={() => {
+              setIsOpen(true);
+            }}
+            className="bg-textGrayLight text-textGrayDark px-3 py-2 rounded-md font-semibold hover:bg-textGrayDark/50"
+          >
             Edit profile
           </button>
+          {isOpen && (
+            <EditProfileModal
+              setIsOpen={setIsOpen}
+              profileData={profileData}
+              setProfileData={setProfileData}
+            />
+          )}
         </div>
       </div>
     </div>

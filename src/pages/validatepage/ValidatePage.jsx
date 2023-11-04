@@ -54,7 +54,7 @@ export default function ValidatePage() {
       setLoading(true);
       const data = handleFormData();
       // console.log(data);
-      const res = await axios.patch("/user/validateprofile", data);
+      const res = await axios.patch("/user/validateuser", data);
       // console.log(res.data.user);
       setUser(res.data.user);
       navigate(`/userprofile/${user.id}`);
@@ -160,20 +160,12 @@ export default function ValidatePage() {
             </button>
           </div>
           <div className="grid grid-cols-2 gap-2 w-full">
-            {file ? (
+            {file && (
               <img
                 src={URL.createObjectURL(file)}
                 alt="file"
                 className="aspect-video rounded-2xl"
               />
-            ) : user?.identifyImage ? (
-              <img
-                src={user?.identifyImage}
-                alt="file"
-                className="aspect-video rounded-2xl"
-              />
-            ) : (
-              ""
             )}
           </div>
         </form>

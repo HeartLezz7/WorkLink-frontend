@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <HomePage /> },
       { path: "findwork", element: <FindWorkPage /> },
-      { path: "userprofile/:userProfileId", element: <UserProfilePage /> },
+      { path: "userprofile/:userId", element: <UserProfilePage /> },
       { path: "dashboard", element: <UserDashBoardPage /> },
       {
         path: "login",
