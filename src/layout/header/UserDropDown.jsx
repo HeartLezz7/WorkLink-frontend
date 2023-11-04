@@ -2,11 +2,19 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useDropdown from "../../hooks/useDropdown";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function UserDropDown() {
   const { user, logout } = useAuth();
   const { isOpen, setIsOpen, dropDownEl } = useDropdown();
   const navigate = useNavigate();
+  // console.log(user);
+
+  const handleLogout = () => {
+    console.log("click");
+    logout();
+    navigate("/");
+  };
 
   const handleNavigate = () => {
     // navigate("/order/trackOrder");
@@ -16,20 +24,94 @@ export default function UserDropDown() {
   return (
     <div className="relative h-full" ref={dropDownEl}>
       <div
-        className="h-full aspect-square cursor-pointer"
+        className="h-fit aspect-square cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <img src="/defaultImage.jpg" alt="user" className="h-[50px]" />
+        <img
+          src="/defaultImage.jpg"
+          alt="user"
+          className="h-[45px] rounded-full aspect-square object-cover"
+        />
       </div>
       {isOpen && (
         <>
-          <div className="absolute w-80 bg-mybackground right-0 translate-y-3 border-4 border-myyellow rounded-lg shadow-md p-2 z-30">
-            <div className="w-full flex flex-col justify-center items-center gap-4">
-              <div className="w-full flex flex-col items-start gap-2">
-                <p className="text-darktext text-xl font-semibold truncate">{`${user.userProfile.firstName} ${user.userProfile.lastName}`}</p>
+          <div className="absolute w-[280px] bg-background right-0 translate-y-3 border border-textGrayLight whiteDivShadow rounded-lg shadow-md px-3 py-1 z-30">
+            <div className="w-full flex flex-col justify-center items-center">
+              <div className="w-full border-b border-textGrayLight py-1 ">
+                <Link
+                  to={`userProfile/${user.id}`}
+                  className="w-full flex items-center gap-4 p-2 hover:bg-backgroundWhiteGray rounded-md"
+                >
+                  <img
+                    src={user.profileImage}
+                    className="h-[60px] aspect-square rounded-full object-cover whiteDivShadow"
+                  />
+                  <div>
+                    <p className="text-primary text-2xl font-bold truncate">{`${user.firstName} ${user.lastName}`}</p>
+                    {user.authUser.isVerify ? (
+                      <div className="flex items-center gap-1">
+                        <img
+                          src="/icons/verifyIcon.png"
+                          className="h-[20px] aspect-square object-cover"
+                        />
+                        <p className="text-primary">Verify</p>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1">
+                        <img
+                          src="/icons/notVerifyIcon.png"
+                          className="h-[20px] aspect-square object-cover"
+                        />
+                        <p className="text-textGrayLight">Non verify</p>
+                      </div>
+                    )}
+                  </div>
+                </Link>
               </div>
-              <div>
-                <button onClick={logout}>ออกจากระบบ</button>
+              <div className="w-full border-b border-textGrayLight py-1 ">
+                <div className="w-full flex items-center gap-4 hover:bg-backgroundWhiteGray px-2 py-1 rounded-md">
+                  <Link
+                    to={`/validate/${user.id}`}
+                    className="w-full px-1 flex items-center gap-3"
+                  >
+                    <img
+                      src="/icons/editVerifyIcon.svg"
+                      className="w-[32px] aspect-square object-cover"
+                    />
+                    <p className="text-textGrayDark font-semibold">
+                      Edit and verify account
+                    </p>
+                  </Link>
+                </div>
+              </div>
+              <div className="w-full border-b border-textGrayLight py-1 ">
+                <div className="w-full flex items-center gap-4 hover:bg-backgroundWhiteGray px-2 py-1 rounded-md">
+                  <Link to="/" className="w-full px-1 flex items-center gap-3">
+                    <img
+                      src="/icons/editIcon.png"
+                      className="h-[20px] aspect-square object-cover m-1"
+                    />
+                    <p className="text-textGrayDark font-semibold">
+                      change password
+                    </p>
+                  </Link>
+                </div>
+              </div>
+              <div className="w-full  py-1 ">
+                <div
+                  onClick={() => handleLogout()}
+                  className="w-full flex items-center gap-4 hover:bg-backgroundWhiteGray px-2 py-1 rounded-md cursor-pointer"
+                >
+                  <div className="w-full px-1 flex items-center gap-3">
+                    <img
+                      src="/icons/logoutIcon.png"
+                      className="w-[23px] aspect-square object-cover m-1"
+                    />
+                    <p className="text-textGrayDark text-lg font-semibold">
+                      Log out
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -24,12 +24,11 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       { path: "register", element: <RegisterPage /> },
+      {
+        path: "/validate/:userId",
+        element: <ValidatePage />,
+      },
     ],
-  },
-
-  {
-    path: "/validate/:userId",
-    element: <ValidatePage />,
   },
 ]);
 

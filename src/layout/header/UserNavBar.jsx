@@ -27,9 +27,9 @@ export default function UserNavBar() {
         <p className="whitespace-nowrap font-bold text-xl">Find Work</p>
       </Link>
       <Link
-        to="/findwork"
+        to="/dashboard"
         className={`text-3xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
-          pathname === "/findwork"
+          pathname === "/dashboard"
             ? "underline underline-offset-4 scale-105"
             : "text-disable"
         }`}
