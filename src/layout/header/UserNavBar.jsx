@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import UserDropDown from "./UserDropDown";
+import { BsChatTextFill } from "react-icons/bs";
 
 export default function UserNavBar() {
   const { pathname } = useLocation();
@@ -10,7 +11,7 @@ export default function UserNavBar() {
         to="/"
         className={`text-4xl  hover:scale-105 cursor-pointer active:scale-90 ${
           pathname === "/"
-            ? "underline underline-offset-4 scale-105"
+            ? "underline underline-offset-4 scale-105 text-secondary"
             : "text-disable"
         }`}
       >
@@ -20,7 +21,7 @@ export default function UserNavBar() {
         to="/findwork"
         className={`text-3xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
           pathname === "/findwork"
-            ? "underline underline-offset-4 scale-105"
+            ? "underline underline-offset-4 scale-105 text-secondary"
             : "text-disable"
         }`}
       >
@@ -30,11 +31,21 @@ export default function UserNavBar() {
         to="/dashboard"
         className={`text-3xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
           pathname === "/dashboard"
-            ? "underline underline-offset-4 scale-105"
+            ? "underline underline-offset-4 scale-105 text-secondary"
             : "text-disable"
         }`}
       >
         <p className="whitespace-nowrap font-bold text-xl">Dashboard</p>
+      </Link>
+      <Link
+        to="/"
+        className={`text-3xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
+          pathname === "/"
+            ? "underline underline-offset-4 scale-105 text-secondary"
+            : "text-disable"
+        }`}
+      >
+        <BsChatTextFill size={30} />
       </Link>
       <UserDropDown />
     </nav>
