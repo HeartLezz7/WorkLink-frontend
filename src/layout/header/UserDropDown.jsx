@@ -14,10 +14,15 @@ export default function UserDropDown() {
     console.log("click");
     logout();
     navigate("/");
+    setIsOpen(false);
   };
 
-  const handleNavigate = () => {
-    // navigate("/order/trackOrder");
+  const handleProfileNavigate = () => {
+    navigate(`/userprofile/${user.id}`);
+    setIsOpen(false);
+  };
+  const handleValidateNavigate = () => {
+    navigate(`/validate/${user.id}`);
     setIsOpen(false);
   };
 
@@ -38,16 +43,16 @@ export default function UserDropDown() {
           <div className="absolute w-[280px] bg-background right-0 translate-y-3 border border-textGrayLight whiteDivShadow rounded-lg shadow-md px-3 py-1 z-30">
             <div className="w-full flex flex-col justify-center items-center">
               <div className="w-full border-b border-textGrayLight py-1 ">
-                <Link
-                  to={`userProfile/${user.id}`}
-                  className="w-full flex items-center gap-4 p-2 hover:bg-backgroundWhiteGray rounded-md"
+                <div
+                  onClick={handleProfileNavigate}
+                  className="cursor-pointer w-full flex items-center gap-4 p-2 hover:bg-backgroundWhiteGray rounded-md overflow-hidden"
                 >
                   <img
                     src={user.profileImage}
                     className="h-[60px] aspect-square rounded-full object-cover whiteDivShadow"
                   />
                   <div>
-                    <p className="text-primary text-2xl font-bold truncate">{`${user.firstName} ${user.lastName}`}</p>
+                    <p className="text-primary text-lg font-bold truncate w-full">{`${user.firstName} ${user.lastName} `}</p>
                     {user.authUser.isVerify ? (
                       <div className="flex items-center gap-1">
                         <img
@@ -66,13 +71,13 @@ export default function UserDropDown() {
                       </div>
                     )}
                   </div>
-                </Link>
+                </div>
               </div>
               <div className="w-full border-b border-textGrayLight py-1 ">
                 <div className="w-full flex items-center gap-4 hover:bg-backgroundWhiteGray px-2 py-1 rounded-md">
-                  <Link
-                    to={`/validate/${user.id}`}
-                    className="w-full px-1 flex items-center gap-3"
+                  <div
+                    onClick={handleValidateNavigate}
+                    className="cursor-pointer w-full px-1 flex items-center gap-3 overflow-hidden"
                   >
                     <img
                       src="/icons/editVerifyIcon.svg"
@@ -81,7 +86,7 @@ export default function UserDropDown() {
                     <p className="text-textGrayDark font-semibold">
                       Edit and verify account
                     </p>
-                  </Link>
+                  </div>
                 </div>
               </div>
               <div className="w-full border-b border-textGrayLight py-1 ">

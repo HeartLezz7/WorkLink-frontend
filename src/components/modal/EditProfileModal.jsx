@@ -77,57 +77,38 @@ export default function EditProfileModal({
               Edit personal profile
             </div>
             <main className="px-[30px] py-[10px] flex flex-col items-center gap-[15px]">
-              {input.profileImage instanceof File ? (
-                <div
-                  onMouseEnter={() => {
-                    setIsHover(true);
-                  }}
-                  onMouseLeave={() => {
-                    setIsHover(false);
-                  }}
-                  onClick={() => fileEl.current.click()}
-                  className="w-[130px] aspect-square rounded-full overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
-                >
-                  {isHover && (
-                    <div className="absolute w-full h-full">
-                      <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
-                        <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
-                          edit
-                        </div>
+              <div
+                onMouseEnter={() => {
+                  setIsHover(true);
+                }}
+                onMouseLeave={() => {
+                  setIsHover(false);
+                }}
+                onClick={() => fileEl.current.click()}
+                className="w-[130px] aspect-square rounded-full overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
+              >
+                {isHover && (
+                  <div className="absolute w-full h-full">
+                    <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
+                      <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
+                        edit
                       </div>
                     </div>
-                  )}
+                  </div>
+                )}
+                {input.profileImage instanceof File ? (
                   <img
                     src={URL.createObjectURL(input.profileImage)}
                     className="object-cover w-full h-full"
                   />
-                </div>
-              ) : (
-                <div
-                  onMouseEnter={() => {
-                    setIsHover(true);
-                  }}
-                  onMouseLeave={() => {
-                    setIsHover(false);
-                  }}
-                  onClick={() => fileEl.current.click()}
-                  className="w-[130px] aspect-square rounded-full overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
-                >
-                  {isHover && (
-                    <div className="absolute w-full h-full">
-                      <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
-                        <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
-                          edit
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                ) : (
                   <img
                     src={input.profileImage}
                     className="object-cover w-full h-full"
                   />
-                </div>
-              )}
+                )}
+              </div>
+
               <input
                 type="file"
                 className="hidden"
