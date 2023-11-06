@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import Loading from "../Loading/Loading";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
+import { LuImagePlus } from "react-icons/lu";
 
 export default function EditProfileModal({
   setIsOpen,
@@ -9,7 +10,7 @@ export default function EditProfileModal({
   setProfileData,
 }) {
   const [loading, setLoading] = useState(false);
-  const [isHover, setIsHover] = useState(true);
+  const [isHover, setIsHover] = useState(false);
   const { user, setUser } = useAuth();
   const fileEl = useRef(null);
   const [input, setInput] = useState({
@@ -101,11 +102,18 @@ export default function EditProfileModal({
                     src={URL.createObjectURL(input.profileImage)}
                     className="object-cover w-full h-full"
                   />
-                ) : (
+                ) : input.profileImage ? (
                   <img
                     src={input.profileImage}
                     className="object-cover w-full h-full"
                   />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                    <LuImagePlus color="#3CB97F" size={40} />
+                    <div className="text-center text-sm whitespace-wrap">
+                      ProfileImage
+                    </div>
+                  </div>
                 )}
               </div>
 
