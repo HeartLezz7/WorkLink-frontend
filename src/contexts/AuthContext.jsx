@@ -1,21 +1,30 @@
 import axios from "../configs/axios";
-import { createContext, useState } from "react";
-import { createAccessToken, deleteAccessToken } from "../utils/local-storage";
+import { createContext, useState, useEffect } from "react";
+import {
+  getAccessToken,
+  createAccessToken,
+  deleteAccessToken,
+} from "../utils/local-storage";
 
 export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
+  console.log(user);
 
-  // useEffect(()=>{
-  //   if(getAccessToken()){
+  const [loading, setLoading] = useState(true);
 
-  //   }
-  // },[])
-
-  // const getUser = async() =>{
-  //   const getData = await axios.get()
-  // }
+  useEffect(() => {
+    if (getAccessToken()) {
+      axios
+        .get("/auth/me")
+        .then((res) => setUser(res.data.user))
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
   const register = async (registerInput) => {
     const registerData = await axios.post("/auth/register", registerInput);
@@ -36,7 +45,17 @@ export default function AuthContextProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ register, user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        register,
+        user,
+        login,
+        logout,
+        loading,
+        setLoading,
+        setUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

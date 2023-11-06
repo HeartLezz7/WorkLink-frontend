@@ -12,7 +12,7 @@ export default function WorkCard() {
     <div className="relative text-textGrayDark ">
       <a.div
         onClick={() => set((state) => !state)}
-        className={`border border-textGrayLight rounded-xl overflow-hidden h-[400px] w-[350px] shadow shadow-black/40 absolute cursor-pointer bg-background whiteDivShadow ${
+        className={`p-3 border border-textGrayLight rounded-xl overflow-hidden h-[400px] w-[350px] shadow shadow-black/40 absolute cursor-pointer bg-background whiteDivShadow ${
           flipped ? "z-[-5]" : "z-[5]"
         } `}
         style={{
@@ -20,13 +20,13 @@ export default function WorkCard() {
           transform,
         }}
       >
-        <div className="h-[60%]  overflow-hidden">
+        <div className="h-[60%]  overflow-hidden rounded-xl">
           <img
             src="/workDefault/petcareDefault.png"
             className=" min-h-full w-full object-cover"
           />
         </div>
-        <div className=" flex flex-col justify-between h-[40%] p-3">
+        <div className=" flex flex-col justify-between h-[40%] pt-3">
           <p className="text-2xl line-clamp-2">
             Need someone take care my dog 1 day
           </p>

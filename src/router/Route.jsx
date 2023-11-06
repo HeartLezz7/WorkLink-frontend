@@ -5,7 +5,10 @@ import FindWorkPage from "../pages/findworkpage/FindWorkPage";
 import RegisterPage from "../pages/registerpage/RegisterPage";
 import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
+import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
+import RedirectIfNotVerify from "./redirect/RedirectIfNotVerify";
+import RedirectIfUser from "./redirect/RedirectIfUser";
 
 const router = createBrowserRouter([
   {
@@ -14,15 +17,18 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <HomePage /> },
       { path: "findwork", element: <FindWorkPage /> },
-      { path: "userProfile/:userProfileId", element: <UserProfilePage /> },
-      { path: "/login", element: <LoginPage /> },
-      { path: "/register", element: <RegisterPage /> },
+      { path: "userprofile/:userId", element: <UserProfilePage /> },
+      { path: "dashboard", element: <UserDashBoardPage /> },
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
+      { path: "register", element: <RegisterPage /> },
+      {
+        path: "/validate/:userId",
+        element: <ValidatePage />,
+      },
     ],
-  },
-
-  {
-    path: "/validate/:userId",
-    element: <ValidatePage />,
   },
 ]);
 

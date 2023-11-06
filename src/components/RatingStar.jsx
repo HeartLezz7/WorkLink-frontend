@@ -8,7 +8,7 @@ export function RatingStar({ initialValue, allowHover }) {
     setRating(rate);
   };
 
-  console.log(rating);
+  // console.log(rating);
 
   return (
     <div className="flex">
