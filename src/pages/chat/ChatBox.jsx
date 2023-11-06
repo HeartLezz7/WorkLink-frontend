@@ -2,6 +2,7 @@ import { useState } from "react";
 import plane from "../../../public/icons/plane.png";
 import plus from "../../../public/icons/plus.png";
 import useChat from "../../hooks/useChat";
+import socket from "../../configs/socket";
 
 const ChatMessage = ({ message }) => {
   return (
@@ -29,7 +30,21 @@ export default function ChatBox() {
 
   const handleSubmitChat = async (e) => {
     e.preventDefault();
+    socket.emit("message", input);
+    socket.on("recieved", (msg) => {
+      setChatMessage([...chatMessage, msg]);
+      console.log(msg, "connect backend");
+    });
+    setInput("");
   };
+
+  const chat = [
+    { id: 1, senderId: 1, message: "hello" },
+    { id: 2, senderId: 1, message: "my name is heart" },
+    { id: 3, receiverId: 1, message: "hello" },
+    { id: 4, receiverId: 1, message: "you have ajob" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+  ];
 
   return (
     <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)]">
@@ -38,21 +53,42 @@ export default function ChatBox() {
           Status
         </div>
         <div className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full">
-          {chatMessage.map((chat) => (
-            <ChatMessage key={chat.id} message={chat} />
-          ))}
-          <ChatMessage message="hello" />
+          {chat.map((chat) => {
+            if (chat.senderId) {
+              return (
+                <>
+                  <div className="w-full flex justify-start items-center gap-2">
+                    <img src={chat.img || plus} alt="profile img" />
+                    <ChatMessage key={chat.id} message={chat.message} />
+                  </div>
+                </>
+              );
+            } else {
+              return (
+                <>
+                  <div className="w-full flex justify-end items-center gap-2">
+                    <ChatMessage key={chat.id} message={chat.message} />
+                    <img src={chat.img || plus} alt="profile img" />
+                  </div>
+                </>
+              );
+            }
+          })}
+          {/* <ChatMessage message="hello" /> */}
         </div>
       </div>
       <div className="row-span-1 p-5 flex items-center justify-center ">
         <div className="border flex justify-between items-center px-6 py-3 rounded-xl w-full gap-2">
-          <div className="w-full flex items-center gap-2">
+          <form
+            className="w-full flex items-center gap-2"
+            onSubmit={handleSubmitChat}
+          >
             <img src={plus} alt="plus" className="w-[40px]" />
             <InputMessage
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
-          </div>
+          </form>
           <div>
             <img src={plane} alt="plane" className="w-[40px]" />
           </div>

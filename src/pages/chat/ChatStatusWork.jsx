@@ -1,7 +1,7 @@
 import {
-  STATUS_FINDING,
-  STATUS_MAKEDEAL,
-  STATUS_ONPROCESS,
+  // STATUS_FINDING,
+  // STATUS_MAKEDEAL,
+  // STATUS_ONPROCESS,
   STATUS_REQUEST,
 } from "../../configs/constants";
 // import useAuth from "../../hooks/useAuth";
