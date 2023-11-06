@@ -7,8 +7,8 @@ import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
-import RedirectIfNotVerify from "./redirect/RedirectIfNotVerify";
-import RedirectIfUser from "./redirect/RedirectIfUser";
+import RedirectIfNotLogin from "./redirect/RedirectIfNotLogin";
+import RedirectIfLogin from "./redirect/RedirectIfLogin";
 
 const router = createBrowserRouter([
   {
@@ -17,16 +17,45 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <HomePage /> },
       { path: "findwork", element: <FindWorkPage /> },
-      { path: "userprofile/:userId", element: <UserProfilePage /> },
-      { path: "dashboard", element: <UserDashBoardPage /> },
+      {
+        path: "userprofile/:userId",
+        element: (
+          <RedirectIfNotLogin>
+            <UserProfilePage />
+          </RedirectIfNotLogin>
+        ),
+      },
+      {
+        path: "dashboard",
+        element: (
+          <RedirectIfNotLogin>
+            <UserDashBoardPage />
+          </RedirectIfNotLogin>
+        ),
+      },
       {
         path: "login",
-        element: <LoginPage />,
+        element: (
+          <RedirectIfLogin>
+            <LoginPage />
+          </RedirectIfLogin>
+        ),
       },
-      { path: "register", element: <RegisterPage /> },
+      {
+        path: "register",
+        element: (
+          <RedirectIfLogin>
+            <RegisterPage />
+          </RedirectIfLogin>
+        ),
+      },
       {
         path: "/validate/:userId",
-        element: <ValidatePage />,
+        element: (
+          <RedirectIfNotLogin>
+            <ValidatePage />
+          </RedirectIfNotLogin>
+        ),
       },
     ],
   },

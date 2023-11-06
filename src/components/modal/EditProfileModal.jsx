@@ -15,8 +15,8 @@ export default function EditProfileModal({
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     profileImage: user.profileImage,
-    address: user.address,
-    personalDescription: user.personalDescription,
+    address: user.address || "",
+    personalDescription: user.personalDescription || "",
   });
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
