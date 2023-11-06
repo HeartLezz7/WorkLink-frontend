@@ -7,8 +7,6 @@ import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
-import RedirectIfNotVerify from "./redirect/RedirectIfNotLogin";
-import RedirectIfUser from "./redirect/RedirectIfLogin";
 import RedirectIfNotLogin from "./redirect/RedirectIfNotLogin";
 import RedirectIfLogin from "./redirect/RedirectIfLogin";
 
