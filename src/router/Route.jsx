@@ -7,6 +7,7 @@ import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
 import ChatPage from "../pages/chat/ChatPage";
+import ChatContextProvider from "../contexts/ChatContext";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,14 @@ const router = createBrowserRouter([
       { path: "userProfile/:userProfileId", element: <UserProfilePage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
-      { path: "/chatroom", element: <ChatPage /> },
+      {
+        path: "/chatroom",
+        element: (
+          <ChatContextProvider>
+            <ChatPage />
+          </ChatContextProvider>
+        ),
+      },
     ],
   },
 
