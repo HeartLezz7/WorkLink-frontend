@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import "../../App";
+import "../../googlemap.css";
 // require('dotenv').config();
 import {
   GoogleMap,
@@ -9,6 +9,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import { useCallback } from "react";
+import Search from "./Search";
 // import { formatRelative } from "date-fns";
 
 // import usePlaceAutoComplete, {
@@ -31,9 +32,10 @@ const userLocation = {
   lat: 13.756331,
   lng: 100.501762,
 };
-
+const key = 1
 const libraries = ["places"];
-function GoogleMapApi({ open, onClose, setAddress, address }) {
+
+function GoogleMapApi({ open, onClose, setAddress }) {
   let libRef = useRef(libraries);
 
   const { isLoaded, loadError } = useLoadScript({
@@ -82,7 +84,7 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
     <>
       {open && (
         <>
-          {/* <Search /> */}
+          
           <form
             className="flex-col h-screen w-screen fixed inset-0 flex items-center justify-center z-50"
             onSubmit={handleClickAddress}
@@ -93,19 +95,14 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
                   <h4 className="w-full text-center p-2">
                     Connect with thousands of workers near you
                   </h4>
-                  <div className="flex items-center justify-center gap-2">
-                    <p className="font-bold text-xl">Search :</p>
-                    <input className="bg-backgroundWhiteGray p-2 border-2 border-solid rounded-xl flex flex-1" />
-                    <button className="bg-primaryDarker rounded-2xl p-2 w-32 text-lg font-bold cursor-pointer text-textWhite">
-                      Go
-                    </button>
-                  </div>
+                  <Search userLocation={userLocation}/>
                 </div>
-                {/* <Search/> */}
+               
                 <GoogleMap
+                    key={key}
                   mapContainerStyle={mapContainerStyle}
                   center={userLocation}
-                  zoom={16}
+                  zoom={12}
                   onClick={onMapClick}
                   onLoad={onMapLoad}
                 >
@@ -114,7 +111,6 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
                       key={marker.time}
                       position={{ lat: marker.lat, lng: marker.lng }}
                       data={testData}
-                      // label={"Hi"}
                       //Show Marker when click
                       onClick={() => {
                         setUserSelected(marker);
