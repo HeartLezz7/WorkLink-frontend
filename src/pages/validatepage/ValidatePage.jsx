@@ -18,8 +18,8 @@ export default function ValidatePage() {
     lastName: user.lastName,
     phoneNumber: user.authUser.phoneNumber,
     email: user.authUser.email,
-    birthDate: user.birthDate,
-    identifyId: user.identifyId,
+    birthDate: user.birthDate || "",
+    identifyId: user.identifyId || "",
   });
   // console.log(user);
 
