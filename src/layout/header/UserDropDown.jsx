@@ -53,23 +53,15 @@ export default function UserDropDown() {
                   />
                   <div>
                     <p className="text-primary text-lg font-bold truncate w-full">{`${user.firstName} ${user.lastName} `}</p>
-                    {user.authUser.isVerify ? (
-                      <div className="flex items-center gap-1">
-                        <img
-                          src="/icons/verifyIcon.png"
-                          className="h-[20px] aspect-square object-cover"
-                        />
-                        <p className="text-primary">Verify</p>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-1">
-                        <img
-                          src="/icons/notVerifyIcon.png"
-                          className="h-[20px] aspect-square object-cover"
-                        />
-                        <p className="text-textGrayLight">Non verify</p>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-1">
+                      <img
+                        src="/icons/notVerifyIcon.png"
+                        className="h-[20px] aspect-square object-cover"
+                      />
+                      <p className="text-textGrayLight">
+                        {user.authUser.verifyStatus}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
