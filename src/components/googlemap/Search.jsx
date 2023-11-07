@@ -30,7 +30,9 @@ export default function Search({ userLocation, panTo }) {
 
   // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
 
-  const fnSelect = async (address) => {
+  const handdleSelect = async (address) => {
+    setValue(address,false)
+    clearSuggestions()
     try {
       const resultfromGeocode = await getGeocode({ address });
       // console.log("xxxxxxxxxxxxxxxxxxx",resultfromGeocode[0]);
@@ -49,7 +51,7 @@ export default function Search({ userLocation, panTo }) {
         <p className="font-bold text-xl">Search :</p>
         <Combobox
           className="  border-solid rounded-xl flex flex-1 border-3 bg-primary"
-          onSelect={fnSelect}
+          onSelect={handdleSelect}
         >
           <ComboboxInput
             className="bg-backgroundWhiteGray p-2 border-2 border-solid rounded-xl flex flex-1"
@@ -59,7 +61,7 @@ export default function Search({ userLocation, panTo }) {
             }}
             disabled={!ready}
             placeholder="Enter an address"
-            onSelect={fnSelect}
+            
           />
           <ComboboxPopover className="z-[100]">
             <ComboboxList>
