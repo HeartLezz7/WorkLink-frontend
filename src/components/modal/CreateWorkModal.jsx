@@ -3,16 +3,17 @@ import Loading from "../Loading/Loading";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
+import useWork from "../../hooks/useWork";
 
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const [defaultImage, setDedaultImage] = useState(null);
-  const { user, setUser } = useAuth();
+  const { allWorks, setAllWorks } = useWork();
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
-    catagoryId: "",
+    categoryId: "",
+    isOnsite: 0,
     workImage: "",
     description: "",
     price: "",
@@ -21,8 +22,13 @@ export default function CreateWorkModal({ setIsOpen }) {
     startDate: "",
     endDate: "",
   });
+  // console.log(allWorks, "allWorks");
   const handleChangeInput = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    // console.log(e.target.name, e.target.checked, e.target.value);
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
   };
   const handleSubmitForm = async (e) => {
     try {
@@ -36,15 +42,16 @@ export default function CreateWorkModal({ setIsOpen }) {
       //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
       //   }
       setLoading(true);
+      console.log(input);
       for (let key in input) {
         if (input[key]) {
           formData.append(`${key}`, input[key]);
         }
       }
-      //   console.log(formData);
-      const res = await axios.patch("work/creatework", formData);
-
-      console.log(res);
+      // console.log(formData);
+      const res = await axios.post("work/creatework", formData);
+      // console.log(res);
+      setAllWorks([...allWorks, res.data.createWork]);
       setIsOpen(false);
     } catch (err) {
       console.log(err);
@@ -57,7 +64,7 @@ export default function CreateWorkModal({ setIsOpen }) {
     <>
       <div className="fixed inset-0 bg-black/70 z-[30]"></div>
       <div className="fixed z-[30] min-h-full inset-0 flex justify-center items-center">
-        <div className="w-[450px]   ">
+        <div className="w-[550px]   ">
           <form
             className=" overflow-hidden px-2 pt-2 pb-5 rounded-3xl bg-background relative"
             onSubmit={handleSubmitForm}
@@ -96,9 +103,9 @@ export default function CreateWorkModal({ setIsOpen }) {
                   </div>
                 )}
                 {/* Continue this */}
-                {input.profileImage instanceof File ? (
+                {input.workImage instanceof File ? (
                   <img
-                    src={URL.createObjectURL(input.profileImage)}
+                    src={URL.createObjectURL(input.workImage)}
                     className="object-cover w-full h-full"
                   />
                 ) : input.profileImage ? (
@@ -118,7 +125,7 @@ export default function CreateWorkModal({ setIsOpen }) {
               <input
                 type="file"
                 className="hidden"
-                name="profileImage"
+                name="workImage"
                 ref={fileEl}
                 onChange={(e) => {
                   if (e.target.files[0]) {
@@ -129,7 +136,7 @@ export default function CreateWorkModal({ setIsOpen }) {
                   }
                 }}
               />
-              <div className="flex gap-2">
+              <div className="flex gap-2 w-full">
                 <input
                   type="text"
                   placeholder="Title"
@@ -140,15 +147,18 @@ export default function CreateWorkModal({ setIsOpen }) {
                 />
                 <select
                   name="categoryId"
-                  value={input.catagoryId}
+                  value={input.categoryId}
                   onChange={handleChangeInput}
                   className="w-[40%] flex-1 border border-primary text-sm outline-none p-1 rounded-md truncate"
                 >
                   <option value="" disabled className="text-sm text-disable">
                     Select category
                   </option>
-                  <option value="1" className="text-sm">
+                  <option value={1} className="text-sm">
                     Computer & technology
+                  </option>
+                  <option value={2} className="text-sm">
+                    Document
                   </option>
                 </select>
               </div>
@@ -158,6 +168,8 @@ export default function CreateWorkModal({ setIsOpen }) {
                     StartDate
                   </label>
                   <input
+                    name="startDate"
+                    onChange={handleChangeInput}
                     type="date"
                     className="border border-primary text-sm p-1 rounded-md w-full"
                   />
@@ -165,33 +177,70 @@ export default function CreateWorkModal({ setIsOpen }) {
                 <div className="w-full">
                   <label className="text-textNavy block text-sm">EndDate</label>
                   <input
+                    name="endDate"
+                    onChange={handleChangeInput}
                     type="date"
                     className="border border-primary text-sm p-1 rounded-md w-full"
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 w-full">
                 <input
                   type="text"
-                  placeholder="AddressLat"
-                  name="addressLat"
-                  value={input.addressLat}
+                  placeholder="price"
+                  name="price"
+                  value={input.price}
                   onChange={handleChangeInput}
                   className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
                 />
-                <input
-                  type="text"
-                  placeholder="AddressLong"
-                  name="addressLong"
-                  value={input.addressLong}
-                  onChange={handleChangeInput}
-                  className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
-                />
+                <div className="w-full flex items-center gap-2">
+                  <div className="text-sm">Type :</div>
+                  <label className="flex items-center gap-1 text-sm">
+                    <input
+                      type="radio"
+                      name="isOnsite"
+                      checked={input.isOnsite == 1}
+                      onChange={handleChangeInput}
+                      value={1}
+                    />
+                    Onsite
+                  </label>
+                  <label className="flex items-center gap-1 text-sm">
+                    <input
+                      type="radio"
+                      name="isOnsite"
+                      checked={input.isOnsite == 0}
+                      onChange={handleChangeInput}
+                      value={0}
+                    />
+                    Remote
+                  </label>
+                </div>
               </div>
+              {input.isOnsite != 0 && (
+                <div className="flex gap-2 w-full">
+                  <input
+                    type="text"
+                    placeholder="AddressLat"
+                    name="addressLat"
+                    value={input.addressLat}
+                    onChange={handleChangeInput}
+                    className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
+                  />
+                  <input
+                    type="text"
+                    placeholder="AddressLong"
+                    name="addressLong"
+                    value={input.addressLong}
+                    onChange={handleChangeInput}
+                    className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
+                  />
+                </div>
+              )}
 
               <textarea
-                name="personalDescription"
-                value={input.personalDescription}
+                name="description"
+                value={input.description}
                 onChange={handleChangeInput}
                 className="block w-full outline-none resize-none border border-primary p-1 rounded-md text-sm text-textNavy"
                 rows="4"
@@ -200,7 +249,7 @@ export default function CreateWorkModal({ setIsOpen }) {
             </main>
             <div className="flex justify-center">
               <button className="text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-2xl w-[80%] py-1.5 text-center place-content-center-center">
-                Edit
+                Create
               </button>
             </div>
           </form>
