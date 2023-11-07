@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSpring, a } from "@react-spring/web";
 import getDate from "../../utils/getDate";
 import useAuth from "../../hooks/useAuth";
+import { useEffect } from "react";
+import axios from "../../configs/axios";
 
 export default function WorkCard({
   id,
@@ -14,14 +16,33 @@ export default function WorkCard({
   statusWork,
   description,
   ownerId,
+  challenger,
 }) {
   const [flipped, set] = useState(false);
+  const [isSingUp, setIsSignUp] = useState(false);
   const { user } = useAuth();
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateY(${flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 },
   });
+
+  useEffect(() => {
+    const isChallenger = challenger.find((el) => el.userId === user.id);
+    if (isChallenger) {
+      setIsSignUp(true);
+    }
+  }, []);
+
+  const handleSignUp = async () => {
+    try {
+      const res = await axios.post(`/work/challenger/${id}`);
+      setIsSignUp(true);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="relative text-textGrayDark ">
@@ -97,8 +118,15 @@ export default function WorkCard({
               <button className="bg-disable px-5 py-2 text-xl font-semibold rounded-full text-textGrayDark">
                 This is your work.
               </button>
+            ) : isSingUp ? (
+              <button className="bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-primaryDark  px-5 py-2 text-xl font-semibold rounded-full text-textWhite">
+                Already sign-up this work
+              </button>
             ) : (
-              <button className="bg-secondary px-5 py-2 text-xl font-semibold rounded-full text-textWhite">
+              <button
+                onClick={handleSignUp}
+                className="bg-secondary px-5 py-2 text-xl font-semibold rounded-full text-textWhite"
+              >
                 Sing-Up
               </button>
             )}

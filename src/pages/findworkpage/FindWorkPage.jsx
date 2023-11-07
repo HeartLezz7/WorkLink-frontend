@@ -49,6 +49,7 @@ export default function FindWorkPage() {
               statusWork={work.statusWork}
               description={work.description}
               ownerId={work.ownerId}
+              challenger={work.challenger}
             />
           ))}
         </div>
