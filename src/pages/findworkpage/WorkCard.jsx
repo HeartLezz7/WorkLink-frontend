@@ -1,13 +1,49 @@
 import React, { useState } from "react";
 import { useSpring, a } from "@react-spring/web";
+import getDate from "../../utils/getDate";
+import useAuth from "../../hooks/useAuth";
+import { useEffect } from "react";
+import axios from "../../configs/axios";
 
-export default function WorkCard() {
+export default function WorkCard({
+  id,
+  workImage,
+  title,
+  createdAt,
+  startDate,
+  endDate,
+  price,
+  statusWork,
+  description,
+  ownerId,
+  challenger,
+}) {
   const [flipped, set] = useState(false);
+  const [isSingUp, setIsSignUp] = useState(false);
+  const { user } = useAuth();
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateY(${flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 },
   });
+
+  useEffect(() => {
+    const isChallenger = challenger.find((el) => el.userId === user.id);
+    if (isChallenger) {
+      setIsSignUp(true);
+    }
+  }, []);
+
+  const handleSignUp = async () => {
+    try {
+      const res = await axios.post(`/work/challenger/${id}`);
+      setIsSignUp(true);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="relative text-textGrayDark ">
       <a.div
@@ -21,18 +57,15 @@ export default function WorkCard() {
         }}
       >
         <div className="h-[60%]  overflow-hidden rounded-xl">
-          <img
-            src="/workDefault/petcareDefault.png"
-            className=" min-h-full w-full object-cover"
-          />
+          <img src={workImage} className=" min-h-full w-full object-cover" />
         </div>
         <div className=" flex flex-col justify-between h-[40%] pt-3">
-          <p className="text-2xl line-clamp-2">
-            Need someone take care my dog 1 day
-          </p>
+          <p className="text-2xl line-clamp-2">{title}</p>
           <div className="flex w-full justify-between">
-            <p>20/11/67</p>
-            <p>400 THB</p>
+            <p>
+              {getDate(startDate)}-{getDate(endDate)}
+            </p>
+            <p>{price}</p>
           </div>
         </div>
       </a.div>
@@ -44,10 +77,10 @@ export default function WorkCard() {
           rotateY: "-180deg",
         }}
       >
-        <div className="bg-textWhite flex flex-col justify-between h-full p-3">
-          <div className="flex flex-col justify-start flex-[8] overflow-y-scroll">
+        <div className="bg-textWhite flex flex-col justify-between h-full p-3 w-full overflow-hidden">
+          <div className="flex flex-col justify-start flex-[8] overflow-y-scroll w-full overflow-hidden">
             <p className=" text-xl font-semibold pt-1 pb-2 text-textNavy">
-              Need someone take care my dog 1 day
+              {title}
             </p>
             <hr className="w-[95%] mx-auto py-1" />
 
@@ -55,34 +88,52 @@ export default function WorkCard() {
               <p className=" font-semibold whitespace-nowrap text-lg text-secondary">
                 Price :
               </p>
-              <p className=" text-lg">400 THB</p>
+              <p className=" text-lg">{price}</p>
             </div>
             <div className="flex gap-2 pb-1">
               <p className=" font-semibold whitespace-nowrap text-lg text-secondary">
                 Duration :
               </p>
-              <p className=" text-lg">20/11/66 - 20/11/66</p>
+              <p className=" text-lg">
+                {getDate(startDate)}-{getDate(endDate)}
+              </p>
             </div>
-            <p className="">
-              <span className=" font-semibold whitespace-nowrap text-secondary text-lg">
-                Description :
-              </span>{" "}
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel,
-              neque? Quasi similique odit mollitia doloremque dolorum commodi
-              voluptatum consequuntur officiis, necessitatibus laboriosam minima
-              sit id maiores culpa, ipsam atque iste. Harum, perferendis modi
-              minus magni similique, accusantium natus necessitatibus provident
-              inventore placeat autem atque sint, alias vitae fugit?
-              Repellendus, vero.
+            <p className=" font-semibold whitespace-nowrap text-secondary text-lg inline">
+              Description :
+            </p>
+            <p className="w-[full] overflow-clip text-clip inline">
+              {description}
             </p>
           </div>
           <div className="flex flex-col items-center justify-center gap-2 flex-[2] pt-2">
-            <button className="bg-secondary px-5 py-2 text-xl font-semibold rounded-full text-textWhite">
-              Sing-Up
-            </button>
+            {!user ? (
+              <button className="bg-disable px-5 py-2 text-sm font-semibold rounded-full text-textGrayDark">
+                Need login and verify to sign-up this work
+              </button>
+            ) : user.authUser.verifyStatus !== "verify" ? (
+              <button className="bg-disable px-5 py-2 text-sm font-semibold rounded-full text-textGrayDark">
+                Need verify to sign-up this work
+              </button>
+            ) : user?.id === ownerId ? (
+              <button className="bg-disable px-5 py-2 text-xl font-semibold rounded-full text-textGrayDark">
+                This is your work.
+              </button>
+            ) : isSingUp ? (
+              <button className="bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-primaryDark  px-5 py-2 text-xl font-semibold rounded-full text-textWhite">
+                Already sign-up this work
+              </button>
+            ) : (
+              <button
+                onClick={handleSignUp}
+                className="bg-secondary px-5 py-2 text-xl font-semibold rounded-full text-textWhite"
+              >
+                Sing-Up
+              </button>
+            )}
+
             <p
               onClick={() => set((state) => !state)}
-              className="text-textGrayDark underline text-lg cursor-pointer"
+              className="text-textGrayDark hover:underline active:text-xl cursor-pointer"
             >
               Close
             </p>

@@ -1,4 +1,5 @@
 import Loading from "./components/Loading/Loading";
+import WorkContextProvider from "./contexts/WorkContext";
 import useAuth from "./hooks/useAuth";
 import Route from "./router/Route";
 
@@ -7,7 +8,11 @@ function App() {
   if (loading) {
     return <Loading />;
   }
-  return <Route />;
+  return (
+    <WorkContextProvider>
+      <Route />
+    </WorkContextProvider>
+  );
 }
 
 export default App;
