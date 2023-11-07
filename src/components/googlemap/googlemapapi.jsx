@@ -1,28 +1,24 @@
 import { useState, useRef } from "react";
-import "../../googlemap.css";
+
 // require('dotenv').config();
 import {
   GoogleMap,
   useLoadScript,
-  // useJsApiLoader,
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
 import { useCallback } from "react";
-import Search from "./Search";
-// import { formatRelative } from "date-fns";
 
-// import usePlaceAutoComplete, {
-//   getGeocode,
-//   getLatLng,
-// } from "use-places-autocomplete";
-// import Search from "./Search";
+
+import "@reach/combobox/styles.css";
+import Search from "./Search";
+
 
 const testData = {
   Work: "Cleaner",
   price: "1500/hr",
 };
-// const libraries = ["places"];
+
 const mapContainerStyle = {
   width: "100%",
   height: "100%",
@@ -32,7 +28,7 @@ const userLocation = {
   lat: 13.756331,
   lng: 100.501762,
 };
-const key = 1
+const key = 1;
 const libraries = ["places"];
 
 function GoogleMapApi({ open, onClose, setAddress }) {
@@ -47,12 +43,11 @@ function GoogleMapApi({ open, onClose, setAddress }) {
   const [userSelected, setUserSelected] = useState(null);
 
   const [redPin, setRedPin] = useState([]);
+const thisPin = redPin[0]
+  console.log(thisPin);
 
-  console.log(redPin);
   //useCallback is function that allow you to retain same value atleast [] change
-
   const onMapClick = useCallback((e) => {
-    console.log(e);
     setRedPin(() => [
       {
         lat: e.latLng.lat(),
@@ -70,10 +65,14 @@ function GoogleMapApi({ open, onClose, setAddress }) {
     mapRef.current = map;
   }, []);
 
+  const panTo = useCallback(({lat,lng}) => {
+    mapRef.current.panTo({lat,lng})
+    mapRef.current.setZoom(14)
+  },[])
+
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
 
-  //   console.log(userSelected);
   const handleClickAddress = (e) => {
     e.preventDefault();
     setAddress(redPin[0]);
@@ -84,7 +83,6 @@ function GoogleMapApi({ open, onClose, setAddress }) {
     <>
       {open && (
         <>
-          
           <form
             className="flex-col h-screen w-screen fixed inset-0 flex items-center justify-center z-50"
             onSubmit={handleClickAddress}
@@ -95,11 +93,11 @@ function GoogleMapApi({ open, onClose, setAddress }) {
                   <h4 className="w-full text-center p-2">
                     Connect with thousands of workers near you
                   </h4>
-                  <Search userLocation={userLocation}/>
+                  <Search userLocation={userLocation}  panTo={panTo}/>
                 </div>
-               
+
                 <GoogleMap
-                    key={key}
+                  key={key}
                   mapContainerStyle={mapContainerStyle}
                   center={userLocation}
                   zoom={12}
@@ -152,5 +150,6 @@ function GoogleMapApi({ open, onClose, setAddress }) {
     </>
   );
 }
+
 
 export default GoogleMapApi;

@@ -1,4 +1,4 @@
-import GoogleMapApi from "../googlemap/googlemap";
+import GoogleMapApi from "../googlemap/googlemapapi";
 
 export default function ModalMap({open,onClose,setAddress,address}) {
   return (
