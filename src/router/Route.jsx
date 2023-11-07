@@ -7,6 +7,8 @@ import LoginPage from "../pages/loginpage/LoginPage";
 import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
+import ChatPage from "../pages/chat/ChatPage";
+import ChatContextProvider from "../contexts/ChatContext";
 import RedirectIfNotLogin from "./redirect/RedirectIfNotLogin";
 import RedirectIfLogin from "./redirect/RedirectIfLogin";
 import AdminPage from "../pages/adminpage/AdminPage";
@@ -57,6 +59,14 @@ const router = createBrowserRouter([
           <RedirectIfNotLogin>
             <ValidatePage />
           </RedirectIfNotLogin>
+        ),
+      },
+      {
+        path: "/chatroom",
+        element: (
+          <ChatContextProvider>
+            <ChatPage />
+          </ChatContextProvider>
         ),
       },
     ],
