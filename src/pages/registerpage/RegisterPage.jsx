@@ -19,7 +19,7 @@ export default function RegisterPage() {
 
   const navigate = useNavigate();
 
-  const { register } = useAuth();
+  const { register, setLoading } = useAuth();
 
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -28,9 +28,11 @@ export default function RegisterPage() {
   const handleRegister = async (e) => {
     try {
       e.preventDefault();
+      setLoading(true);
       const result = validateSchema(registerSchema, input);
-      console.log(result.error, "validateError ");
+
       if (result.error) {
+        console.log(result.error, "validateError ");
         return setError(result.error);
       }
       setError({});
@@ -39,6 +41,8 @@ export default function RegisterPage() {
       navigate(`/validate/${user.id}`);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
   return (

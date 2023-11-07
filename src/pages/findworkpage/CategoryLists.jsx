@@ -33,13 +33,6 @@ export default function CategoryLists() {
       message1: "Document",
       message2: "",
     },
-    // {
-    //   id: 3,
-    //   onImage: "/categoryIcon/doc-on.svg",
-    //   offImage: "/categoryIcon/doc-off.svg",
-    //   message1: "Document",
-    //   message2: " ",
-    // },
   ];
   const handleClick = (id) => {
     // console.log("click");
@@ -47,7 +40,7 @@ export default function CategoryLists() {
   };
   //   console.log(isHover);
   return (
-    <div className="bg-background min-w-[90%] h-[180px] rounded-3xl mt-10 flex items-end p-3 gap-4  ">
+    <div className="bg-[#ffffff] min-w-[90%] h-[180px] rounded-3xl mt-10 flex items-end p-3 gap-4 whiteDivShadow ">
       {categoryLists.map((el) => (
         <CategoryItem
           key={el.id}

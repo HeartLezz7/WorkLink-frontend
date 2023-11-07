@@ -16,7 +16,7 @@ export default function FindWorkPage() {
         </div>
       </div>
       <div className="absolute w-full h-[430px] bg-primaryLight z-[-20]"></div>
-      <div className="absolute w-full h-[430px] bg-background top-[430px] z-[-5]"></div>
+      <div className="absolute w-full h-[430px] bg-backgroundWhiteBlue top-[430px] z-[-5]"></div>
       <div className="flex flex-col items-center max-w-[1440px] mx-auto ">
         <div className="w-full flex flex-col items-center py-[80px]">
           <h4 className="text-textNavy">Welcome to Worklink</h4>
