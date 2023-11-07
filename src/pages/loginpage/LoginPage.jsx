@@ -35,9 +35,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div
+      className="w-screen flex justify-center items-center"
+      style={{ height: "calc(100vh - 60px)" }}
+    >
       <form
-        className="border border-textGrayLight min-w-min max-w-sm w-full  rounded-xl flex flex-col justify-center items-center p-5 gap-[17px]"
+        className="border border-textGrayLight bg-background/80 min-w-min max-w-sm w-full  rounded-xl flex flex-col justify-center items-center p-5 gap-[17px] whiteDivShadow"
         onSubmit={handleLogin}
       >
         <div className="text-3xl font-semibold text-primary">WorkLink</div>
@@ -49,6 +52,7 @@ export default function LoginPage() {
           onChange={handleInput}
           errorInput={error.emailOrPhoneNumber}
         />
+
         <InputForm
           type="password"
           placeholder="password"

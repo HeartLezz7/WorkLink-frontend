@@ -46,14 +46,17 @@ export default function RegisterPage() {
     }
   };
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div
+      className="w-screen flex justify-center items-center"
+      style={{ height: "calc(100vh - 60px)" }}
+    >
       <form
-        className="m-auto border border-textGrayLight min-w-min max-w-sm w-full  rounded-xl flex flex-col justify-center items-center p-5 gap-[17px]"
+        className="border bg-background/80 border-textGrayLight min-w-min max-w-sm rounded-xl flex flex-col justify-center items-center p-5 gap-[17px] whiteDivShadow"
         onSubmit={handleRegister}
       >
         <div className="text-3xl font-semibold text-primary">WorkLink</div>
-        <div className="w-full grid grid-cols-1 grid-rows-5">
-          <div className="grid grid-cols-2 gap-1  ">
+        <div className="w-full grid grid-cols-1 grid-rows-5 gap space-y-1.5">
+          <div className="grid grid-cols-2 gap-x-1">
             <InputForm
               placeholder="firstname"
               name="firstName"

@@ -28,7 +28,7 @@ export default function WorkCard({
   });
 
   useEffect(() => {
-    const isChallenger = challenger.find((el) => el.userId === user.id);
+    const isChallenger = challenger.find((el) => el.userId === user?.id);
     if (isChallenger) {
       setIsSignUp(true);
     }

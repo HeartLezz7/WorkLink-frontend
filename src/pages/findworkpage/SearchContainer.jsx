@@ -7,13 +7,13 @@ export default function SearchContainer() {
   return (
     <>
       <div className="relative w-[60%]">
-        <div className="w-[30px] absolute top-2 left-2">
+        <div className="w-[30px] absolute top-[9px] left-4">
           <BiSearchAlt color="FF7127" size={30} />
         </div>
         <input
           type="text"
           placeholder="Search"
-          className="rounded-full pl-10 py-2 w-full text-2xl shadow-md shadow-primaryDark/50 outline-none text-secondary focus:ring placeholder:text-secondary"
+          className="rounded-full pl-12 py-2 w-full text-2xl shadow-md shadow-primaryDark/50 outline-none text-secondary focus:ring placeholder:text-secondary"
         />
       </div>
       <div className="place-content-center w-[90%]">
