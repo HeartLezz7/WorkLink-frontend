@@ -44,20 +44,30 @@ export default function ChatBox() {
     { id: 3, receiverId: 1, message: "hello" },
     { id: 4, receiverId: 1, message: "you have ajob" },
     { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
+    { id: 5, senderId: 1, message: " sure you need it?" },
   ];
 
   return (
-    <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)]">
+    <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-2">
       <div className="row-span-5 flex flex-col overflow-hidden  ">
         <div className="bg-primary text-textWhite text-4xl text-center p-3 font-semibold ">
-          Status
+          John Wick
         </div>
         <div className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full">
           {chat.map((chat) => {
             if (chat.senderId) {
               return (
                 <>
-                  <div className="w-full flex justify-start items-center gap-2">
+                  <div className="w-full flex justify-start items-center gap-[5px]">
                     <img src={chat.img || plus} alt="profile img" />
                     <ChatMessage key={chat.id} message={chat.message} />
                   </div>
@@ -66,13 +76,15 @@ export default function ChatBox() {
             } else {
               return (
                 <>
-                  <div className="w-full flex justify-end items-center gap-2">
+                  <div className="w-full flex justify-end items-center gap-[5px]">
                     <ChatMessage key={chat.id} message={chat.message} />
                     <img src={chat.img || plus} alt="profile img" />
                   </div>
                 </>
               );
             }
+
+            // return <ChatMessage key={chat.id} message={chat} />;
           })}
           {/* <ChatMessage message="hello" /> */}
         </div>

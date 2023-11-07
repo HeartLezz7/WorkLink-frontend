@@ -4,7 +4,7 @@ import ChatStatusWork from "./ChatStatusWork";
 
 export default function ChatPage() {
   return (
-    <div className="w-full h-[calc(100vh-60px)]  grid grid-cols-3">
+    <div className="w-full h-[calc(100vh-60px)]  grid grid-cols-5">
       <ChatList />
       <ChatBox />
       <ChatStatusWork />

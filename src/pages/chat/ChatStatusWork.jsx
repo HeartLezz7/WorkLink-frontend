@@ -24,7 +24,7 @@ export default function ChatStatusWork() {
   //   const { user } = useAuth();
   const ownerId = 2;
   return (
-    <div className="h-full grid grid-rows-4">
+    <div className="h-full grid grid-rows-4 col-span-2">
       <div className="row-span-3">
         <div className="bg-secondaryLight text-textWhite text-4xl text-center p-3 font-semibold">
           Status
