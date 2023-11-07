@@ -9,6 +9,15 @@ export default function OwnerWorkCard({
   price,
   statusWork,
 }) {
+  // let colorStyle
+
+  // switch(statusWork){
+  //   case("finding")
+  //     colorStyle = "bg-yellow"
+  //     break
+
+  // }
+
   return (
     <div className="w-full p-1 bg-background whiteDivShadow rounded-2xl flex cursor-pointer">
       <img src={workImage} className="w-[40%] object-cover rounded-2xl" />
@@ -21,7 +30,7 @@ export default function OwnerWorkCard({
           Workdate : {getDate(startDate)} - {getDate(endDate)}
         </div>
         <div className="text-sm text-textGrayDark">Price : {price} Bath</div>
-        <div className="text-center rounded-full bg-yellow mt-2">
+        <div className={`text-center rounded-full mt-2 ${"bg-yellow"} `}>
           {statusWork}
         </div>
       </div>

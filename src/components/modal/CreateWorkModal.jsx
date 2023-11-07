@@ -9,8 +9,6 @@ export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const { allWorks, setAllWorks } = useWork();
-  const [defaultImage, setDedaultImage] = useState(null);
-  const { user, setUser } = useAuth();
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
@@ -219,24 +217,26 @@ export default function CreateWorkModal({ setIsOpen }) {
                   </label>
                 </div>
               </div>
-              <div className="flex gap-2 w-full">
-                <input
-                  type="text"
-                  placeholder="AddressLat"
-                  name="addressLat"
-                  value={input.addressLat}
-                  onChange={handleChangeInput}
-                  className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
-                />
-                <input
-                  type="text"
-                  placeholder="AddressLong"
-                  name="addressLong"
-                  value={input.addressLong}
-                  onChange={handleChangeInput}
-                  className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
-                />
-              </div>
+              {input.isOnsite != 0 && (
+                <div className="flex gap-2 w-full">
+                  <input
+                    type="text"
+                    placeholder="AddressLat"
+                    name="addressLat"
+                    value={input.addressLat}
+                    onChange={handleChangeInput}
+                    className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
+                  />
+                  <input
+                    type="text"
+                    placeholder="AddressLong"
+                    name="addressLong"
+                    value={input.addressLong}
+                    onChange={handleChangeInput}
+                    className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
+                  />
+                </div>
+              )}
 
               <textarea
                 name="description"
