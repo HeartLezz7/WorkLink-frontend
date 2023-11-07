@@ -1,9 +1,14 @@
 import { BiSearchAlt } from "react-icons/bi";
 import { useState } from "react";
 import CategoryLists from "./CategoryLists";
+import ModalMap from "../../components/modal/ModalMap";
+
 
 export default function SearchContainer() {
   const [orderBy, setOrderBy] = useState("all");
+  const [address, setAddress] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(address);
   return (
     <>
       <div className="relative w-[60%]">
@@ -32,7 +37,10 @@ export default function SearchContainer() {
           All
         </p>
         <p
-          onClick={() => setOrderBy("nearme")}
+          onClick={() => {
+            setOrderBy("nearme");
+            setIsOpen(true);
+          }}
           className={` cursor-pointer px-3 font-semibold text-2xl ${
             orderBy === "nearme"
               ? "text-textNavy bg-secondaryLight rounded-full"
@@ -41,6 +49,14 @@ export default function SearchContainer() {
         >
           Near me
         </p>
+
+        <ModalMap
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          setAddress={setAddress}
+          address={address}
+        />
+
         <p
           onClick={() => setOrderBy("soon")}
           className={` cursor-pointer px-3 font-semibold text-2xl ${
