@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import UserDropDown from "./UserDropDown";
+import UserDropDown from "../UserDropDown";
 import { BsChatTextFill } from "react-icons/bs";
 
 export default function UserNavBar() {

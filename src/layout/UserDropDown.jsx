@@ -1,6 +1,6 @@
 import { useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import useDropdown from "../../hooks/useDropdown";
+import useAuth from "../hooks/useAuth";
+import useDropdown from "../hooks/useDropdown";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 

@@ -9,6 +9,8 @@ import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
 import RedirectIfNotLogin from "./redirect/RedirectIfNotLogin";
 import RedirectIfLogin from "./redirect/RedirectIfLogin";
+import AdminPage from "../pages/adminpage/AdminPage";
+import LayoutAdmin from "../layout/LayoutAdmit";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +60,11 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/admin",
+    element: <LayoutAdmin />,
+    children: [{ path: "", element: <AdminPage /> }],
   },
 ]);
 
