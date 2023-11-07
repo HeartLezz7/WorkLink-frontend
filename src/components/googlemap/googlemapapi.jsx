@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
-
-// require('dotenv').config();
+import { GOOGLE_MAP_API} from "../../configs/env"
 import {
   GoogleMap,
   useLoadScript,
@@ -35,7 +34,7 @@ function GoogleMapApi({ open, onClose, setAddress }) {
   let libRef = useRef(libraries);
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBEiWiJgHUTvOBOMzldus3k-PxKLhO4jX8",
+    googleMapsApiKey: GOOGLE_MAP_API,
     libraries: libRef.current,
   });
 
