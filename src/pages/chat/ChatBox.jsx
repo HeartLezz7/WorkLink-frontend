@@ -1,7 +1,6 @@
 import { useState } from "react";
 import plane from "../../../public/icons/plane.png";
 import plus from "../../../public/icons/plus.png";
-import useChat from "../../hooks/useChat";
 import socket from "../../configs/socket";
 
 const ChatMessage = ({ message }) => {
@@ -26,16 +25,22 @@ const InputMessage = ({ value, onChange }) => {
 export default function ChatBox() {
   const [input, setInput] = useState("");
 
-  const { chatMessage, setChatMessage } = useChat();
+  const [chatMessage, setChatMessage] = useState([]);
 
   const handleSubmitChat = async (e) => {
-    e.preventDefault();
-    socket.emit("message", input);
-    socket.on("recieved", (msg) => {
-      setChatMessage([...chatMessage, msg]);
-      console.log(msg, "connect backend");
-    });
-    setInput("");
+    try {
+      e.preventDefault();
+      socket.emit("message", input);
+      setChatMessage([...chatMessage, input]);
+      //   await socket.on("recieved", (msg) => {
+      //     console.log(msg, "connect backend");
+      //   });
+      setInput("");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      //   socket.off("recieved");
+    }
   };
 
   const chat = [
@@ -56,6 +61,8 @@ export default function ChatBox() {
     { id: 5, senderId: 1, message: " sure you need it?" },
   ];
 
+  console.log(chatMessage, "message");
+
   return (
     <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-2">
       <div className="row-span-5 flex flex-col overflow-hidden  ">
@@ -63,28 +70,27 @@ export default function ChatBox() {
           John Wick
         </div>
         <div className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full">
-          {chat.map((chat) => {
-            if (chat.senderId) {
-              return (
-                <>
-                  <div className="w-full flex justify-start items-center gap-[5px]">
-                    <img src={chat.img || plus} alt="profile img" />
-                    <ChatMessage key={chat.id} message={chat.message} />
-                  </div>
-                </>
-              );
-            } else {
-              return (
-                <>
-                  <div className="w-full flex justify-end items-center gap-[5px]">
-                    <ChatMessage key={chat.id} message={chat.message} />
-                    <img src={chat.img || plus} alt="profile img" />
-                  </div>
-                </>
-              );
-            }
-
-            // return <ChatMessage key={chat.id} message={chat} />;
+          {chatMessage.map((chat) => {
+            // if (chat.senderId) {
+            //   return (
+            //     <>
+            //       <div className="w-full flex justify-start items-center gap-[5px]">
+            //         <img src={chat.img || plus} alt="profile img" />
+            //         <ChatMessage key={chat.id} message={chat.message} />
+            //       </div>
+            //     </>
+            //   );
+            // } else {
+            //   return (
+            //     <>
+            //       <div className="w-full flex justify-end items-center gap-[5px]">
+            //         <ChatMessage key={chat.id} message={chat.message} />
+            //         <img src={chat.img || plus} alt="profile img" />
+            //       </div>
+            //     </>
+            //   );
+            // }
+            return <ChatMessage key={chat.id} message={chat} />;
           })}
           {/* <ChatMessage message="hello" /> */}
         </div>
