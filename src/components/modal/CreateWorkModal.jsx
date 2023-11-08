@@ -4,6 +4,12 @@ import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 import useWork from "../../hooks/useWork";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import getDateFormat from "../../utils/getDateFormat";
+
+const dateFormat = "YYYY-MM-DD";
+const { RangePicker } = DatePicker;
 
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
@@ -19,8 +25,8 @@ export default function CreateWorkModal({ setIsOpen }) {
     price: "",
     addressLat: "",
     addressLong: "",
-    startDate: "",
-    endDate: "",
+    startDate: new Date(),
+    endDate: new Date(),
   });
   // console.log(allWorks, "allWorks");
   const handleChangeInput = (e) => {
@@ -58,6 +64,21 @@ export default function CreateWorkModal({ setIsOpen }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleChangeDate = (date, dateString) => {
+    console.log(date, dateString);
+    setInput({
+      ...input,
+      startDate: dateString[0],
+      endDate: dateString[1],
+    });
+  };
+
+  const disabledDate = (current) => {
+    const today = new Date();
+    const currentDate = new Date(current.format("YYYY-MM-DD"));
+    return currentDate < today;
   };
 
   return (
@@ -163,7 +184,17 @@ export default function CreateWorkModal({ setIsOpen }) {
                 </select>
               </div>
               <div className="flex gap-2 w-full">
-                <div className="w-full">
+                <RangePicker
+                  defaultValue={[
+                    dayjs(getDateFormat(input.startDate), dateFormat),
+                    dayjs(getDateFormat(input.endDate), dateFormat),
+                  ]}
+                  format={dateFormat}
+                  disabledDate={disabledDate}
+                  allowEmpty={[false, true]}
+                  onCalendarChange={handleChangeDate}
+                />
+                {/* <div className="w-full">
                   <label className="text-textNavy block text-sm">
                     StartDate
                   </label>
@@ -182,7 +213,7 @@ export default function CreateWorkModal({ setIsOpen }) {
                     type="date"
                     className="border border-primary text-sm p-1 rounded-md w-full"
                   />
-                </div>
+                </div> */}
               </div>
               <div className="flex gap-2 w-full">
                 <input

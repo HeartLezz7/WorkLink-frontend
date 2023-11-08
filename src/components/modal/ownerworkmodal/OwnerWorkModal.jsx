@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import ChallengerItem from "./ChallengerItem";
 import { IoMdClose } from "react-icons/io";
 
-export default function OwnerWorkModal({ work, setIsOpen, isOpen }) {
+export default function OwnerWorkModal({ work, setIsOpen }) {
   const [thisWork, setThisWork] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,7 +22,7 @@ export default function OwnerWorkModal({ work, setIsOpen, isOpen }) {
       });
   }, []);
 
-  // console.log(thisWork);
+  console.log(thisWork);
   // console.log(thisWork.challenger.length == 0);
 
   return (
@@ -46,29 +46,31 @@ export default function OwnerWorkModal({ work, setIsOpen, isOpen }) {
               <main className="flex items-center h-[500px] w-[800px]">
                 <div className="h-full w-[50%] flex flex-col p-3">
                   <div className="text-lg font-semibold first-letter:uppercase p-2">
-                    {work.title}
+                    {thisWork.title}
                   </div>
                   <div className="overflow-y-scroll">
                     <img
-                      src={work.workImage}
+                      src={thisWork.workImage}
                       alt=""
                       className="w-[90%] aspect-video object-cover mx-auto rounded-md mb-2"
                     />
-                    <div>Status : {work.statusWork}</div>
-                    <div>Category : {work.category.category}</div>
-                    <div>CreateAt : {getDate(work.createdAt)}</div>
-                    <div>Work type : {work.isOnsite ? "Onsite" : "Remote"}</div>
-                    {work.isOnsite ? <div>address : </div> : ""}
-                    <div>Price : {work.price}</div>
+                    <div>Status : {thisWork.statusWork}</div>
+                    <div>Category : {thisWork.category.category}</div>
+                    <div>CreateAt : {getDate(thisWork.createdAt)}</div>
                     <div>
-                      Start-End Date: {getDate(work.startDate)}{" "}
-                      {work.endDate ? (
-                        getDate(work.endDate)
+                      Work type : {thisWork.isOnsite ? "Onsite" : "Remote"}
+                    </div>
+                    {thisWork.isOnsite ? <div>address : </div> : ""}
+                    <div>Price : {thisWork.price}</div>
+                    <div>
+                      Start-End Date: {getDate(thisWork.startDate)}{" "}
+                      {thisWork.endDate ? (
+                        getDate(thisWork.endDate)
                       ) : (
                         <span className="text-disable">- NotSpecified</span>
                       )}{" "}
                     </div>
-                    <div>Description : {work.description}</div>
+                    <div>Description : {thisWork.description}</div>
                   </div>
                   <div className="flex justify-center items-center p-2">
                     <div className="text-lg py-1 px-3 bg-textGrayLight rounded-lg font-semibold cursor-pointer">
