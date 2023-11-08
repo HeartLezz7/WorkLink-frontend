@@ -5,13 +5,14 @@ import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 import useWork from "../../hooks/useWork";
 import ModalMap from "./ModalMap";
+import { useEffect } from "react";
 
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const { allWorks, setAllWorks } = useWork();
   const [address, setAddress] = useState([]);
-  console.log(address)
+  console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
@@ -28,6 +29,8 @@ export default function CreateWorkModal({ setIsOpen }) {
   });
   // console.log(allWorks, "allWorks");
 
+
+
   const handleChangeInput = (e) => {
     // console.log(e.target.name, e.target.checked, e.target.value);
     setInput({
@@ -38,6 +41,7 @@ export default function CreateWorkModal({ setIsOpen }) {
 
   const handleSubmitForm = async (e) => {
     try {
+      alert("first");
       e.preventDefault();
       const formData = new FormData();
 
@@ -225,19 +229,18 @@ export default function CreateWorkModal({ setIsOpen }) {
               </div>
               {input.isOnsite != 0 && (
                 <div className="flex gap-2 w-full">
-                  <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center"
-                  onClick={()=>{
-                    setIsOpenMap(true)
-                  }}
+                  <div
+                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center"
+                    onClick={() => {
+                      setIsOpenMap(true);
+                    }}
                   >
-                  <p>Add location</p>
+                    <p>Add location</p>
                   </div>
-                  <div  className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
-                  <p>{address}</p>
+                  <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
+                    <p>{address}</p>
                   </div>
-                  <ModalMap open={isOpen} onClose={() => setIsOpenMap(false)} 
-                  setAddress={setAddress}
-                  address={address}/>
+
                   {/* <input
                     type="text"
                     placeholder="AddressLat"
@@ -272,6 +275,14 @@ export default function CreateWorkModal({ setIsOpen }) {
               </button>
             </div>
           </form>
+          <ModalMap
+            open={isOpen}
+            onClose={() => {
+              setIsOpenMap(false);
+            }}
+            setAddress={setAddress}
+            address={address}
+          />
         </div>
       </div>
     </>

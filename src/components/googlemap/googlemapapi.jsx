@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { GOOGLE_MAP_API} from "../../configs/env"
+import { GOOGLE_MAP_API } from "../../configs/env";
 import {
   GoogleMap,
   useLoadScript,
@@ -8,13 +8,10 @@ import {
 } from "@react-google-maps/api";
 import { useCallback } from "react";
 
-
 import "@reach/combobox/styles.css";
 import Search from "./Search";
-import axios from "../../configs/axios"
 
-
-
+import googleAxios from "../../configs/googleAxios";
 
 const testData = {
   Work: "Cleaner",
@@ -33,7 +30,7 @@ const userLocation = {
 const key = 1;
 const libraries = ["places"];
 
-function GoogleMapApi({ open, onClose, setAddress,address }) {
+function GoogleMapApi({ open, onClose, setAddress, address }) {
   let libRef = useRef(libraries);
 
   const { isLoaded, loadError } = useLoadScript({
@@ -49,57 +46,32 @@ function GoogleMapApi({ open, onClose, setAddress,address }) {
 
   // const [showAddress,setShowAddress] = useState([])
 
-const thisPin = redPin[0]
-// console.log(thisPin.lat,thisPin.lng);
-console.log(thisPin)
+  const thisPin = redPin[0];
+  // console.log(thisPin.lat,thisPin.lng);
+  console.log(thisPin);
 
-const geoCoding = async (thisPin) => {
-  try {
-    const result = await axios.get(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${thisPin.lat},${thisPin.lng}&key=${GOOGLE_MAP_API}`
-    );
-    console.log(result.data.results[0].formatted_address,"AAA");
-    return result.data.results[0].formatted_address;
-  } catch (err) {
-    console.log(err)
-  }
- 
- 
-};
+  const geoCoding = async (thisPin) => {
+    try {
+      const result = await googleAxios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${thisPin.lat},${thisPin.lng}&key=${GOOGLE_MAP_API}`
+      );
+      console.log(result.data.results[0].formatted_address, "AAA");
+      return result.data.results[0].formatted_address;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-const test = async () =>{
-  try{
-    const recived = await geoCoding(thisPin)
-    console.log(recived)
-    setAddress(recived)
-  }catch(error){
-    console.log(error)
-  }
-}
-
-test()
-console.log(address)
-          
-
-
-
-// const location = async (thisPin) =>{
-//   setShowAddress(await geoCoding(thisPin))
-// } 
-
-
-// const a = async (thisPin) =>{
-//  const result = await geoCoding(thisPin)
-//  console.log(result)
-//  return result
-// }
-// console.log(a())
-  
-
-
-
-
-
+  const test = async () => {
+    try {
+      const recived = await geoCoding(thisPin);
+      console.log(recived);
+      setAddress(recived);
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
 
@@ -122,19 +94,13 @@ console.log(address)
     mapRef.current = map;
   }, []);
 
-  const panTo = useCallback(({lat,lng}) => {
-    mapRef.current.panTo({lat,lng})
-    mapRef.current.setZoom(14)
-  },[])
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
+  }, []);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
-
-  const handleClickAddress = (e) => {
-    e.preventDefault();
-    test();
-    onClose();
-  };
 
   return (
     <>
@@ -142,7 +108,10 @@ console.log(address)
         <>
           <form
             className="flex-col h-screen w-screen fixed inset-0 flex items-center justify-center z-50"
-            onSubmit={handleClickAddress}
+            onSubmit={(e) => {
+              e.preventDefault();
+              test();
+            }}
           >
             <div className="w-screen h-screen bg-textGrayLight bg-opacity-70 flex flex-col justify-center items-center">
               <div className="w-3/4 h-3/4 bg-background p-5 rounded-3xl flex flex-col gap-5">
@@ -150,13 +119,15 @@ console.log(address)
                   <h4 className="w-full text-center p-2">
                     Connect with thousands of workers near you
                   </h4>
-                  <Search userLocation={userLocation}  panTo={panTo}
-                  setAddress={setAddress}
-                  address={address}
-                  thisPin={thisPin}
+                  <Search
+                    userLocation={userLocation}
+                    panTo={panTo}
+                    setAddress={setAddress}
+                    address={address}
+                    thisPin={thisPin}
                   />
                 </div>
-              
+
                 <GoogleMap
                   key={key}
                   mapContainerStyle={mapContainerStyle}
@@ -174,7 +145,6 @@ console.log(address)
                       onClick={() => {
                         setUserSelected(marker);
                       }}
-                      
                     />
                   ))}
 
@@ -199,7 +169,10 @@ console.log(address)
                   </button>
                   <button
                     className="bg-secondaryDark rounded-2xl p-2 w-32 text-textWhite text-lg font-bold cursor-pointer"
-                    onClick={onClose}
+                    onClick={() => {
+                      onClose();
+                      setAddress("");
+                    }}
                   >
                     Cancel
                   </button>
@@ -212,6 +185,5 @@ console.log(address)
     </>
   );
 }
-
 
 export default GoogleMapApi;
