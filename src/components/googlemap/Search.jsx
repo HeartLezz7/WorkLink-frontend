@@ -46,6 +46,7 @@ console.log(data)
       const { lat, lng } = await getLatLng(resultfromGeocode[0]);
       panTo({ lat, lng });
       console.log("lat:", lat, "lng:", lng);
+      
       const area = data
       console.log(area)
       setKeepLocation(area,...keepLocation)
