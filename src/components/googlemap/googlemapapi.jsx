@@ -11,6 +11,9 @@ import { useCallback } from "react";
 
 import "@reach/combobox/styles.css";
 import Search from "./Search";
+import axios from "../../configs/axios"
+
+
 
 
 const testData = {
@@ -30,7 +33,7 @@ const userLocation = {
 const key = 1;
 const libraries = ["places"];
 
-function GoogleMapApi({ open, onClose, setAddress }) {
+function GoogleMapApi({ open, onClose, setAddress,address }) {
   let libRef = useRef(libraries);
 
   const { isLoaded, loadError } = useLoadScript({
@@ -42,11 +45,63 @@ function GoogleMapApi({ open, onClose, setAddress }) {
   const [userSelected, setUserSelected] = useState(null);
 
   const [redPin, setRedPin] = useState([]);
-  console.log(redPin)
+  // console.log(redPin)
 
+  // const [showAddress,setShowAddress] = useState([])
 
 const thisPin = redPin[0]
-  console.log(thisPin);
+// console.log(thisPin.lat,thisPin.lng);
+console.log(thisPin)
+
+const geoCoding = async (thisPin) => {
+  try {
+    const result = await axios.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${thisPin.lat},${thisPin.lng}&key=${GOOGLE_MAP_API}`
+    );
+    console.log(result.data.results[0].formatted_address,"AAA");
+    return result.data.results[0].formatted_address;
+  } catch (err) {
+    console.log(err)
+  }
+ 
+ 
+};
+
+const test = async () =>{
+  try{
+    const recived = await geoCoding(thisPin)
+    console.log(recived)
+    setAddress(recived)
+  }catch(error){
+    console.log(error)
+  }
+}
+
+test()
+console.log(address)
+          
+
+
+
+// const location = async (thisPin) =>{
+//   setShowAddress(await geoCoding(thisPin))
+// } 
+
+
+// const a = async (thisPin) =>{
+//  const result = await geoCoding(thisPin)
+//  console.log(result)
+//  return result
+// }
+// console.log(a())
+  
+
+
+
+
+
+
+
 
   //useCallback is function that allow you to retain same value atleast [] change
   const onMapClick = useCallback((e) => {
@@ -77,7 +132,7 @@ const thisPin = redPin[0]
 
   const handleClickAddress = (e) => {
     e.preventDefault();
-    setAddress(redPin[0]);
+    test();
     onClose();
   };
 
@@ -95,9 +150,13 @@ const thisPin = redPin[0]
                   <h4 className="w-full text-center p-2">
                     Connect with thousands of workers near you
                   </h4>
-                  <Search userLocation={userLocation}  panTo={panTo}/>
+                  <Search userLocation={userLocation}  panTo={panTo}
+                  setAddress={setAddress}
+                  address={address}
+                  thisPin={thisPin}
+                  />
                 </div>
-
+              
                 <GoogleMap
                   key={key}
                   mapContainerStyle={mapContainerStyle}
@@ -115,6 +174,7 @@ const thisPin = redPin[0]
                       onClick={() => {
                         setUserSelected(marker);
                       }}
+                      
                     />
                   ))}
 

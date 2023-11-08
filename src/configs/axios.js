@@ -5,14 +5,16 @@ import { deleteAccessToken, getAccessToken } from "../utils/local-storage";
 axios.defaults.baseURL = BACKEND_URL;
 
 axios.interceptors.request.use((config) => {
+  console.log(config.url)
   const token = getAccessToken();
-  if (token) {
+  if (token && config.url === BACKEND_URL) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
-axios.interceptors.response.use(
+axios.interceptors.response.use(  
   (response) => response,
   (error) => {
     if (error.response.status === 401) {

@@ -12,7 +12,7 @@ import {
 import "@reach/combobox/styles.css";
 import { useState } from "react";
 
-export default function Search({ userLocation, panTo }) {
+export default function Search({ userLocation, panTo,address,setAddress,thisPin }) {
 
   const [keepLocation,setKeepLocation] = useState([])
 
@@ -32,8 +32,8 @@ export default function Search({ userLocation, panTo }) {
     },
   });
 
-console.log(value)
-console.log(data)
+// console.log(value)
+// console.log(data)
 
   // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
 
@@ -45,10 +45,10 @@ console.log(data)
       console.log("xxxxxxxxxxxxxxxxxxx",resultfromGeocode[0]);
       const { lat, lng } = await getLatLng(resultfromGeocode[0]);
       panTo({ lat, lng });
-      console.log("lat:", lat, "lng:", lng);
+      // console.log("lat:", lat, "lng:", lng);
       
       const area = data
-      console.log(area)
+      // console.log(area)
       setKeepLocation(area,...keepLocation)
       clearSuggestions()
     } catch (error) {
@@ -56,7 +56,7 @@ console.log(data)
     }
   };
 
-  console.log(keepLocation)
+  // console.log(keepLocation)
   return (
     <div>
       <div className="flex items-center justify-center gap-2">
