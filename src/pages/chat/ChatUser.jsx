@@ -1,11 +1,14 @@
 import search from "../../../public/icons/search.png";
 import socket from "../../configs/socket";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
-export default function ChatUser({ roomId, firstName, lastName, workId }) {
+export default function ChatUser({ roomId, creater, dealer, workId }) {
   function sentRoom(room) {
     socket.emit("join", room);
   }
+
+  const { user } = useAuth();
 
   return (
     <Link to={`/chatRoom/${roomId}`}>
@@ -21,9 +24,15 @@ export default function ChatUser({ roomId, firstName, lastName, workId }) {
           />
 
           <div className="w-full flex flex-col gap-1">
-            <div>
-              {firstName} {lastName}
-            </div>
+            {creater.id === user.id ? (
+              <div>
+                {dealer.firstName} {dealer.lastName}
+              </div>
+            ) : (
+              <div>
+                {creater.firstName} {creater.lastName}
+              </div>
+            )}
             <div>Work id : {workId}</div>
             <div className="w-full flex justify-between">
               <div>21 Oct 2023</div>

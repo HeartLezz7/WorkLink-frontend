@@ -16,9 +16,10 @@ export default function ChatList({ chatRoom }) {
         {chatRoom.map((chat) => (
           <ChatUser
             key={chat.id}
+            chatRoom={chatRoom}
             roomId={chat.id}
-            firstName={chat.dealer.firstName}
-            lastName={chat.dealer.lastName}
+            creater={chat.creater}
+            dealer={chat.dealer}
             workId={chat.workId}
           />
         ))}

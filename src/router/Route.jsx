@@ -13,6 +13,7 @@ import RedirectIfLogin from "./redirect/RedirectIfLogin";
 import AdminPage from "../pages/adminpage/AdminPage";
 import LayoutAdmin from "../layout/LayoutAdmit";
 import ChatContent from "../pages/chat/ChatContent";
+import ChatContextProvider from "../contexts/ChatContext";
 
 const router = createBrowserRouter([
   {
@@ -63,8 +64,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/chatroom",
-        element: <ChatPage />,
-        children: [{ path: "/chatroom/:chatRoomId", element: <ChatContent /> }],
+        element: (
+          <ChatContextProvider>
+            <ChatPage />
+          </ChatContextProvider>
+        ),
+        children: [
+          {
+            path: "/chatroom/:chatRoomId",
+            element: (
+              <ChatContextProvider>
+                <ChatContent />
+              </ChatContextProvider>
+            ),
+          },
+        ],
       },
     ],
   },

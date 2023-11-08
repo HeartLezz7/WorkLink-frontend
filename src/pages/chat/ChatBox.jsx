@@ -6,15 +6,17 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import useChat from "../../hooks/useChat";
 
 const ChatMessage = ({ senderId, message }) => {
+  const { user } = useAuth();
   return (
     <div
       className={`w-full flex ${
-        senderId ? "justify-end" : "justify-start"
+        senderId === user.id ? "justify-end" : "justify-start"
       } items-center gap-[5px]`}
     >
-      {senderId ? "" : <img src={plus} alt="profile img" />}
+      {senderId === user.id ? "" : <img src={plus} alt="profile img" />}
       <div className="border border-textGrayLight w-fit py-2 px-4 rounded-full">
         {message}
       </div>
@@ -37,30 +39,44 @@ export default function ChatBox() {
   const [input, setInput] = useState("");
   const [chatMessage, setChatMessage] = useState([]);
 
+  const { chatRoom } = useChat();
+
   const { chatRoomId } = useParams();
 
   const { user } = useAuth();
 
+  const getChatroom = async () => {
+    try {
+      const resonse = await axios.get(`/chat/getMessage/${chatRoomId}`);
+      setChatMessage(resonse.data.allMessage);
+      socket.auth = {
+        id: user.id,
+        dealerId: resonse.data.allMessage[0].recieverId,
+      };
+      socket.connect();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    axios.get(`/chat/getMessage/${chatRoomId}`).then((res) => {
-      setChatMessage(res.data.allMessage);
-      console.log(res);
-    });
-    socket.auth = { id: user.id };
-    socket.connect();
+    getChatroom();
     return () => socket.disconnect();
   }, [chatRoomId]);
 
   const handleSubmitChat = async (e) => {
     try {
-      console.log(chatMessage, "AAA");
       e.preventDefault();
+      const response = await axios.post("/chat/createMessage", {
+        message: input,
+        toId: chatMessage[0].receiverId,
+        chatRoomId: chatRoomId,
+      });
+      setChatMessage([...chatMessage, response.data.createMessage]);
       socket.emit("message", {
         message: input,
-        from: chatMessage.senderId,
-        to: chatMessage.reciecerId,
+        to: chatMessage[0].receiverId,
       });
-      setChatMessage([...chatMessage, input]);
       setInput("");
     } catch (err) {
       console.log(err);
