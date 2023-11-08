@@ -10,10 +10,12 @@ import { useEffect } from "react";
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const { allWorks, setAllWorks } = useWork();
-  const [address, setAddress] = useState([]);
-  console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
+  const [address, setAddress] = useState();
+  console.log(address);
+  console.log(Boolean (!address));
+  const { allWorks, setAllWorks } = useWork();
+  
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
@@ -41,7 +43,6 @@ export default function CreateWorkModal({ setIsOpen }) {
 
   const handleSubmitForm = async (e) => {
     try {
-      alert("first");
       e.preventDefault();
       const formData = new FormData();
 
@@ -228,18 +229,27 @@ export default function CreateWorkModal({ setIsOpen }) {
                 </div>
               </div>
               {input.isOnsite != 0 && (
-                <div className="flex gap-2 w-full">
-                  <div
-                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center"
+                <div className="flex gap-2 w-full justify-center">
+
+                 <div
+                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center "
                     onClick={() => {
                       setIsOpenMap(true);
                     }}
                   >
-                    <p>Add location</p>
-                  </div>
-                  <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
+                    {address ? 
                     <p>{address}</p>
+                    : 
+                    <p>Add location</p>
+                    }
                   </div>
+
+
+                  {/* <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
+                    
+                  </div> */}
+                  
+                  
 
                   {/* <input
                     type="text"
