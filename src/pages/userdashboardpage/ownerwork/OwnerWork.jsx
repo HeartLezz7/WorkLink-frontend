@@ -40,17 +40,7 @@ export default function OwnerWork() {
         </div>
         <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[96%] flex flex-col gap-3 pr-2">
           {delegatedWork.map((work) => (
-            <OwnerWorkCard
-              key={work.id}
-              id={work.id}
-              workImage={work.workImage}
-              title={work.title}
-              createdAt={work.createdAt}
-              startDate={work.startDate}
-              endDate={work.endDate}
-              price={work.price}
-              statusWork={work.statusWork}
-            />
+            <OwnerWorkCard key={work.id} work={work} />
           ))}
         </div>
       </div>
