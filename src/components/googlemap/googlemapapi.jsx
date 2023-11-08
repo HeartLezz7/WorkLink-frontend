@@ -7,22 +7,14 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import { useCallback } from "react";
-
 import "@reach/combobox/styles.css";
 import Search from "./Search";
-
 import googleAxios from "../../configs/googleAxios";
-
-const testData = {
-  Work: "Cleaner",
-  price: "1500/hr",
-};
 
 const mapContainerStyle = {
   width: "100%",
   height: "100%",
 };
-
 const userLocation = {
   lat: 13.756331,
   lng: 100.501762,
@@ -32,49 +24,37 @@ const libraries = ["places"];
 
 function GoogleMapApi({ open, onClose, setAddress, address }) {
   let libRef = useRef(libraries);
-
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API,
     libraries: libRef.current,
   });
-
   //marker that user wants to see detail for
   const [userSelected, setUserSelected] = useState(null);
-
   const [redPin, setRedPin] = useState([]);
   // console.log(redPin)
-
-  // const [showAddress,setShowAddress] = useState([])
-
   const thisPin = redPin[0];
-  // console.log(thisPin.lat,thisPin.lng);
   console.log(thisPin);
-
   const geoCoding = async (thisPin) => {
     try {
       const result = await googleAxios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${thisPin.lat},${thisPin.lng}&key=${GOOGLE_MAP_API}`
       );
-      console.log(result.data.results[0].formatted_address, "AAA");
+      console.log(result.data.results[0].formatted_address, "ResultFromGooglemapJson");
       return result.data.results[0].formatted_address;
     } catch (err) {
       console.log(err);
     }
   };
-
-  const test = async () => {
+  const callGeoCoding = async () => {
     try {
-      const recived = await geoCoding(thisPin);
-      console.log(recived);
-      setAddress(recived);
+      const getGeoCoding = await geoCoding(thisPin);
+      console.log(getGeoCoding,"---------getGeoCoding----------");
+      setAddress(getGeoCoding);
       onClose();
     } catch (error) {
       console.log(error);
     }
   };
-
-
-
   //useCallback is function that allow you to retain same value atleast [] change
   const onMapClick = useCallback((e) => {
     setRedPin(() => [
@@ -86,22 +66,17 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
       },
     ]);
   }, []);
-
   //useRef to retain state without causing(โดยไม่ทำให้) rerender
   const mapRef = useRef();
-
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
-
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
   }, []);
-
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
-
   return (
     <>
       {open && (
@@ -110,7 +85,7 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
             className="flex-col h-screen w-screen fixed inset-0 flex items-center justify-center z-50"
             onSubmit={(e) => {
               e.preventDefault();
-              test();
+              callGeoCoding();
             }}
           >
             <div className="w-screen h-screen bg-textGrayLight bg-opacity-70 flex flex-col justify-center items-center">
@@ -140,7 +115,6 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
                     <Marker
                       key={marker.time}
                       position={{ lat: marker.lat, lng: marker.lng }}
-                      data={testData}
                       //Show Marker when click
                       onClick={() => {
                         setUserSelected(marker);
@@ -158,7 +132,7 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
                     >
                       <div>
                         <p className="text-2xl">Work Place Work Link</p>
-                        <p>Have Hotel Have room Have.....</p>
+                        <p>Work Detail...</p>
                       </div>
                     </InfoWindow>
                   ) : null}

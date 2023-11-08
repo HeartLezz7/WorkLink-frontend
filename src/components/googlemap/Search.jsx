@@ -12,7 +12,7 @@ import {
 import "@reach/combobox/styles.css";
 import { useState } from "react";
 
-export default function Search({ userLocation, panTo,address,setAddress,thisPin }) {
+export default function Search({ userLocation, panTo }) {
 
   const [keepLocation,setKeepLocation] = useState([])
 
@@ -34,19 +34,16 @@ export default function Search({ userLocation, panTo,address,setAddress,thisPin 
 
 // console.log(value)
 // console.log(data)
-
-  // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
+ // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
 
   const handdleSelect = async (address) => {
     setValue(address,false)
     clearSuggestions()
     try {
       const resultfromGeocode = await getGeocode({ address });
-      console.log("xxxxxxxxxxxxxxxxxxx",resultfromGeocode[0]);
+      console.log("Search and Select location",resultfromGeocode[0]);
       const { lat, lng } = await getLatLng(resultfromGeocode[0]);
       panTo({ lat, lng });
-      // console.log("lat:", lat, "lng:", lng);
-      
       const area = data
       // console.log(area)
       setKeepLocation(area,...keepLocation)
@@ -84,9 +81,6 @@ export default function Search({ userLocation, panTo,address,setAddress,thisPin 
             </ComboboxList>
           </ComboboxPopover>
         </Combobox>
-        {/* <button className="bg-primaryDarker rounded-2xl p-2 w-32 text-lg font-bold cursor-pointer text-textWhite invisible ">
-          Go
-        </button> */}
       </div>
     </div>
   );

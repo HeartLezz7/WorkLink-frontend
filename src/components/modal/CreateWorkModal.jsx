@@ -5,7 +5,7 @@ import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 import useWork from "../../hooks/useWork";
 import ModalMap from "./ModalMap";
-import { useEffect } from "react";
+
 
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
@@ -13,9 +13,7 @@ export default function CreateWorkModal({ setIsOpen }) {
   const [isOpen, setIsOpenMap] = useState(false);
   const [address, setAddress] = useState();
   console.log(address);
-  console.log(Boolean (!address));
   const { allWorks, setAllWorks } = useWork();
-  
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
@@ -30,8 +28,6 @@ export default function CreateWorkModal({ setIsOpen }) {
     endDate: "",
   });
   // console.log(allWorks, "allWorks");
-
-
 
   const handleChangeInput = (e) => {
     // console.log(e.target.name, e.target.checked, e.target.value);
@@ -230,26 +226,23 @@ export default function CreateWorkModal({ setIsOpen }) {
               </div>
               {input.isOnsite != 0 && (
                 <div className="flex gap-2 w-full justify-center">
-
-                 <div
+                  <div
                     className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center "
                     onClick={() => {
                       setIsOpenMap(true);
                     }}
                   >
                     {address ? 
-                    <p>{address}</p>
-                    : 
-                    <p>Add location</p>
-                    }
+                    <div className="flex flex-col">
+                    <p className="font-bold">Edit : </p> 
+                    <p>{address}</p> 
+                    </div>
+                    : <p>Add location</p>}
                   </div>
-
 
                   {/* <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
                     
                   </div> */}
-                  
-                  
 
                   {/* <input
                     type="text"
