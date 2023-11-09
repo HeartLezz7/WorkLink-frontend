@@ -11,9 +11,10 @@ export default function ShowCase() {
 
   const createShowcase = async (data) => {
   await axios.post("/user/createshowcase", data);
+  getShowcase()
   };
 
-  useEffect(()=>{
+  const getShowcase = () =>{
     axios
     .get('/user/showcase')
     .then((res) => {
@@ -22,6 +23,10 @@ export default function ShowCase() {
     .catch((err) => {
       console.log(err);
     });
+
+  }
+  useEffect(()=>{
+    getShowcase()
   },[])
 
   console.log(showcase)
