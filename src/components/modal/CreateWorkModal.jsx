@@ -4,6 +4,12 @@ import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 import useWork from "../../hooks/useWork";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import getDateFormat from "../../utils/getDateFormat";
+
+const dateFormat = "YYYY-MM-DD";
+const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
 
 export default function CreateWorkModal({ setIsOpen }) {
@@ -11,7 +17,7 @@ export default function CreateWorkModal({ setIsOpen }) {
   const [isHover, setIsHover] = useState(false);
   const { allWorks, setAllWorks } = useWork();
   const [address, setAddress] = useState([]);
-  console.log(address)
+  console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
@@ -23,8 +29,8 @@ export default function CreateWorkModal({ setIsOpen }) {
     price: "",
     addressLat: "",
     addressLong: "",
-    startDate: "",
-    endDate: "",
+    startDate: new Date(),
+    endDate: new Date(),
   });
   // console.log(allWorks, "allWorks");
 
@@ -64,6 +70,21 @@ export default function CreateWorkModal({ setIsOpen }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleChangeDate = (date, dateString) => {
+    console.log(date, dateString);
+    setInput({
+      ...input,
+      startDate: dateString[0],
+      endDate: dateString[1],
+    });
+  };
+
+  const disabledDate = (current) => {
+    const today = new Date();
+    const currentDate = new Date(current.format("YYYY-MM-DD"));
+    return currentDate < today;
   };
 
   return (
@@ -169,26 +190,17 @@ export default function CreateWorkModal({ setIsOpen }) {
                 </select>
               </div>
               <div className="flex gap-2 w-full">
-                <div className="w-full">
-                  <label className="text-textNavy block text-sm">
-                    StartDate
-                  </label>
-                  <input
-                    name="startDate"
-                    onChange={handleChangeInput}
-                    type="date"
-                    className="border border-primary text-sm p-1 rounded-md w-full"
-                  />
-                </div>
-                <div className="w-full">
-                  <label className="text-textNavy block text-sm">EndDate</label>
-                  <input
-                    name="endDate"
-                    onChange={handleChangeInput}
-                    type="date"
-                    className="border border-primary text-sm p-1 rounded-md w-full"
-                  />
-                </div>
+                <RangePicker
+                  defaultValue={[
+                    dayjs(getDateFormat(input.startDate), dateFormat),
+                    dayjs(getDateFormat(input.endDate), dateFormat),
+                  ]}
+                  format={dateFormat}
+                  disabledDate={disabledDate}
+                  allowEmpty={[false, true]}
+                  onCalendarChange={handleChangeDate}
+                  className="border-primary"
+                />
               </div>
               <div className="flex gap-2 w-full">
                 <input
@@ -225,19 +237,23 @@ export default function CreateWorkModal({ setIsOpen }) {
               </div>
               {input.isOnsite != 0 && (
                 <div className="flex gap-2 w-full">
-                  <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center"
-                  onClick={()=>{
-                    setIsOpenMap(true)
-                  }}
+                  <div
+                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center"
+                    onClick={() => {
+                      setIsOpenMap(true);
+                    }}
                   >
-                  <p>Add location</p>
+                    <p>Add location</p>
                   </div>
-                  <div  className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
-                  <p>{address}</p>
+                  <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
+                    <p>{address}</p>
                   </div>
-                  <ModalMap open={isOpen} onClose={() => setIsOpenMap(false)} 
-                  setAddress={setAddress}
-                  address={address}/>
+                  <ModalMap
+                    open={isOpen}
+                    onClose={() => setIsOpenMap(false)}
+                    setAddress={setAddress}
+                    address={address}
+                  />
                   {/* <input
                     type="text"
                     placeholder="AddressLat"
