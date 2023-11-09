@@ -6,13 +6,16 @@ import { loginSchema } from "../../utils/auth-validator";
 import { Link, useNavigate } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
 import BallAnimation from "../../components/BallAnimation";
+import jwtDecode from "jwt-decode";
+
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function LoginPage() {
   const [input, setInput] = useState({ emailOrPhoneNumber: "", password: "" });
   const [error, setError] = useState({});
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  const { login, loginGoogle } = useAuth();
 
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -35,6 +38,22 @@ export default function LoginPage() {
     }
   };
 
+  const handleLoginGoogle = async (e) => {
+    try {
+      e.preventDefault();
+      const result = input;
+      if (result.error) {
+        return setError(result.error);
+      }
+      console.log(result);
+      const user = await loginGoogle(result.value);
+      navigate(`/validate/${user.id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log(handleLoginGoogle);
   return (
     <div
       className="w-screen relative overflow-hidden "
@@ -152,6 +171,16 @@ export default function LoginPage() {
             errorInput={error.password}
           />
           <ActionButton title="Log in" />
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              const data = jwtDecode(credentialResponse.credential);
+              loginGoogle(data);
+              console.log(data);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
           <Link to="/register">
             <div>Create new account?</div>
           </Link>

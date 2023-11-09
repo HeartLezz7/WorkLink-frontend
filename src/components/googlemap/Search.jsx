@@ -10,8 +10,12 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
+import { useState } from "react";
 
 export default function Search({ userLocation, panTo }) {
+
+  const [keepLocation,setKeepLocation] = useState([])
+
   //return number variable in obj
   const {
     ready,
@@ -28,6 +32,9 @@ export default function Search({ userLocation, panTo }) {
     },
   });
 
+console.log(value)
+console.log(data)
+
   // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
 
   const handdleSelect = async (address) => {
@@ -35,16 +42,21 @@ export default function Search({ userLocation, panTo }) {
     clearSuggestions()
     try {
       const resultfromGeocode = await getGeocode({ address });
-      // console.log("xxxxxxxxxxxxxxxxxxx",resultfromGeocode[0]);
+      console.log("xxxxxxxxxxxxxxxxxxx",resultfromGeocode[0]);
       const { lat, lng } = await getLatLng(resultfromGeocode[0]);
       panTo({ lat, lng });
       console.log("lat:", lat, "lng:", lng);
+      
+      const area = data
+      console.log(area)
+      setKeepLocation(area,...keepLocation)
       clearSuggestions()
     } catch (error) {
       console.log(error);
     }
   };
 
+  console.log(keepLocation)
   return (
     <div>
       <div className="flex items-center justify-center gap-2">

@@ -42,6 +42,9 @@ function GoogleMapApi({ open, onClose, setAddress }) {
   const [userSelected, setUserSelected] = useState(null);
 
   const [redPin, setRedPin] = useState([]);
+  console.log(redPin)
+
+
 const thisPin = redPin[0]
   console.log(thisPin);
 

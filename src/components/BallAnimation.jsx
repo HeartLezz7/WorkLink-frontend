@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function BallAnimation({
   color,
@@ -37,6 +37,7 @@ export default function BallAnimation({
   }, [position, velocity]);
 
   // console.log(position);
+  // conssole.log(position);
 
   return (
     <div

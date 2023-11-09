@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import axios from "../../../configs/axios";
 import getDate from "../../../utils/getDate";
 import Loading from "../../Loading/Loading";
-import { Link } from "react-router-dom";
 import ChallengerItem from "./ChallengerItem";
 import { IoMdClose } from "react-icons/io";
 
@@ -90,7 +89,11 @@ export default function OwnerWorkModal({ work, setIsOpen }) {
                     ) : (
                       <div className="overflow-y-scroll pr-2 h-full flex flex-col gap-2">
                         {thisWork.challenger.map((el) => (
-                          <ChallengerItem key={el.id} challenger={el} />
+                          <ChallengerItem
+                            key={el.id}
+                            challenger={el}
+                            work={work}
+                          />
                         ))}
                       </div>
                     )}

@@ -10,11 +10,15 @@ import getDateFormat from "../../utils/getDateFormat";
 
 const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
+import ModalMap from "./ModalMap";
 
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const { allWorks, setAllWorks } = useWork();
+  const [address, setAddress] = useState([]);
+  console.log(address);
+  const [isOpen, setIsOpenMap] = useState(false);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
@@ -29,6 +33,7 @@ export default function CreateWorkModal({ setIsOpen }) {
     endDate: new Date(),
   });
   // console.log(allWorks, "allWorks");
+
   const handleChangeInput = (e) => {
     // console.log(e.target.name, e.target.checked, e.target.value);
     setInput({
@@ -36,6 +41,7 @@ export default function CreateWorkModal({ setIsOpen }) {
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
@@ -231,7 +237,24 @@ export default function CreateWorkModal({ setIsOpen }) {
               </div>
               {input.isOnsite != 0 && (
                 <div className="flex gap-2 w-full">
-                  <input
+                  <div
+                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center"
+                    onClick={() => {
+                      setIsOpenMap(true);
+                    }}
+                  >
+                    <p>Add location</p>
+                  </div>
+                  <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
+                    <p>{address}</p>
+                  </div>
+                  <ModalMap
+                    open={isOpen}
+                    onClose={() => setIsOpenMap(false)}
+                    setAddress={setAddress}
+                    address={address}
+                  />
+                  {/* <input
                     type="text"
                     placeholder="AddressLat"
                     name="addressLat"
@@ -246,7 +269,7 @@ export default function CreateWorkModal({ setIsOpen }) {
                     value={input.addressLong}
                     onChange={handleChangeInput}
                     className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
-                  />
+                  /> */}
                 </div>
               )}
 
