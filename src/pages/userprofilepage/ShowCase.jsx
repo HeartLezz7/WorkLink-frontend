@@ -1,9 +1,19 @@
 import { useState } from "react";
 import OutstaindingModal from "../../components/modal/ownerworkmodal/OutstaindingModal";
 import PortfolioModal from "../../components/modal/PortfolioModal";
+import axios from "../../configs/axios";
 
 export default function ShowCase() {
   const [isOpen, setIsOpen] = useState(false)
+  const [Showcase,setShowcase] = useState([])
+
+  const createShowcase = async (data) => {
+    const res = await axios.post("/user/createshowcase", data);
+    const newCase = res.data.post;
+    setShowcase([newCase, ...Showcase]);
+  };
+
+  
   return (
     <>
       <div className="flex gap-2 items-center">
@@ -19,7 +29,15 @@ export default function ShowCase() {
         title="Create Portfolio"
         maxWidth={32} 
         onClose={() => setIsOpen(false)}>
-        <PortfolioModal></PortfolioModal>
+
+        <PortfolioModal
+        onSuccess ={()=>{
+          setIsOpen(false)
+        }}
+        onSubmit={createShowcase}
+
+        ></PortfolioModal>
+
         </OutstaindingModal>
         
         </div>

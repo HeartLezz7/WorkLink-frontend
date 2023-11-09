@@ -6,12 +6,12 @@ export default function OutstaindingModal({title, children, maxWidth = 27, open,
     <>
       {open && (
         <>
-          <div className="fixed inset-0 bg-white opacity-70 z-20"> </div>
-          <div className="fixed inset-0 z-30">
+          <div className="fixed inset-1 bg-backgroundWhiteBlue opacity-70 z-10"> </div>
+          <div className="fixed inset-1 z-50">
             <div className="flex justify-center items-center min-h-full p-4">
 
               <div
-                className="rounded-lg w-full bg-white shadow-2xl border"
+                className="rounded-lg w-full bg-primary shadow-2xl border"
                 style={{ maxWidth: `${maxWidth}rem` }} >
                 
                 <div className="flex justify-between p-4 text-xl border-b">
