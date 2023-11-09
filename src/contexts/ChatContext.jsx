@@ -6,10 +6,10 @@ export const ChatContext = createContext();
 
 export default function ChatContextProvider({ children }) {
   const [chatMessage, setChatMessage] = useState([]);
-  useEffect(() => {
-    socket.connect();
-    return () => socket.disconnect();
-  }, []);
+  // useEffect(() => {
+  //   socket.connect();
+  //   return () => socket.disconnect();
+  // }, []);
 
   return (
     <ChatContext.Provider value={{ chatMessage, setChatMessage }}>
