@@ -25,6 +25,17 @@ export default function ShowCase() {
     });
 
   }
+
+  const deleteShowcase = async (id) =>{
+    try {
+      await axios
+      .delete(`/user/showcase/${id}`)
+      setShowcase(showcase.filter((el)=> el.id !== id))
+
+    } catch (error) {
+        console.log(error)
+    }
+  }
   useEffect(()=>{
     getShowcase()
   },[])
@@ -62,7 +73,7 @@ export default function ShowCase() {
       <div className="flex gap-5 items-center justify-start p-3 rounded-lg border-2 border-textGrayDark w-full overflow-x-scroll ">
         <div className="flex gap-3  py-3 ">
               {showcase.map((el)=>(
-                 <ShowCaseCard key={el.id} showcase={el}/>
+                 <ShowCaseCard key={el.id} showcase={el} deleteShowcase={deleteShowcase}/>
               ))}
         </div>
       </div>
