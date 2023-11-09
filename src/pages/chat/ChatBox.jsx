@@ -1,14 +1,27 @@
 import { useState } from "react";
 import plane from "../../../public/icons/plane.png";
 import plus from "../../../public/icons/plus.png";
-import useChat from "../../hooks/useChat";
 import socket from "../../configs/socket";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import useChat from "../../hooks/useChat";
+import { useCallback } from "react";
 
-const ChatMessage = ({ message }) => {
+const BoxMessage = ({ senderId, message }) => {
+  const { user } = useAuth();
   return (
-    <p className="border border-textGrayLight w-fit py-2 px-4 rounded-full">
-      {message}
-    </p>
+    <div
+      className={`w-full flex ${
+        senderId === user.id ? "justify-end" : "justify-start"
+      } items-center gap-[5px]`}
+    >
+      {senderId === user.id ? "" : <img src={plus} alt="profile img" />}
+      <div className="border border-textGrayLight w-fit py-2 px-4 rounded-full">
+        {message}
+      </div>
+    </div>
   );
 };
 
@@ -19,74 +32,86 @@ const InputMessage = ({ value, onChange }) => {
       placeholder="message..."
       value={value}
       onChange={onChange}
-      className="w-full rounded-xl py-2 px-4 "
+      className="w-full rounded-xl py-2 px-4 outline-none "
     />
   );
 };
 export default function ChatBox() {
   const [input, setInput] = useState("");
+  const [chatMessage, setChatMessage] = useState([]);
+  const [chatRoom, setChatRoom] = useState({});
 
-  const { chatMessage, setChatMessage } = useChat();
+  const { user } = useAuth();
+  const { allChatRoom } = useChat();
 
-  const handleSubmitChat = async (e) => {
-    e.preventDefault();
-    socket.emit("message", input);
-    socket.on("recieved", (msg) => {
-      setChatMessage([...chatMessage, msg]);
-      console.log(msg, "connect backend");
-    });
-    setInput("");
+  const { chatRoomId } = useParams();
+
+  const getChatroom = useCallback(async () => {
+    try {
+      const resonse = await axios.get(`/chat/getMessage/${chatRoomId}`);
+      setChatMessage(resonse.data.allMessage);
+      socket.auth = {
+        id: user.id,
+      };
+      socket.connect();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [chatRoomId, user]);
+
+  useEffect(() => {
+    getChatroom();
+    const foundRoom = allChatRoom.find((room) => room.id == +chatRoomId);
+    setChatRoom(foundRoom);
+    return () => socket.disconnect();
+  }, [chatRoomId, allChatRoom, getChatroom]);
+  const checkUser = () => {
+    if (chatRoom.createrId === user.id) {
+      return chatRoom.dealerId;
+    } else return chatRoom.createrId;
   };
 
-  const chat = [
-    { id: 1, senderId: 1, message: "hello" },
-    { id: 2, senderId: 1, message: "my name is heart" },
-    { id: 3, receiverId: 1, message: "hello" },
-    { id: 4, receiverId: 1, message: "you have ajob" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-    { id: 5, senderId: 1, message: " sure you need it?" },
-  ];
+  const handleSubmitChat = async (e) => {
+    try {
+      e.preventDefault();
+
+      // setChatMessage([...chatMessage, response.data.createMessage]);
+      socket.emit("sent_message", {
+        message: input,
+        from: user.id,
+        to: checkUser(),
+        room: +chatRoomId,
+      });
+      console.log("first");
+      socket.on("receive_message", (obj) => {
+        console.log(obj, "obj");
+        setChatMessage([...chatMessage, obj]);
+      });
+      setInput("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-2">
       <div className="row-span-5 flex flex-col overflow-hidden  ">
         <div className="bg-primary text-textWhite text-4xl text-center p-3 font-semibold ">
-          John Wick
+          {chatRoom?.createrId === user.id
+            ? `${chatRoom?.dealer?.firstName} ${chatRoom?.dealer?.lastName}`
+            : `${chatRoom?.creater?.firstName} ${chatRoom?.creater?.lastName}`}
         </div>
         <div className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full">
-          {chat.map((chat) => {
-            if (chat.senderId) {
-              return (
-                <>
-                  <div className="w-full flex justify-start items-center gap-[5px]">
-                    <img src={chat.img || plus} alt="profile img" />
-                    <ChatMessage key={chat.id} message={chat.message} />
-                  </div>
-                </>
-              );
-            } else {
-              return (
-                <>
-                  <div className="w-full flex justify-end items-center gap-[5px]">
-                    <ChatMessage key={chat.id} message={chat.message} />
-                    <img src={chat.img || plus} alt="profile img" />
-                  </div>
-                </>
-              );
-            }
-
-            // return <ChatMessage key={chat.id} message={chat} />;
+          {chatMessage.map((chat) => {
+            return (
+              <BoxMessage
+                key={chat.id}
+                message={chat.message}
+                senderId={chat.senderId}
+                dealerImage={chat}
+              />
+            );
           })}
-          {/* <ChatMessage message="hello" /> */}
         </div>
       </div>
       <div className="row-span-1 p-5 flex items-center justify-center ">
