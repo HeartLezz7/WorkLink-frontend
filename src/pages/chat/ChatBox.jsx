@@ -43,7 +43,6 @@ export default function ChatBox() {
 
   const { user } = useAuth();
   const { allChatRoom } = useChat();
-  console.log(chatRoom, "current room");
 
   const { chatRoomId } = useParams();
 
@@ -75,17 +74,18 @@ export default function ChatBox() {
   const handleSubmitChat = async (e) => {
     try {
       e.preventDefault();
-      // const response = await axios.post("/chat/createMessage", {
-      //   message: input,
-      //   toId: chatMessage[0].receiverId,
-      //   chatRoomId: chatRoomId,
-      // });
+
       // setChatMessage([...chatMessage, response.data.createMessage]);
-      socket.emit("message", {
+      socket.emit("sent_message", {
         message: input,
         from: user.id,
         to: checkUser(),
-        room: chatRoomId,
+        room: +chatRoomId,
+      });
+      console.log("first");
+      socket.on("receive_message", (obj) => {
+        console.log(obj, "obj");
+        setChatMessage([...chatMessage, obj]);
       });
       setInput("");
     } catch (err) {
@@ -97,7 +97,9 @@ export default function ChatBox() {
     <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-2">
       <div className="row-span-5 flex flex-col overflow-hidden  ">
         <div className="bg-primary text-textWhite text-4xl text-center p-3 font-semibold ">
-          John Wick
+          {chatRoom?.createrId === user.id
+            ? `${chatRoom?.dealer?.firstName} ${chatRoom?.dealer?.lastName}`
+            : `${chatRoom?.creater?.firstName} ${chatRoom?.creater?.lastName}`}
         </div>
         <div className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full">
           {chatMessage.map((chat) => {
