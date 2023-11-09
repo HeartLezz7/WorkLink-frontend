@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useState } from "react";
 import Loading from "../Loading/Loading";
 
-export default function PortfolioModal({ onSubmit, onSuccess }) {
+export default function PortfolioModal({ onSubmit, onSuccess , setIsOpen}) {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,21 +32,26 @@ export default function PortfolioModal({ onSubmit, onSuccess }) {
     <>
     {loading && <Loading/>}
     <form
-      className="flex flex-col gap-4 justify-center text-center"
+      className=" overflow-hidden px-2 pt-2 pb-5 rounded-3xl bg-background relative"
       onSubmit={handleSubmitForm}
     >
-      <div>Photo</div>
-      <textarea
-        className="block w-full outline-none resize-none rounded-lg bg-primaryLight"
-        rows="5"
-        placeholder={"description"}
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+            <div
+              onClick={() => setIsOpen(false)}
+              className="absolute top-3 right-3"
+            >
+              <img
+                src="/icons/closeIcon.svg"
+                className="w-[30px] aspect-square object-cover place-content-center hover:bg-textGrayLight bg-textGrayLight/50 rounded-full cursor-pointer"
+              />
+            </div>
+            <div className="text-textNavy text-3xl font-semibold w-full text-center py-2">
+              Add work
+            </div>
+
       {file ? (
         <div
-          onClick={() => fileEl.current.click()}
-          className="cursor-pointer max-h-52 overflow-x-auto"
+        onClick={() => fileEl.current.click()}
+        className="cursor-pointer max-h-52 overflow-x-auto"
         >
           <img src={URL.createObjectURL(file)} alt="post" />
         </div>
@@ -60,13 +65,23 @@ export default function PortfolioModal({ onSubmit, onSuccess }) {
         ref={fileEl}
         onChange={(e) => {
           if (e.target.files[0]) {
-              setFile(e.target.files[0]);
+            setFile(e.target.files[0]);
           }
         }}
       />
-      <button className="border-2 bg-background w-20 rounded-md">
-        Subbmit
-      </button>
+        <textarea
+          className="block w-full outline-none resize-none border-2 border-primary p-2 rounded-md"
+          rows="4"
+          placeholder={"description"}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <div className="flex justify-center">
+          
+      <button className="text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-2xl w-[80%] py-1.5 text-center place-content-center-center mt-3">
+                Submit
+              </button>
+        </div>
     </form>
   </>
   );

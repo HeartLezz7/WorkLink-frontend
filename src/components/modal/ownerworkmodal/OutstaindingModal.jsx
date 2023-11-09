@@ -1,6 +1,6 @@
 
 
-export default function OutstaindingModal({title, children, maxWidth = 27, open, onClose}) {
+export default function OutstaindingModal({title, children, maxWidth = 27, open}) {
     
   return (
     <>
@@ -11,14 +11,14 @@ export default function OutstaindingModal({title, children, maxWidth = 27, open,
             <div className="flex justify-center items-center min-h-full p-4">
 
               <div
-                className="rounded-lg w-full bg-primary shadow-2xl border"
+                className="rounded-lg w-full bg-background shadow-2xl border"
                 style={{ maxWidth: `${maxWidth}rem` }} >
                 
                 <div className="flex justify-between p-4 text-xl border-b">
                   <div className="invisible">X</div>
                   <div className="font-bold">{title}</div>
-                  <div className="text-gray-500 cursor-pointer"
-                        onClick={onClose}>X</div>
+                  {/* <div className="text-secondaryDark font-semibold cursor-pointer"
+                        onClick={onClose}>X</div> */}
                 </div>
 
 

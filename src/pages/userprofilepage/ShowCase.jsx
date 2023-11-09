@@ -56,7 +56,6 @@ export default function ShowCase() {
         </button>
         <div>
         <OutstaindingModal open={isOpen}
-        title="Create Portfolio"
         maxWidth={32} 
         onClose={() => setIsOpen(false)}>
 
@@ -64,11 +63,13 @@ export default function ShowCase() {
         onSuccess ={()=>{
           setIsOpen(false)
         }}
+        open={isOpen}
+        setIsOpen={setIsOpen}
         onSubmit={createShowcase}
-
+        
         ></PortfolioModal>
-
         </OutstaindingModal>
+
         
         </div>
       </div>
