@@ -193,27 +193,8 @@ export default function CreateWorkModal({ setIsOpen }) {
                   disabledDate={disabledDate}
                   allowEmpty={[false, true]}
                   onCalendarChange={handleChangeDate}
+                  className="border-primary"
                 />
-                {/* <div className="w-full">
-                  <label className="text-textNavy block text-sm">
-                    StartDate
-                  </label>
-                  <input
-                    name="startDate"
-                    onChange={handleChangeInput}
-                    type="date"
-                    className="border border-primary text-sm p-1 rounded-md w-full"
-                  />
-                </div>
-                <div className="w-full">
-                  <label className="text-textNavy block text-sm">EndDate</label>
-                  <input
-                    name="endDate"
-                    onChange={handleChangeInput}
-                    type="date"
-                    className="border border-primary text-sm p-1 rounded-md w-full"
-                  />
-                </div> */}
               </div>
               <div className="flex gap-2 w-full">
                 <input
