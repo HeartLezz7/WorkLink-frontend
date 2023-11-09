@@ -2,17 +2,7 @@ import OwnerWorkModal from "../../../components/modal/ownerworkmodal/OwnerWorkMo
 import getDate from "../../../utils/getDate";
 import { useState } from "react";
 
-export default function OwnerWorkCard({
-  id,
-  workImage,
-  title,
-  createdAt,
-  startDate,
-  endDate,
-  price,
-  statusWork,
-  work,
-}) {
+export default function OwnerWorkCard({ work }) {
   const [isOpen, setIsOpen] = useState(false);
   // console.log(isOpen);
 
