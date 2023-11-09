@@ -7,8 +7,9 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import useChat from "../../hooks/useChat";
+import { useCallback } from "react";
 
-const ChatMessage = ({ senderId, message }) => {
+const BoxMessage = ({ senderId, message }) => {
   const { user } = useAuth();
   return (
     <div
@@ -38,50 +39,57 @@ const InputMessage = ({ value, onChange }) => {
 export default function ChatBox() {
   const [input, setInput] = useState("");
   const [chatMessage, setChatMessage] = useState([]);
+  const [chatRoom, setChatRoom] = useState({});
 
-  const { chatRoom } = useChat();
+  const { user } = useAuth();
+  const { allChatRoom } = useChat();
+  console.log(chatRoom, "current room");
 
   const { chatRoomId } = useParams();
 
-  const { user } = useAuth();
-
-  const getChatroom = async () => {
+  const getChatroom = useCallback(async () => {
     try {
       const resonse = await axios.get(`/chat/getMessage/${chatRoomId}`);
       setChatMessage(resonse.data.allMessage);
       socket.auth = {
         id: user.id,
-        dealerId: resonse.data.allMessage[0].recieverId,
       };
       socket.connect();
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [chatRoomId, user]);
 
   useEffect(() => {
     getChatroom();
+    const foundRoom = allChatRoom.find((room) => room.id == +chatRoomId);
+    setChatRoom(foundRoom);
     return () => socket.disconnect();
-  }, [chatRoomId]);
+  }, [chatRoomId, allChatRoom, getChatroom]);
+  const checkUser = () => {
+    if (chatRoom.createrId === user.id) {
+      return chatRoom.dealerId;
+    } else return chatRoom.createrId;
+  };
 
   const handleSubmitChat = async (e) => {
     try {
       e.preventDefault();
-      const response = await axios.post("/chat/createMessage", {
-        message: input,
-        toId: chatMessage[0].receiverId,
-        chatRoomId: chatRoomId,
-      });
-      setChatMessage([...chatMessage, response.data.createMessage]);
+      // const response = await axios.post("/chat/createMessage", {
+      //   message: input,
+      //   toId: chatMessage[0].receiverId,
+      //   chatRoomId: chatRoomId,
+      // });
+      // setChatMessage([...chatMessage, response.data.createMessage]);
       socket.emit("message", {
         message: input,
-        to: chatMessage[0].receiverId,
+        from: user.id,
+        to: checkUser(),
+        room: chatRoomId,
       });
       setInput("");
     } catch (err) {
       console.log(err);
-    } finally {
-      //   socket.off("recieved");
     }
   };
 
@@ -94,10 +102,11 @@ export default function ChatBox() {
         <div className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full">
           {chatMessage.map((chat) => {
             return (
-              <ChatMessage
+              <BoxMessage
                 key={chat.id}
                 message={chat.message}
                 senderId={chat.senderId}
+                dealerImage={chat}
               />
             );
           })}

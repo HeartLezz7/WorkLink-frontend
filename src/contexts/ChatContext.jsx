@@ -4,13 +4,15 @@ import { useState, useEffect, createContext } from "react";
 export const ChatContext = createContext();
 
 export default function ChatContextProvider({ children }) {
-  const [chatRoom, setChatRoom] = useState([]);
+  const [allChatRoom, setAllChatRoom] = useState([]);
 
   useEffect(() => {
-    axios.get("/chat/get").then((res) => setChatRoom(res.data.chatRoom));
+    axios.get("/chat/get").then((res) => setAllChatRoom(res.data.allChatRoom));
   }, []);
 
   return (
-    <ChatContext.Provider value={{ chatRoom }}>{children}</ChatContext.Provider>
+    <ChatContext.Provider value={{ allChatRoom }}>
+      {children}
+    </ChatContext.Provider>
   );
 }
