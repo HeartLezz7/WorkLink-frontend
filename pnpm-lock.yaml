@@ -11,6 +11,9 @@ dependencies:
   '@react-google-maps/api':
     specifier: ^2.19.2
     version: 2.19.2(react-dom@18.2.0)(react@18.2.0)
+  '@react-oauth/google':
+    specifier: ^0.11.1
+    version: 0.11.1(react-dom@18.2.0)(react@18.2.0)
   '@react-spring/web':
     specifier: ^9.7.3
     version: 9.7.3(react-dom@18.2.0)(react@18.2.0)
@@ -20,6 +23,9 @@ dependencies:
   joi:
     specifier: ^17.11.0
     version: 17.11.0
+  jwt-decode:
+    specifier: '3'
+    version: 3.1.2
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -38,12 +44,12 @@ dependencies:
   react-type-animation:
     specifier: ^3.2.0
     version: 3.2.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
-  use-places-autocomplete:
-    specifier: ^4.0.1
-    version: 4.0.1(react@18.2.0)
   socket.io-client:
     specifier: ^4.7.2
     version: 4.7.2
+  use-places-autocomplete:
+    specifier: ^4.0.1
+    version: 4.0.1(react@18.2.0)
 
 devDependencies:
   '@types/react':
@@ -765,6 +771,16 @@ packages:
 
   /@react-google-maps/marker-clusterer@2.19.2:
     resolution: {integrity: sha512-x9ibmsP0ZVqzyCo1Pitbw+4b6iEXRw/r1TCy3vOUR3eKrzWLnHYZMR325BkZW2r8fnuWE/V3Fp4QZOP9qYORCw==}
+    dev: false
+
+  /@react-oauth/google@0.11.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-tywZisXbsdaRBVbEu0VX6dRbOSL2I6DgY97woq5NMOOOz+xtDsm418vqq+Vx10KMtra3kdHMRMf0hXLWrk2RMg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@react-spring/animated@9.7.3(react@18.2.0):
@@ -2110,6 +2126,10 @@ packages:
       object.assign: 4.1.4
       object.values: 1.1.7
     dev: true
+
+  /jwt-decode@3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
+    dev: false
 
   /kdbush@4.0.2:
     resolution: {integrity: sha512-WbCVYJ27Sz8zi9Q7Q0xHC+05iwkm3Znipc2XTlrnJbsHMYktW4hPhXUE8Ys1engBrvffoSCqbil1JQAa7clRpA==}
