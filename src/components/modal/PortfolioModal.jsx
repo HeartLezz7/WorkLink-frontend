@@ -13,7 +13,7 @@ export default function PortfolioModal({ onSubmit, onSuccess }) {
       e.preventDefault();
       const formData = new FormData();
       if (file) {
-        formData.append("imagePictue", file);
+        formData.append("imagePicture", file);
       }
       if (message) {
         formData.append("description", message);

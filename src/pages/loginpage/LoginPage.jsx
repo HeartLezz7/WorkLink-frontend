@@ -6,7 +6,7 @@ import { loginSchema } from "../../utils/auth-validator";
 import { Link, useNavigate } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
 import BallAnimation from "../../components/BallAnimation";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 import { GoogleLogin } from "@react-oauth/google";
 
