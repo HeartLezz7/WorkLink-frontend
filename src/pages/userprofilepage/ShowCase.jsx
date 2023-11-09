@@ -59,7 +59,7 @@ export default function ShowCase() {
         
         </div>
       </div>
-      <div className="flex gap-5 items-center justify-start p-3 rounded-lg border-2 border-textGrayDark w-fit ">
+      <div className="flex gap-5 items-center justify-start p-3 rounded-lg border-2 border-textGrayDark w-full overflow-x-scroll ">
         <div className="flex gap-3  py-3 ">
               {showcase.map((el)=>(
                  <ShowCaseCard key={el.id} showcase={el}/>
