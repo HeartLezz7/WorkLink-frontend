@@ -39,6 +39,12 @@ export default function AuthContextProvider({ children }) {
     setUser(user.data.user);
   };
 
+  const loginGoogle = async (logingoogleInput) => {
+    const user = await axios.post("auth/logingoogle", logingoogleInput);
+    createAccessToken(user.data.accessToken);
+    setUser(user.data.google);
+  };
+
   const logout = () => {
     deleteAccessToken();
     setUser(null);
@@ -54,6 +60,7 @@ export default function AuthContextProvider({ children }) {
         loading,
         setLoading,
         setUser,
+        loginGoogle,
       }}
     >
       {children}
