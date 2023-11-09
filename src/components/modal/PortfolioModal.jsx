@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useState } from "react";
+import Loading from "../Loading/Loading";
 
 export default function PortfolioModal({ onSubmit, onSuccess }) {
   const [file, setFile] = useState(null);
@@ -28,6 +29,8 @@ export default function PortfolioModal({ onSubmit, onSuccess }) {
   };
 
   return (
+    <>
+    {loading && <Loading/>}
     <form
       className="flex flex-col gap-4 justify-center text-center"
       onSubmit={handleSubmitForm}
@@ -49,7 +52,7 @@ export default function PortfolioModal({ onSubmit, onSuccess }) {
         </div>
       ) : (
         <SelectImageButton onClick={() => fileEl.current.click()} />
-      )}
+        )}
 
       <input
         type="file"
@@ -57,7 +60,7 @@ export default function PortfolioModal({ onSubmit, onSuccess }) {
         ref={fileEl}
         onChange={(e) => {
           if (e.target.files[0]) {
-            setFile(e.target.files[0]);
+              setFile(e.target.files[0]);
           }
         }}
       />
@@ -65,6 +68,7 @@ export default function PortfolioModal({ onSubmit, onSuccess }) {
         Subbmit
       </button>
     </form>
+  </>
   );
 }
 
@@ -75,7 +79,7 @@ function SelectImageButton({ onClick }) {
       className="bg-gray-200 hover:bg-gray-300 rounded-lg py-12 flex flex-col items-center cursor-pointer gap-2"
     >
       <div className="bg-fuchsia-200 h-10 w-10 rounded-full flex items-center justify-center">
-        <img src="add-image-1.png" />
+        <img src="\public\addimage1.png" />
       </div>
       <span>Add Photo</span>
     </div>
