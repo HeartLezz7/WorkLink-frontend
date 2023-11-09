@@ -8,11 +8,12 @@ import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
 import ChatPage from "../pages/chat/ChatPage";
-import ChatContextProvider from "../contexts/ChatContext";
 import RedirectIfNotLogin from "./redirect/RedirectIfNotLogin";
 import RedirectIfLogin from "./redirect/RedirectIfLogin";
 import AdminPage from "../pages/adminpage/AdminPage";
 import LayoutAdmin from "../layout/LayoutAdmit";
+import ChatContent from "../pages/chat/ChatContent";
+import ChatContextProvider from "../contexts/ChatContext";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,16 @@ const router = createBrowserRouter([
             <ChatPage />
           </ChatContextProvider>
         ),
+        children: [
+          {
+            path: "/chatroom/:chatRoomId",
+            element: (
+              <ChatContextProvider>
+                <ChatContent />
+              </ChatContextProvider>
+            ),
+          },
+        ],
       },
     ],
   },
