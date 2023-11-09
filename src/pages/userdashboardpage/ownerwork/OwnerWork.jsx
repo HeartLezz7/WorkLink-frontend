@@ -1,9 +1,25 @@
 import { useState } from "react";
 import OwnerWorkCard from "./OwnerWorkCard";
 import CreateWorkModal from "../../../components/modal/CreateWorkModal";
+import useWork from "../../../hooks/useWork";
+import useAuth from "../../../hooks/useAuth";
+import { useEffect } from "react";
 
 export default function OwnerWork() {
   const [isOpen, setIsOpen] = useState(false);
+  const { allWorks } = useWork();
+  const [delegatedWork, setDelegatedWork] = useState([]);
+  const { user } = useAuth();
+  useEffect(() => {
+    if (allWorks.length > 0) {
+      const ownerWork = allWorks.filter((work) => work.ownerId === user.id);
+
+      // console.log(ownerWork);
+      setDelegatedWork(ownerWork);
+    }
+  }, [allWorks]);
+  // console.log(delegatedWork);
+
   return (
     <div className="p-1 h-full relative">
       <div className="text-2xl font-bold text-textNavy px-1 absolute top-[-10px] left-[20px] bg-primaryLight">
@@ -23,7 +39,9 @@ export default function OwnerWork() {
           {isOpen && <CreateWorkModal setIsOpen={setIsOpen} />}
         </div>
         <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[96%] flex flex-col gap-3 pr-2">
-          <OwnerWorkCard />
+          {delegatedWork.map((work) => (
+            <OwnerWorkCard key={work.id} work={work} />
+          ))}
         </div>
       </div>
     </div>

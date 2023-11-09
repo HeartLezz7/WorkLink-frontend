@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import useDropdown from "../hooks/useDropdown";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { VscVerifiedFilled } from "react-icons/vsc";
 
 export default function UserDropDown() {
   const { user, logout } = useAuth();
@@ -54,11 +55,25 @@ export default function UserDropDown() {
                   <div>
                     <p className="text-primary text-lg font-bold truncate w-full">{`${user.firstName} ${user.lastName} `}</p>
                     <div className="flex items-center gap-1">
-                      <img
-                        src="/icons/notVerifyIcon.png"
-                        className="h-[20px] aspect-square object-cover"
+                      <VscVerifiedFilled
+                        color={
+                          user.authUser.verifyStatus === "verify"
+                            ? "#3CB97F"
+                            : user.authUser.verifyStatus === "pending"
+                            ? "#FFC911"
+                            : "#C1C1C1"
+                        }
+                        size={25}
                       />
-                      <p className="text-textGrayLight">
+                      <p
+                        className={
+                          user.authUser.verifyStatus === "verify"
+                            ? "text-primary"
+                            : user.authUser.verifyStatus === "pending"
+                            ? "text-yellow"
+                            : "text-textGrayLight"
+                        }
+                      >
                         {user.authUser.verifyStatus}
                       </p>
                     </div>
