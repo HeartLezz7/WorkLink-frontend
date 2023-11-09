@@ -5,6 +5,7 @@ import axios from "../../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
 import InputBorderForm from "../../InputBorderForm";
+import useWallet from "../../../hooks/useWallet";
 
 export default function WithdrawModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
@@ -15,33 +16,20 @@ export default function WithdrawModal({ setIsOpen }) {
     amount: "",
     slipImage: "",
   });
+
+  const { createTransaction } = useWallet();
+
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
+
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
-      const formData = new FormData();
-
-      //   const { value, error } = schema.validate(input, {
-      //     abortEarly: false,
-      //   });
-      //   if (error) {
-      //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
-      //   }
-      setLoading(true);
-      for (let key in input) {
-        if (input[key]) {
-          formData.append(`${key}`, input[key]);
-        }
-      }
-      //   console.log(formData);
-      // const res = await axios.patch("user/editprofile", formData);
+      await createTransaction(input);
       setIsOpen(false);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -117,14 +105,14 @@ export default function WithdrawModal({ setIsOpen }) {
                       </div>
                     </div>
                   )}
-                  {input.profileImage instanceof File ? (
+                  {input.slipImage instanceof File ? (
                     <img
-                      src={URL.createObjectURL(input.profileImage)}
+                      src={URL.createObjectURL(input.slipImage)}
                       className="object-cover w-full h-full"
                     />
-                  ) : input.profileImage ? (
+                  ) : input.slipImage ? (
                     <img
-                      src={input.profileImage}
+                      src={input.slipImage}
                       className="object-cover w-full h-full"
                     />
                   ) : (
@@ -140,7 +128,7 @@ export default function WithdrawModal({ setIsOpen }) {
                 <input
                   type="file"
                   className="hidden"
-                  name="profileImage"
+                  name="slipImage"
                   ref={fileEl}
                   onChange={(e) => {
                     if (e.target.files[0]) {
