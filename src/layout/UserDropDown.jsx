@@ -33,7 +33,7 @@ export default function UserDropDown() {
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
-          src={user.profileImage}
+          src={user?.profileImage}
           alt="user"
           className="h-[45px] rounded-full aspect-square object-cover"
         />

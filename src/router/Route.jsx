@@ -12,6 +12,9 @@ import RedirectIfLogin from "./redirect/RedirectIfLogin";
 import AdminPage from "../pages/adminpage/AdminPage";
 import LayoutAdmin from "../layout/LayoutAdmit";
 
+import AdminManageUser from "../pages/adminpage/AdminManageUser";
+import AdminManageTransction from "../pages/adminpage/AdminManageTransction";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,10 +64,17 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "/loveworklink" },
   {
     path: "/admin",
     element: <LayoutAdmin />,
-    children: [{ path: "", element: <AdminPage /> }],
+    children: [
+      { path: "", element: <AdminPage /> },
+
+      { path: "manageuser", element: <AdminManageUser /> },
+
+      { path: "managetransection", element: <AdminManageTransction /> },
+    ],
   },
 ]);
 
