@@ -1,11 +1,28 @@
+import { useState } from "react";
+import OutstaindingModal from "../../components/modal/ownerworkmodal/OutstaindingModal";
+import PortfolioModal from "../../components/modal/PortfolioModal";
+
 export default function ShowCase() {
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <>
       <div className="flex gap-2 items-center">
         <h6 className="text-textNavy">My outstanding</h6>
-        <button className="bg-secondary px-3 py-1 rounded-lg text-lg font-bold text-textNavy">
+        <button 
+        className="bg-secondary px-3 py-1 rounded-lg text-lg font-bold text-textNavy"
+        onClick={() => setIsOpen(true)}
+        >
           Add+
         </button>
+        <div>
+        <OutstaindingModal open={isOpen}
+        title="Create Portfolio"
+        maxWidth={32} 
+        onClose={() => setIsOpen(false)}>
+        <PortfolioModal></PortfolioModal>
+        </OutstaindingModal>
+        
+        </div>
       </div>
       <div className="flex gap-5 items-center justify-start p-3 rounded-lg border-2 border-textGrayDark w-fit ">
         <div className="flex gap-3  py-3 ">
