@@ -1,9 +1,16 @@
 import {
+  STATUS_CANCEL,
+  STATUS_FINDING,
+  STATUS_ISSUE,
+  STATUS_MAKEDEAL,
+  STATUS_ONPROCESS,
   // STATUS_FINDING,
   // STATUS_MAKEDEAL,
   // STATUS_ONPROCESS,
   STATUS_REQUEST,
+  STATUS_SUCCESS,
 } from "../../configs/constants";
+import useAuth from "../../hooks/useAuth";
 // import useAuth from "../../hooks/useAuth";
 
 const WorkButton = ({ title }) => {
@@ -21,8 +28,11 @@ const WorkButton = ({ title }) => {
 };
 
 export default function ChatStatusWork() {
-  //   const { user } = useAuth();
-  const ownerId = 2;
+  const { user } = useAuth();
+  const ownerId = user.id;
+  const status = STATUS_FINDING;
+  const workerId = 2;
+  const userId = ownerId;
   return (
     <div className="h-full grid grid-rows-4 col-span-2">
       <div className="row-span-3">
@@ -46,6 +56,7 @@ export default function ChatStatusWork() {
             <p className="text-secondary">
               Price : <span className="text-black">500 THB</span>
             </p>
+            <p>{status}</p>
             <p className="text-secondary">
               Description :{" "}
               <span className="text-black">
@@ -58,41 +69,54 @@ export default function ChatStatusWork() {
         </div>
       </div>
       <div className="row-span-1 p-10 flex flex-col items-center justify-center gap-2">
-        {/* {ownerId && STATUS_FINDING ? (
-          <>
-            <WorkButton title="Edit" />
-            <WorkButton title="Submit" />
-          </>
-        ) : (
+        {userId === ownerId ? (
+          ownerId && status === STATUS_FINDING ? (
+            <>
+              <WorkButton title="Edit" />
+              <WorkButton title="Submit" />
+            </>
+          ) : ownerId && status === STATUS_MAKEDEAL ? (
+            <>
+              <WorkButton title="Cancel" />
+            </>
+          ) : ownerId && status === STATUS_ONPROCESS ? (
+            <>
+              <WorkButton title="Report" />
+            </>
+          ) : ownerId && status === STATUS_REQUEST ? (
+            <>
+              <WorkButton title="Success" />
+              <WorkButton title="Report" />
+            </>
+          ) : ownerId && status === STATUS_SUCCESS ? (
+            <>
+              <WorkButton title="Report" />
+            </>
+          ) : (
+            ""
+          )
+        ) : workerId && status === STATUS_FINDING ? (
           ""
-        )} */}
-        {/* {ownerId && STATUS_MAKEDEAL ? (
-          <>
-            <WorkButton title="Cancel" />
-          </>
-        ) : (
+        ) : workerId && status === STATUS_MAKEDEAL ? (
           <>
             <WorkButton title="Accept" />
             <WorkButton title="Reject" />
           </>
-        )} */}
-        {/* {ownerId && STATUS_ONPROCESS ? (
-          <>
-            <WorkButton title="Report" />
-          </>
-        ) : (
+        ) : workerId && status === STATUS_ONPROCESS ? (
           <>
             <WorkButton title="Success" />
             <WorkButton title="Report" />
           </>
-        )} */}
-        {ownerId && STATUS_REQUEST ? (
+        ) : workerId && status === STATUS_REQUEST ? (
           <>
-            <WorkButton title="Complete" />
+            <WorkButton title="Report" />
+          </>
+        ) : workerId && status === STATUS_SUCCESS ? (
+          <>
             <WorkButton title="Report" />
           </>
         ) : (
-          <WorkButton title="Report" />
+          ""
         )}
       </div>
     </div>
