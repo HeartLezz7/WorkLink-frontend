@@ -53,7 +53,7 @@ export default function UserDropDown() {
                     className="h-[60px] aspect-square rounded-full object-cover whiteDivShadow"
                   />
                   <div>
-                    <p className="text-primary text-lg font-bold truncate w-full">{`${user.firstName} ${user.lastName} `}</p>
+                    <p className="text-primary text-md font-bold truncate w-[75%]">{`${user.firstName} ${user.lastName} `}</p>
                     <div className="flex items-center gap-1">
                       <VscVerifiedFilled
                         color={

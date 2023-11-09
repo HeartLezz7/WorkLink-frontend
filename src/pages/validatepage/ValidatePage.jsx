@@ -7,7 +7,11 @@ import validateSchema from "../../utils/validate-schema";
 import axios from "../../configs/axios";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../components/Loading/Loading";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import getDateFormat from "../../utils/getDateFormat";
+
+const dateFormat = "YYYY-MM-DD";
 
 // hong edit complete
 
@@ -18,7 +22,7 @@ export default function ValidatePage() {
     lastName: user.lastName,
     phoneNumber: user.authUser.phoneNumber,
     email: user.authUser.email,
-    birthDate: user.birthDate || "",
+    birthDate: user.birthDate || new Date(),
     identifyId: user.identifyId || "",
   });
   // console.log(user);
@@ -30,6 +34,16 @@ export default function ValidatePage() {
 
   const handleInput = (e) => {
     setValidateInput({ ...validateInput, [e.target.name]: e.target.value });
+  };
+  const handleChangeDate = (date, dateString) => {
+    // console.log(date, dateString);
+    setValidateInput({ ...validateInput, birthDate: dateString });
+  };
+
+  const disabledDate = (current) => {
+    const today = new Date();
+    const currentDate = new Date(current.format("YYYY-MM-DD"));
+    return currentDate > today;
   };
 
   const handleFormData = () => {
@@ -75,13 +89,13 @@ export default function ValidatePage() {
             <img src={validate} alt="validate" className="w-full" />
           </div>
           <form
-            className=" w-1/2 flex flex-col items-center justify-center gap-2 h-full "
+            className=" w-1/2 flex flex-col items-center justify-center gap-y-3 h-fit bg-background/80 rounded-2xl p-3 "
             onSubmit={handleValidate}
           >
-            <div className="text-3xl text-textWhite font-semibold mb-3">
+            <div className="text-3xl text-textNavy font-semibold mb-3">
               Verify and edit your account
             </div>
-            <div className=" w-full grid grid-rows-3 ">
+            <div className=" w-full grid grid-rows-3 gap-y-3 ">
               <div className="grid grid-cols-2  gap-2">
                 <InputForm
                   placeholder="Name"
@@ -115,14 +129,18 @@ export default function ValidatePage() {
                 />
               </div>
               <div className="grid grid-cols-2  gap-2">
-                <InputForm
-                  type="date"
-                  placeholder="Date of birth"
-                  name="birthDate"
-                  value={validateInput.birthDate}
-                  onChange={handleInput}
-                  errorInput={error.birthDate}
+                <DatePicker
+                  defaultValue={dayjs(
+                    getDateFormat(validateInput.birthDate),
+                    dateFormat
+                  )}
+                  format={dateFormat}
+                  onChange={handleChangeDate}
+                  disabledDate={disabledDate}
+                  className="bg-primaryDark/0"
+                  placeholder="Select your birthdate"
                 />
+
                 <InputForm
                   placeholder="ID card"
                   name="identifyId"
