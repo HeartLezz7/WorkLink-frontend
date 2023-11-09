@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AdminWorkCard from "./AdminWorkCard";
 
 export default function AdminPage() {
   const [search, setSearch] = useState("");
@@ -27,7 +28,12 @@ export default function AdminPage() {
           Issus
         </div>
       </div>
-      <div>1</div>
+      <div className=" flex flex-col justify-center items-center ">
+        <AdminWorkCard />
+        <AdminWorkCard />
+        <AdminWorkCard />
+        <AdminWorkCard />
+      </div>
     </div>
   );
 }

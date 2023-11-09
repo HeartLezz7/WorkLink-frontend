@@ -33,7 +33,7 @@ export default function AdminManageTransction() {
       Date: "31 Oct 2023",
       Time: "15:35:08",
       Type: "DEPOSIT",
-      Amount: "2,000 THB",
+      Amount: "1,990 THB",
       status: "REJECT",
     },
   ];
