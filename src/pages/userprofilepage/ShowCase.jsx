@@ -8,11 +8,13 @@ import ShowCaseCard from "./showcasedetail/ShowCaseCard";
 export default function ShowCase() {
   const [isOpen, setIsOpen] = useState(false)
   const [showcase,setShowcase] = useState([])
+  
 
   const createShowcase = async (data) => {
   await axios.post("/user/createshowcase", data);
   getShowcase()
   };
+
 
   const getShowcase = () =>{
     axios
@@ -73,7 +75,9 @@ export default function ShowCase() {
       <div className="flex gap-5 items-center justify-start p-3 rounded-lg border-2 border-textGrayDark w-full overflow-x-scroll ">
         <div className="flex gap-3  py-3 ">
               {showcase.map((el)=>(
-                 <ShowCaseCard key={el.id} showcase={el} deleteShowcase={deleteShowcase}/>
+                 <ShowCaseCard key={el.id} showcase={el} deleteShowcase={deleteShowcase}
+                 getShowcase={getShowcase}
+                 />
               ))}
         </div>
       </div>

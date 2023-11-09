@@ -1,60 +1,51 @@
 import { useState, useRef } from "react";
 import Loading from "../Loading/Loading";
-import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 
 export default function EditProfileModal({
   setIsOpen,
-  profileData,
-  setProfileData,
+  showcase,
+  getShowcase
+
 }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const { user, setUser } = useAuth();
   const fileEl = useRef(null);
+
   const [input, setInput] = useState({
-    profileImage: user.profileImage,
-    address: user.address || "",
-    personalDescription: user.personalDescription || "",
+    id:showcase.id,
+    imagePicture: showcase.imagePicture,
+    description: showcase.description
   });
+
+  console.log(showcase)
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
+
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
-      const formData = new FormData();
-
-      //   const { value, error } = schema.validate(input, {
-      //     abortEarly: false,
-      //   });
-      //   if (error) {
-      //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
-      //   }
-      setLoading(true);
-      for (let key in input) {
-        if (input[key]) {
-          formData.append(`${key}`, input[key]);
+      const formData = new FormData()
+      setLoading(true)
+      for(let key in input){
+        if(input[key]){
+          formData.append(`${key}`,input[key])
         }
       }
-        console.log(formData);
-      const res = await axios.patch("user/editprofile", formData);
-      setProfileData({
-        ...profileData,
-        address: res.data.updateProfile.address,
-        profileImage: res.data.updateProfile.profileImage,
-        personalDescription: res.data.updateProfile.personalDescription,
-      });
-      setUser(res.data.updateProfile);
-      setIsOpen(false);
+       await axios.patch("user/editshowcase",formData)
+       //for re-render
+       getShowcase()
+       setIsOpen(false);
+    
     } catch (err) {
       console.log(err);
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <>
       <div className="fixed inset-0 bg-black/70 z-[30]"></div>
@@ -75,7 +66,7 @@ export default function EditProfileModal({
               />
             </div>
             <div className="text-textNavy text-3xl font-semibold w-full text-center py-2">
-              Edit personal profile
+              Edit Working History
             </div>
             <main className="px-[30px] py-[10px] flex flex-col items-center gap-[15px]">
               <div
@@ -97,14 +88,14 @@ export default function EditProfileModal({
                     </div>
                   </div>
                 )}
-                {input.profileImage instanceof File ? (
+                {input.imagePicture instanceof File ? (
                   <img
-                    src={URL.createObjectURL(input.profileImage)}
+                    src={URL.createObjectURL(input.imagePicture)}
                     className="object-cover w-full h-full"
                   />
-                ) : input.profileImage ? (
+                ) : input.imagePicture ? (
                   <img
-                    src={input.profileImage}
+                    src={input.imagePicture}
                     className="object-cover w-full h-full"
                   />
                 ) : (
@@ -120,7 +111,7 @@ export default function EditProfileModal({
               <input
                 type="file"
                 className="hidden"
-                name="profileImage"
+                name="imagePicture"
                 ref={fileEl}
                 onChange={(e) => {
                   if (e.target.files[0]) {
@@ -131,19 +122,9 @@ export default function EditProfileModal({
                   }
                 }}
               />
-
-              <input
-                type="text"
-                placeholder="Address"
-                name="address"
-                value={input.address}
-                onChange={handleChangeInput}
-                className=" border-2 p-2 border-primary w-full outline-none rounded-md"
-              />
-
               <textarea
-                name="personalDescription"
-                value={input.personalDescription}
+                name="description"
+                value={input.description}
                 onChange={handleChangeInput}
                 className="block w-full outline-none resize-none border-2 border-primary p-2 rounded-md"
                 rows="4"
