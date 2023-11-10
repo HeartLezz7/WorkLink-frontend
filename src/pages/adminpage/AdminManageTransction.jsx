@@ -33,7 +33,7 @@ export default function AdminManageTransction() {
       Date: "31 Oct 2023",
       Time: "15:35:08",
       Type: "DEPOSIT",
-      Amount: "2,000 THB",
+      Amount: "1,990 THB",
       status: "REJECT",
     },
   ];
@@ -74,37 +74,29 @@ export default function AdminManageTransction() {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex p-8 gap-5 ">
-        <div className="flex  flex-row  justify-between  items-center h-10  w-64 border rounded ">
+      <div className="flex gap-4 items-center justify-start p-6">
+        <div className="flex">
           <input
+            type="text"
             placeholder="search for..."
-            className=" p-2 text-primaryDarker"
+            className="p-2 text-primaryDarker rounded-xl w-72 px-5"
             onChange={handleInput}
-          >
-            {/* <p>Search for...</p> */}
-          </input>
-          <div className=" p-2 text-primaryDarker">
-            <img
-              src="./icons/SearchPrimary.png"
-              alt=""
-              className=" text-gradiantPrimaryDark"
-            />
-          </div>
+          />
         </div>
-        <div className="flex gap-5 items-center justify-center ">
-          <div className=" text-gradiantPrimaryDark">
-            <p>All</p>
-          </div>
-          <button>Waiting</button>
-          <div>
-            <p>Success</p>
-          </div>
+        <div className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl">
+          All
+        </div>
+        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+          Waiting
+        </div>
+        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+          Success
         </div>
       </div>
       <div>
-        {filterUsers.map((el) => {
-          return <TransctionCardAdmin key={el.id} data={el} />;
-        })}
+        {filterUsers.map((el) => (
+          <TransctionCardAdmin key={el.id} data={el} />
+        ))}
 
         {/* <TransctionCardAdmin /> */}
       </div>

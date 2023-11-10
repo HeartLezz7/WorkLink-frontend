@@ -57,29 +57,20 @@ export default function AdminManageUser() {
   }
   return (
     <div className="flex flex-col w-full ">
-      <div className="flex p-8  gap-20 ">
-        <form className="flex  flex-row  justify-between  items-center h-10  w-64 border rounded-md ">
+      <div className="flex gap-4 items-center justify-start p-6">
+        <div className="flex">
           <input
+            type="text"
             placeholder="search for..."
-            className=" p-2 text-primaryDarker"
+            className="p-2 text-primaryDarker rounded-xl w-72 px-5"
             onChange={handleInput}
-            value={search}
           />
-
-          <input className=" p-2 text-primaryDarker" />
-          {/* <img
-            src="./icons/SearchPrimary.png"
-            alt=""
-            className=" text-gradiantPrimaryDark"
-          /> */}
-        </form>
-        <div className="flex gap-5 items-center justify-center ">
-          <div className="">
-            <p>All</p>
-          </div>
-          <div className=" text-gradiantPrimaryDark">
-            <p>Banned</p>
-          </div>
+        </div>
+        <div className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl">
+          All
+        </div>
+        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+          Banned
         </div>
       </div>
       <div className="flex flex-col">
