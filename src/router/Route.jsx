@@ -17,6 +17,7 @@ import ChatContextProvider from "../contexts/ChatContext";
 
 import AdminManageUser from "../pages/adminpage/AdminManageUser";
 import AdminManageTransction from "../pages/adminpage/AdminManageTransction";
+import WalletContextProvider from "../contexts/WalletContext";
 
 const router = createBrowserRouter([
   {
@@ -36,9 +37,11 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <RedirectIfNotLogin>
-            <UserDashBoardPage />
-          </RedirectIfNotLogin>
+          <WalletContextProvider>
+            <RedirectIfNotLogin>
+              <UserDashBoardPage />
+            </RedirectIfNotLogin>
+          </WalletContextProvider>
         ),
       },
       {

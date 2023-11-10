@@ -25,6 +25,7 @@ export default function UserDetail() {
       })
       .catch((err) => console.log(err));
   }, []);
+  console.log(profileData);
   return (
     <div className="p-5 w-[90%] shadow-lg shadow-primaryDark/70 bg-background/80 rounded-xl h-fit">
       <div className="flex gap-5 items-center">
@@ -49,10 +50,13 @@ export default function UserDetail() {
         </div>
       </div>
       <div className=" flex flex-col gap-3 mt-4">
-        <p className="text-xl">
-          <span className="text-xl font-semibold">Age :</span>{" "}
-          {profileData?.age} years
-        </p>
+        {profileData?.authUser?.verifyStatus === "verify" && (
+          <p className="text-xl">
+            <span className="text-xl font-semibold">Age :</span>{" "}
+            {profileData?.age} years
+          </p>
+        )}
+
         <p className="text-xl">
           <span className="text-xl font-semibold">Address :</span>{" "}
           {profileData?.address ? profileData?.address : "Not specified"}

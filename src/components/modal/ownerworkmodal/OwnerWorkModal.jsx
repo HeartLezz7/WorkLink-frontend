@@ -4,10 +4,12 @@ import getDate from "../../../utils/getDate";
 import Loading from "../../Loading/Loading";
 import ChallengerItem from "./ChallengerItem";
 import { IoMdClose } from "react-icons/io";
+import EditWorkModal from "../EditWorkModal";
 
 export default function OwnerWorkModal({ work, setIsOpen }) {
   const [thisWork, setThisWork] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -72,9 +74,15 @@ export default function OwnerWorkModal({ work, setIsOpen }) {
                     <div>Description : {thisWork.description}</div>
                   </div>
                   <div className="flex justify-center items-center p-2">
-                    <div className="text-lg py-1 px-3 bg-textGrayLight rounded-lg font-semibold cursor-pointer">
+                    <div
+                      onClick={() => setIsEditOpen(true)}
+                      className="text-lg py-1 px-3 bg-textGrayLight rounded-lg font-semibold cursor-pointer"
+                    >
                       Edit
                     </div>
+                    {isEditOpen && (
+                      <EditWorkModal work={work} setIsOpen={setIsEditOpen} />
+                    )}
                   </div>
                 </div>
                 <div className="h-full w-[50%] flex flex-col p-3 border border-textGrayDark rounded-xl">
