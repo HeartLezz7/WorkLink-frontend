@@ -18,8 +18,6 @@ export default function DepositModal({ setIsOpen }) {
     amount: "",
     slipImage: "",
   });
-  const { user } = useAuth();
-
   const { createTransaction } = useWallet();
 
   const handleChangeInput = (e) => {
@@ -32,21 +30,17 @@ export default function DepositModal({ setIsOpen }) {
       if (!input.amount && !input.slipImage) {
         setError({
           ...error,
-          amount: "Input your deposit amount",
-          slipImage: "Add you QR code",
+          amount: "Input your withdraw amount",
+          slipImage: "Add you slip payment",
         });
         return;
       } else if (!input.amount) {
-        setError({ ...error, amount: "Input your deposit amount" });
+        setError({ ...error, amount: "Input your withdraw amount" });
         return;
       } else if (!input.slipImage) {
-        setError({ ...error, slipImage: "Add you QR code" });
-        return;
-      } else if (user.wallet < input.amount) {
-        setError({ ...error, amount: "Your money in wallet isn't enuogh" });
+        setError({ ...error, slipImage: "Add you slip payment" });
         return;
       }
-
       await createTransaction(input);
       setIsOpen(false);
     } catch (error) {
@@ -78,30 +72,39 @@ export default function DepositModal({ setIsOpen }) {
               style={{ listStyleType: "decimal", listStylePosition: "inside" }}
             >
               <li>
-                Input the amount of money you want to deposit from your WorkLink
+                Input the amount of money you want to transfer to your WorkLink
                 wallet.
               </li>
+              <li>Scan the QR code to initiate the transfer to WorkLink.</li>
+              <li>Upload your receipt and click "Submit."</li>
+              <li>Wait for the admin to check within 15 minutes.</li>
               <li>
-                Upload your QR code of your account that worklink will transfer
-                money to you and click "Submit."
-              </li>
-              <li>Wait for the admin to implement within 15 minutes.</li>
-              <li>The money will automatically be added to your account.</li>
-              <li>
-                The payment silp will be on your proof of payment after
-                transaction success.
+                If the transaction is correct, the money will automatically be
+                added to your wallet.
               </li>
             </ol>
             <main className="px-[30px] py-[10px] flex flex-col items-center gap-[15px]">
               <div className="flex gap-5 items-center">
-                <div className="flex flex-col w-[250px] items-center justify-center">
-                  <InputBorderForm
-                    placeholder={"Amount"}
-                    name={"amount"}
-                    onChange={handleChangeInput}
-                    value={input.value}
-                  />
-                  {error.amount && <InputErrorMessage message={error.amount} />}
+                <div className="flex flex-col w-[250px] items-center justify-center gap-3">
+                  <div className="flex flex-col">
+                    <InputBorderForm
+                      placeholder={"Amount"}
+                      name={"amount"}
+                      onChange={handleChangeInput}
+                      value={input.value}
+                    />
+                    {error.amount && (
+                      <InputErrorMessage message={error.amount} />
+                    )}
+                  </div>
+                  <div className="w-fit h-fit rounded-md whiteDivShadow flex flex-col justify-center items-center">
+                    <img
+                      src="/OnlyQR.png"
+                      alt=""
+                      className="w-[150px] aspect-square"
+                    />
+                    <div>WorkLink Company</div>
+                  </div>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-3">
                   <div
@@ -137,7 +140,7 @@ export default function DepositModal({ setIsOpen }) {
                       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
                         <LuImagePlus color="#3CB97F" size={40} />
                         <div className="text-center text-sm whitespace-wrap">
-                          Your QR code
+                          Slip Image
                         </div>
                       </div>
                     )}

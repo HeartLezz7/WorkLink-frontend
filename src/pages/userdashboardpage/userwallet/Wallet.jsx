@@ -20,19 +20,19 @@ export default function Wallet() {
         </p>
         <div className="w-full flex justify-evenly">
           <button
-            onClick={() => setIsWithdrawOpen(true)}
-            className="text-textNavy text-lg font-semibold bg-gradient-to-tr from-gradiantPrimaryDark  to-gradiantPrimaryLight active:bg-gradient-to-bl focus:outline-none  shadow-md shadow-primaryDark font-md rounded-lg active:scale-95 py-1 text-center w-[40%] truncate"
-          >
-            Withdraw
-          </button>
-          {isWithdrawOpen && <WithdrawModal setIsOpen={setIsWithdrawOpen} />}
-          <button
             onClick={() => setIsDepositOpen(true)}
-            className="text-textGrayDark font-semibold bg-textGrayLight/50 hover:bg-textGrayLight/70  focus:outline-none active:ring-textGrayLight active:scale-95 shadow-md shadow-textGrayDark font-md rounded-lg text-lg py-1 text-center w-[40%] truncate"
+            className="text-textNavy text-lg font-semibold bg-gradient-to-tr from-gradiantPrimaryDark  to-gradiantPrimaryLight active:bg-gradient-to-bl focus:outline-none  shadow-md shadow-primaryDark font-md rounded-lg active:scale-95 py-1 text-center w-[40%] truncate"
           >
             Deposit
           </button>
           {isDepositOpen && <DepositModal setIsOpen={setIsDepositOpen} />}
+          <button
+            onClick={() => setIsWithdrawOpen(true)}
+            className="text-textGrayDark font-semibold bg-textGrayLight/50 hover:bg-textGrayLight/70  focus:outline-none active:ring-textGrayLight active:scale-95 shadow-md shadow-textGrayDark font-md rounded-lg text-lg py-1 text-center w-[40%] truncate"
+          >
+            Withdraw
+          </button>
+          {isWithdrawOpen && <WithdrawModal setIsOpen={setIsWithdrawOpen} />}
         </div>
       </div>
     </div>
