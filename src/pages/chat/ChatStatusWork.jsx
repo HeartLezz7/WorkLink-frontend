@@ -22,6 +22,7 @@ export default function ChatStatusWork() {
   // const ownerId = user.id;
   const ownerId = 2;
   const status = STATUS_ONPROCESS;
+  const workId = 1;
   const workerId = 2;
   const userId = ownerId;
   return (
@@ -37,7 +38,7 @@ export default function ChatStatusWork() {
                 size={20}
                 onClick={() => setIsOpen(!isOpen)}
               />
-              {isOpen && <ReportItem workId={workerId} />}
+              {isOpen && <ReportItem workId={workId} workerId={workerId} />}
             </div>
             <div className=" text-secondaryLight font-semibold text-lg">
               Work Detail

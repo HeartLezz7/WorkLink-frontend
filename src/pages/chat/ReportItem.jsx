@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "../../configs/axios";
 
-export default function ReportItem({ workId }) {
+export default function ReportItem({ workId, workerId }) {
   const [reportMessage, setReportMessage] = useState("");
 
   const handleInput = (e) => {
@@ -10,7 +10,11 @@ export default function ReportItem({ workId }) {
   const handleSumbit = async (e) => {
     try {
       e.preventDefault();
-      await axios.post("/report/createReport", { reportMessage, workId });
+      await axios.post("/report/createReport", {
+        reportMessage,
+        workId,
+        workerId,
+      });
     } catch (err) {
       console.log(err);
     }
