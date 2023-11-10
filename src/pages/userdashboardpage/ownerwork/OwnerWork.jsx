@@ -22,7 +22,7 @@ export default function OwnerWork() {
 
   return (
     <div className="p-1 h-full relative">
-      <div className="text-2xl font-bold text-textNavy px-1 absolute top-[-10px] left-[20px] bg-primaryLight">
+      <div className="text-2xl font-bold text-textNavy px-1 absolute top-[-10px] left-[20px] bg-primaryLight truncate">
         Delegated Works
       </div>
       <div className="border-2 border-textNavy w-full  rounded-xl  pt-5 pb-3 px-1 h-full overflow-hidden">

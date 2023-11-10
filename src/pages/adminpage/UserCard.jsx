@@ -50,7 +50,7 @@ export default function UserCard({ userObj }) {
             src={userObj.user.profileImage}
             alt=""
             className="rounded-full h-24 cursor-pointer"
-            // onClick={() => navigate(/userprofile/${userObj.id})}
+            onClick={() => navigate(`/userprofile/${userObj.id}`)}
           />
           <div>
             <div className=" flex">
@@ -72,11 +72,11 @@ export default function UserCard({ userObj }) {
           </button>
           {userObj.isBanned === false ? (
             <button className="border  w-24 h-12 rounded-xl  bg-secondaryLight border-secondary">
-              Ban
+              Permit
             </button>
           ) : (
             <button className="border  w-24 h-12 rounded-xl  bg-disable border-spacing-2">
-              Cancel
+              Ban
             </button>
           )}
         </div>

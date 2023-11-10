@@ -1,3 +1,5 @@
+import DepositCheckModal from "../../components/modal/AdminModal/DepositCheckModal";
+import WithdrawCheckModal from "../../components/modal/AdminModal/WithdrawCheckModal";
 import ReviewCard from "./ReviewCard";
 import ShowCase from "./ShowCase";
 import UserDetail from "./UserDetail";
@@ -25,10 +27,14 @@ export default function UserProfilePage() {
               <div className="flex flex-col gap-5">
                 <ReviewCard />
                 <ReviewCard />
-                <ReviewCard />
+                {/* <ReviewCard /> */}
               </div>
             </div>
             <div></div>
+
+            {/* <DepositCheckModal /> */}
+            {/* <WithdrawCheckModal /> */}
+
           </div>
         </div>
       </div>

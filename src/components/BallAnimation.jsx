@@ -8,12 +8,14 @@ export default function BallAnimation({
   height,
   header,
   z,
+  vx,
+  vy,
 }) {
   const [position, setPosition] = useState({
     x: startX * (window.innerWidth - width),
     y: startY * (window.innerHeight - (height + header)),
   });
-  const [velocity, setVelocity] = useState({ x: 2, y: 2 });
+  const [velocity, setVelocity] = useState({ x: vx, y: vy });
 
   useEffect(() => {
     const updatePosition = () => {
@@ -34,6 +36,7 @@ export default function BallAnimation({
     };
   }, [position, velocity]);
 
+  // console.log(position);
   // conssole.log(position);
 
   return (
@@ -46,7 +49,7 @@ export default function BallAnimation({
         borderRadius: "50%",
         width: `${width}px`,
         height: `${height}px`,
-        backgroundColor: color || "#3CB97F",
+        backgroundColor: color,
         zIndex: z,
       }}
     ></div>

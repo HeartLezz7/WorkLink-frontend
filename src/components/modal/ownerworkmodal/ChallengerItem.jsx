@@ -46,9 +46,9 @@ export default function ChallengerItem({ challenger, work }) {
           alt=""
           className="w-[60px] h-[60px] aspect-square rounded-full object-cover"
         />
-        <div className="flex flex-col gap-1 ">
-          <div className="text-lg font-semibold w-[75%] truncate">
-            {user.firstName} {user.lastName}
+        <div className="flex flex-col gap-1 w-full ">
+          <div className="text-lg font-semibold w-[95%] truncate">
+            {user.firstName} {user.lastName} jdaskjdkljsa
           </div>
           <Link
             to={`/userprofile/${user.id}`}

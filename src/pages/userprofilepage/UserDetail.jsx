@@ -25,6 +25,7 @@ export default function UserDetail() {
       })
       .catch((err) => console.log(err));
   }, []);
+  console.log(profileData);
   return (
     <div className="p-5 w-[90%] shadow-lg shadow-primaryDark/70 bg-background/80 rounded-xl h-fit">
       <div className="flex gap-5 items-center">
@@ -35,8 +36,12 @@ export default function UserDetail() {
 
         <div className="space-y-1">
           <div>
-            <h6 className="text-textNavy truncate">{profileData?.firstName}</h6>
-            <h6 className="text-textNavy truncate">{profileData?.lastName}</h6>
+            <p className="text-textNavy truncate text-2xl font-semibold">
+              {profileData?.firstName}
+            </p>
+            <p className="text-textNavy truncate text-2xl font-semibold">
+              {profileData?.lastName}
+            </p>
           </div>
           <div className="flex items-start gap-1">
             <FaStar color="#FFC911" size={25} />
@@ -45,10 +50,13 @@ export default function UserDetail() {
         </div>
       </div>
       <div className=" flex flex-col gap-3 mt-4">
-        <p className="text-xl">
-          <span className="text-xl font-semibold">Age :</span>{" "}
-          {profileData?.age} years
-        </p>
+        {profileData?.authUser?.verifyStatus === "verify" && (
+          <p className="text-xl">
+            <span className="text-xl font-semibold">Age :</span>{" "}
+            {profileData?.age} years
+          </p>
+        )}
+
         <p className="text-xl">
           <span className="text-xl font-semibold">Address :</span>{" "}
           {profileData?.address ? profileData?.address : "Not specified"}
@@ -61,23 +69,28 @@ export default function UserDetail() {
               : "Not specified"}
           </p>
         </div>
-        <div className="w-full flex justify-center">
-          <button
-            onClick={() => {
-              setIsOpen(true);
-            }}
-            className="bg-textGrayLight text-textGrayDark px-3 py-2 rounded-md font-semibold hover:bg-textGrayDark/50"
-          >
-            Edit profile
-          </button>
-          {isOpen && (
-            <EditProfileModal
-              setIsOpen={setIsOpen}
-              profileData={profileData}
-              setProfileData={setProfileData}
-            />
-          )}
-        </div>
+        {userId == user.id ? (
+          <div className="w-full flex justify-center">
+            <button
+              onClick={() => {
+                setIsOpen(true);
+              }}
+              className="bg-textGrayLight text-textGrayDark px-3 py-2 rounded-md font-semibold hover:bg-textGrayDark/50"
+            >
+              Edit profile
+            </button>
+
+            {isOpen && (
+              <EditProfileModal
+                setIsOpen={setIsOpen}
+                profileData={profileData}
+                setProfileData={setProfileData}
+              />
+            )}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
