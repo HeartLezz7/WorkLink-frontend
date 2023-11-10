@@ -20,6 +20,7 @@ const registerSchema = Joi.object({
     .trim()
     .required()
     .strip(),
+  adminKey: Joi.string().required(),
 });
 
 const loginSchema = Joi.object({
@@ -35,6 +36,7 @@ const loginSchema = Joi.object({
   password: Joi.string()
     .trim()
     .pattern(/^[a-zA-Z0-9]{6,30}$/),
+  adminKey: Joi.string().required(),
 });
 
 const identifySchema = Joi.object({
