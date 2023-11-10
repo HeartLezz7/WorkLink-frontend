@@ -1,17 +1,23 @@
 import { useState } from "react";
 import WithdrawModal from "../../../components/modal/userTransactionModal/WithdrawModal";
 import DepositModal from "../../../components/modal/userTransactionModal/DepositModal";
+import useAuth from "../../../hooks/useAuth";
 
 export default function Wallet() {
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
   const [isDepositOpen, setIsDepositOpen] = useState(false);
+
+  const { user } = useAuth();
+
   return (
     <div className="relative border-2 border-textNavy rounded-lg">
       <p className="text-textNavy bg-backgroundWhiteGray w-fit px-3 absolute top-[-18px] left-[15px] text-2xl">
         My Wallet
       </p>
       <div className="w-[100%] flex flex-col items-center justify-center gap-5 py-3">
-        <p className="text-primary pt-4 text-3xl font-semibold">0.00 Bath</p>
+        <p className="text-primary pt-4 text-3xl font-semibold">
+          {user.wallet} Bath
+        </p>
         <div className="w-full flex justify-evenly">
           <button
             onClick={() => setIsWithdrawOpen(true)}

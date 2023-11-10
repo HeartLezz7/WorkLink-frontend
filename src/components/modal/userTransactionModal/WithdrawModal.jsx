@@ -6,10 +6,12 @@ import { LuImagePlus } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
 import InputBorderForm from "../../InputBorderForm";
 import useWallet from "../../../hooks/useWallet";
+import InputErrorMessage from "../../InputErroMessage";
 
 export default function WithdrawModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const [error, setError] = useState({});
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     type: "withdraw",
@@ -26,6 +28,20 @@ export default function WithdrawModal({ setIsOpen }) {
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
+      if (!input.amount && !input.slipImage) {
+        setError({
+          ...error,
+          amount: "Input your withdraw amount",
+          slipImage: "Add you slip payment",
+        });
+        return;
+      } else if (!input.amount) {
+        setError({ ...error, amount: "Input your withdraw amount" });
+        return;
+      } else if (!input.slipImage) {
+        setError({ ...error, slipImage: "Add you slip payment" });
+        return;
+      }
       await createTransaction(input);
       setIsOpen(false);
     } catch (error) {
@@ -70,13 +86,18 @@ export default function WithdrawModal({ setIsOpen }) {
             </ol>
             <main className="px-[30px] py-[10px] flex flex-col items-center gap-[15px]">
               <div className="flex gap-5 items-center">
-                <div className="flex flex-col w-[250px] items-center justify-center">
-                  <InputBorderForm
-                    placeholder={"Amount"}
-                    name={"amount"}
-                    onChange={handleChangeInput}
-                    value={input.value}
-                  />
+                <div className="flex flex-col w-[250px] items-center justify-center gap-3">
+                  <div className="flex flex-col">
+                    <InputBorderForm
+                      placeholder={"Amount"}
+                      name={"amount"}
+                      onChange={handleChangeInput}
+                      value={input.value}
+                    />
+                    {error.amount && (
+                      <InputErrorMessage message={error.amount} />
+                    )}
+                  </div>
                   <div className="w-fit h-fit rounded-md whiteDivShadow flex flex-col justify-center items-center">
                     <img
                       src="/OnlyQR.png"
@@ -86,42 +107,47 @@ export default function WithdrawModal({ setIsOpen }) {
                     <div>WorkLink Company</div>
                   </div>
                 </div>
-                <div
-                  onMouseEnter={() => {
-                    setIsHover(true);
-                  }}
-                  onMouseLeave={() => {
-                    setIsHover(false);
-                  }}
-                  onClick={() => fileEl.current.click()}
-                  className="w-[250px] h-[300px] rounded-md overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
-                >
-                  {isHover && (
-                    <div className="absolute w-full h-full">
-                      <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
-                        <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
-                          edit
+                <div className="flex flex-col items-center justify-center gap-3">
+                  <div
+                    onMouseEnter={() => {
+                      setIsHover(true);
+                    }}
+                    onMouseLeave={() => {
+                      setIsHover(false);
+                    }}
+                    onClick={() => fileEl.current.click()}
+                    className="w-[250px] h-[300px] rounded-md overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
+                  >
+                    {isHover && (
+                      <div className="absolute w-full h-full">
+                        <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
+                          <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
+                            edit
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  {input.slipImage instanceof File ? (
-                    <img
-                      src={URL.createObjectURL(input.slipImage)}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : input.slipImage ? (
-                    <img
-                      src={input.slipImage}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-                      <LuImagePlus color="#3CB97F" size={40} />
-                      <div className="text-center text-sm whitespace-wrap">
-                        Slip Image
+                    )}
+                    {input.slipImage instanceof File ? (
+                      <img
+                        src={URL.createObjectURL(input.slipImage)}
+                        className="object-cover w-full h-full"
+                      />
+                    ) : input.slipImage ? (
+                      <img
+                        src={input.slipImage}
+                        className="object-cover w-full h-full"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                        <LuImagePlus color="#3CB97F" size={40} />
+                        <div className="text-center text-sm whitespace-wrap">
+                          Slip Image
+                        </div>
                       </div>
-                    </div>
+                    )}
+                  </div>
+                  {error.slipImage && (
+                    <InputErrorMessage message={error.slipImage} />
                   )}
                 </div>
 

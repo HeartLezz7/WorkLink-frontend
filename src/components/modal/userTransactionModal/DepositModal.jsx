@@ -6,16 +6,19 @@ import { LuImagePlus } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
 import InputBorderForm from "../../InputBorderForm";
 import useWallet from "../../../hooks/useWallet";
+import InputErrorMessage from "../../InputErroMessage";
 
 export default function DepositModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const fileEl = useRef(null);
+  const [error, setError] = useState({});
   const [input, setInput] = useState({
     type: "deposit",
     amount: "",
     slipImage: "",
   });
+  const { user } = useAuth();
 
   const { createTransaction } = useWallet();
 
@@ -26,6 +29,24 @@ export default function DepositModal({ setIsOpen }) {
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
+      if (!input.amount && !input.slipImage) {
+        setError({
+          ...error,
+          amount: "Input your deposit amount",
+          slipImage: "Add you QR code",
+        });
+        return;
+      } else if (!input.amount) {
+        setError({ ...error, amount: "Input your deposit amount" });
+        return;
+      } else if (!input.slipImage) {
+        setError({ ...error, slipImage: "Add you QR code" });
+        return;
+      } else if (user.wallet < input.amount) {
+        setError({ ...error, amount: "Your money in wallet isn't enuogh" });
+        return;
+      }
+
       await createTransaction(input);
       setIsOpen(false);
     } catch (error) {
@@ -80,43 +101,49 @@ export default function DepositModal({ setIsOpen }) {
                     onChange={handleChangeInput}
                     value={input.value}
                   />
+                  {error.amount && <InputErrorMessage message={error.amount} />}
                 </div>
-                <div
-                  onMouseEnter={() => {
-                    setIsHover(true);
-                  }}
-                  onMouseLeave={() => {
-                    setIsHover(false);
-                  }}
-                  onClick={() => fileEl.current.click()}
-                  className="w-[250px] h-[300px] rounded-md overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
-                >
-                  {isHover && (
-                    <div className="absolute w-full h-full">
-                      <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
-                        <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
-                          edit
+                <div className="flex flex-col items-center justify-center gap-3">
+                  <div
+                    onMouseEnter={() => {
+                      setIsHover(true);
+                    }}
+                    onMouseLeave={() => {
+                      setIsHover(false);
+                    }}
+                    onClick={() => fileEl.current.click()}
+                    className="w-[250px] h-[300px] rounded-md overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
+                  >
+                    {isHover && (
+                      <div className="absolute w-full h-full">
+                        <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
+                          <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
+                            edit
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  {input.slipImage instanceof File ? (
-                    <img
-                      src={URL.createObjectURL(input.slipImage)}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : input.slipImage ? (
-                    <img
-                      src={input.slipImage}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-                      <LuImagePlus color="#3CB97F" size={40} />
-                      <div className="text-center text-sm whitespace-wrap">
-                        Your QR code
+                    )}
+                    {input.slipImage instanceof File ? (
+                      <img
+                        src={URL.createObjectURL(input.slipImage)}
+                        className="object-cover w-full h-full"
+                      />
+                    ) : input.slipImage ? (
+                      <img
+                        src={input.slipImage}
+                        className="object-cover w-full h-full"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                        <LuImagePlus color="#3CB97F" size={40} />
+                        <div className="text-center text-sm whitespace-wrap">
+                          Your QR code
+                        </div>
                       </div>
-                    </div>
+                    )}
+                  </div>
+                  {error.slipImage && (
+                    <InputErrorMessage message={error.slipImage} />
                   )}
                 </div>
 
