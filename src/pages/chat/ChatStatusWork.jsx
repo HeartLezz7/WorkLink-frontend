@@ -8,43 +8,16 @@ import {
   // STATUS_MAKEDEAL,
   // STATUS_ONPROCESS,
   STATUS_REQUEST,
-  STATUS_SUCCESS,
+  // STATUS_SUCCESS,
 } from "../../configs/constants";
-import { useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import ReportItem from "./ReportItem";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-
-const WorkButton = ({ title, workId }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <div className="flex flex-col items-center gap-2">
-      {title === "Report" && (
-        <ReportItem workId={workId} setIsOpen={setIsOpen} />
-      )}
-      <div className="relative">
-        <button
-          className={`w-[20rem] ${
-            title === "Edit"
-              ? "bg-textWhite text-secondaryLight border border-secondaryLight"
-              : title === "Report"
-              ? "bg-error text-textWhite"
-              : "bg-secondaryLight text-textWhite"
-          } p-2 rounded-xl text-center`}
-        >
-          {title}
-        </button>
-        {title === "Report" && (
-          <div className="absolute top-1/2 right-0 transf">
-            <BiDotsHorizontalRounded />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
+import { useState } from "react";
+import WorkButton from "./WorkButton";
+import ReportItem from "./ReportItem";
+import useAuth from "../../hooks/useAuth";
 
 export default function ChatStatusWork() {
+  const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   // const ownerId = user.id;
   const ownerId = 2;
@@ -53,12 +26,19 @@ export default function ChatStatusWork() {
   const userId = ownerId;
   return (
     <>
-      <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-2 relative">
-        <div className="row-span-5">
+      <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-2 ">
+        <div className="row-span-5 ">
           <div className="bg-secondaryLight text-textWhite text-4xl text-center p-3 font-semibold">
             Status
           </div>
-          <div className="flex flex-col items-center gap-10 p-10">
+          <div className="flex flex-col items-center gap-10 p-10 relative ">
+            <div className="absolute top-5 right-5  border rounded-full cursor-pointer">
+              <BiDotsHorizontalRounded
+                size={20}
+                onClick={() => setIsOpen(!isOpen)}
+              />
+              {isOpen && <ReportItem workId={workerId} />}
+            </div>
             <div className=" text-secondaryLight font-semibold text-lg">
               Work Detail
             </div>
@@ -99,18 +79,9 @@ export default function ChatStatusWork() {
               <>
                 <WorkButton title="Cancel" />
               </>
-            ) : ownerId && status === STATUS_ONPROCESS ? (
-              <>
-                <WorkButton title="Report" />
-              </>
             ) : ownerId && status === STATUS_REQUEST ? (
               <>
                 <WorkButton title="Success" />
-                <WorkButton title="Report" />
-              </>
-            ) : ownerId && status === STATUS_SUCCESS ? (
-              <>
-                <WorkButton title="Report" />
               </>
             ) : (
               ""
@@ -120,20 +91,10 @@ export default function ChatStatusWork() {
           ) : workerId && status === STATUS_MAKEDEAL ? (
             <>
               <WorkButton title="Accept" />
-              <WorkButton title="Reject" />
             </>
           ) : workerId && status === STATUS_ONPROCESS ? (
             <>
               <WorkButton title="Success" />
-              <WorkButton title="Report" />
-            </>
-          ) : workerId && status === STATUS_REQUEST ? (
-            <>
-              <WorkButton title="Report" />
-            </>
-          ) : workerId && status === STATUS_SUCCESS ? (
-            <>
-              <WorkButton title="Report" />
             </>
           ) : (
             ""

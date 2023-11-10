@@ -17,9 +17,10 @@ export default function ReportItem({ workId }) {
   };
   return (
     <>
-      <div className="border border-textGrayDark rounded-xl  z-50 ">
+      {/* <div className="fixed inset-0 bg-backgroundWhiteGray opacity-80 z-30"></div> */}
+      <div className="border border-textGrayDark rounded-xl  z-50 absolute  right-0 top-7 bg-textWhite">
         <form
-          className="flex flex-col items-center gap-3 p-2"
+          className="flex flex-col items-center gap-3 p-2 "
           onSubmit={handleSumbit}
         >
           <textarea
@@ -27,7 +28,7 @@ export default function ReportItem({ workId }) {
             cols="40"
             rows="5"
             onChange={handleInput}
-            className="rounded-lg p-2"
+            className="rounded-lg p-2 border"
           ></textarea>
           <div className="w-full flex ">
             <button
