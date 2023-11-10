@@ -6,7 +6,8 @@ import { LuImagePlus } from "react-icons/lu";
 export default function EditProfileModal({
   setIsOpen,
   showcase,
-  getShowcase
+  getShowcase,
+  handdleClickDelete
 
 }) {
   const [loading, setLoading] = useState(false);
@@ -108,6 +109,8 @@ export default function EditProfileModal({
                 )}
               </div>
 
+
+
               <input
                 type="file"
                 className="hidden"
@@ -131,11 +134,22 @@ export default function EditProfileModal({
                 placeholder="Personal Description"
               />
             </main>
-            <div className="flex justify-center">
-              <button className="text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-2xl w-[80%] py-1.5 text-center place-content-center-center">
-                Edit
-              </button>
-            </div>
+            <div className="flex justify-center gap-3">
+
+              <button 
+              className="text-textNavy font-semibold bg-gradient-to-r from-backgroundWhiteGray  to-textGrayLight
+              hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm w-[20%] py-1.5 text-center place-content-center-center"
+              >Edit</button>
+            <button onClick={handdleClickDelete}
+    className="text-whitetext font-semibold bg-gradient-to-r from-secondary  to-secondaryDark hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm w-[20%] py-1.5 text-center place-content-center-center"
+    >Delete</button>
+    
+
+
+    </div>
+
+
+              
           </form>
         </div>
       </div>
