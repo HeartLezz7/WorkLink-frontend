@@ -1,4 +1,11 @@
+import { useState } from "react";
+import WithdrawCheckModal from "../../components/modal/AdminModal/WithdrawCheckModal";
+
 export default function TransctionCardAdmin({ data }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  console.log(data.status);
+  console.log(data);
   return (
     <div className="flex flex-col w-full p-3">
       <div className="flex justify-between items-center gap-5 border p-4 border-textGrayLight rounded-2xl shadow-lg">
@@ -31,16 +38,23 @@ export default function TransctionCardAdmin({ data }) {
             <div className="w-32">Time : </div> <div>{data.Time}</div>
           </div>
           <div className=" flex">
-            <div className="w-32">Type : </div> <div>{data.status}</div>
+            <div className="w-32">Type : </div> <div>{data.Type}</div>
           </div>
           <div className=" flex">
             <div className="w-32">Amount : </div> <div>{data.Amount}</div>
           </div>
         </div>
+
         <div>
-          <button className="border  w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-primary">
+
+          <button className="border  w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-primary" onClick={() => setIsOpen(true)}>
             {data.status}
           </button>
+
+          {isOpen &&
+            <WithdrawCheckModal onclose={setIsOpen} />
+          }
+
         </div>
       </div>
     </div>
