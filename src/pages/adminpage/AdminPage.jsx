@@ -1,14 +1,13 @@
-import { useState } from "react";
 import AdminWorkCard from "./AdminWorkCard";
-import axios from "axios";
-import { useEffect } from "react";
+
+import axios from "../../configs/axios";
+import { useEffect, useState } from "react";
 
 export default function AdminPage() {
-  // const [search, setSearch] = useState("");
-  // const handleInput = (e) => {
-  //   setSearch(e.target.value);
-  // };
-  // console.log(search);
+  useEffect(() => {
+    axios.get("/").then((res) => res.json().then((data) => console.log(data)));
+  }, []);
+
   const [allworks, setAllWorks] = useState([]);
 
   useEffect(() => {
