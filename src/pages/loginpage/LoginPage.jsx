@@ -53,7 +53,7 @@ export default function LoginPage() {
     }
   };
 
-  console.log(handleLoginGoogle);
+  // console.log(handleLoginGoogle);
   return (
     <div
       className="w-screen relative overflow-hidden "
@@ -153,6 +153,16 @@ export default function LoginPage() {
           onSubmit={handleLogin}
         >
           <div className="text-3xl font-semibold text-primary">WorkLink</div>
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              const data = jwtDecode(credentialResponse.credential);
+              loginGoogle(data);
+              console.log(data);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
           <hr className="w-full border border-textGrayLight" />
           <InputForm
             placeholder="email or phone number"
@@ -171,16 +181,7 @@ export default function LoginPage() {
             errorInput={error.password}
           />
           <ActionButton title="Log in" />
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              const data = jwtDecode(credentialResponse.credential);
-              loginGoogle(data);
-              console.log(data);
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-          />
+
           <Link to="/register">
             <div>Create new account?</div>
           </Link>
