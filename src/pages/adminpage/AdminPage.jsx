@@ -4,8 +4,6 @@ import axios from "../../configs/axios";
 import { useEffect, useState } from "react";
 
 export default function AdminPage() {
-  const [workData, setWorkData] = useState(null);
-
   useEffect(() => {
     axios.get("/").then((res) => res.json().then((data) => console.log(data)));
   }, []);
