@@ -4,6 +4,7 @@ import PortfolioModal from "../../components/modal/PortfolioModal";
 import axios from "../../configs/axios";
 import { useEffect } from "react";
 import ShowCaseCard from "./showcasedetail/ShowCaseCard";
+import AddOutstandingModal from "../../components/modal/addShowcaseModal/AddOutstandingModal";
 
 export default function ShowCase() {
   const [isOpen, setIsOpen] = useState(false)
@@ -55,7 +56,17 @@ export default function ShowCase() {
           Add+
         </button>
         <div>
-        <OutstaindingModal open={isOpen}
+
+
+        {isOpen && <AddOutstandingModal
+        setIsOpen={setIsOpen}
+        showcase={showcase}
+        onSubmit={createShowcase}>
+
+        </AddOutstandingModal>}
+
+        {/* In case AddOutstandingModal not wrking  */}
+        {/* <OutstaindingModal open={isOpen}
         maxWidth={32} 
         onClose={() => setIsOpen(false)}>
 
@@ -68,7 +79,7 @@ export default function ShowCase() {
         onSubmit={createShowcase}
         
         ></PortfolioModal>
-        </OutstaindingModal>
+        </OutstaindingModal> */}
 
         
         </div>

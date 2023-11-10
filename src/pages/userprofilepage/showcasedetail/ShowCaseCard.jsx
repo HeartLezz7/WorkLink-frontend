@@ -10,7 +10,7 @@ export default function ShowCaseCard({showcase,deleteShowcase,getShowcase}) {
   }
   return (
     <>
-    <div className="w-[270px] h-[370px] bg-primary rounded-lg overflow-hidden ">
+    <div className="w-[270px] h-[350px] bg-primary rounded-lg overflow-hidden ">
     <img src={showcase.imagePicture} className="w-full max-h-[280px] object-cover" 
     onClick={() => {
       setIsOpen(true);

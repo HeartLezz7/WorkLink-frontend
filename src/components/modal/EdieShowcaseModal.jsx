@@ -7,20 +7,19 @@ export default function EditProfileModal({
   setIsOpen,
   showcase,
   getShowcase,
-  handdleClickDelete
-
+  handdleClickDelete,
 }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const fileEl = useRef(null);
 
   const [input, setInput] = useState({
-    id:showcase.id,
+    id: showcase.id,
     imagePicture: showcase.imagePicture,
-    description: showcase.description
+    description: showcase.description,
   });
 
-  console.log(showcase)
+  console.log(showcase);
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -28,25 +27,24 @@ export default function EditProfileModal({
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
-      const formData = new FormData()
-      setLoading(true)
-      for(let key in input){
-        if(input[key]){
-          formData.append(`${key}`,input[key])
+      const formData = new FormData();
+      setLoading(true);
+      for (let key in input) {
+        if (input[key]) {
+          formData.append(`${key}`, input[key]);
         }
       }
-       await axios.patch("user/editshowcase",formData)
-       //for re-render
-       getShowcase()
-       setIsOpen(false);
-    
+      await axios.patch("user/editshowcase", formData);
+      //for re-render
+      getShowcase();
+      setIsOpen(false);
     } catch (err) {
       console.log(err);
     } finally {
       setLoading(false);
     }
   };
-  
+
   return (
     <>
       <div className="fixed inset-0 bg-black/70 z-[30]"></div>
@@ -109,8 +107,6 @@ export default function EditProfileModal({
                 )}
               </div>
 
-
-
               <input
                 type="file"
                 className="hidden"
@@ -129,27 +125,25 @@ export default function EditProfileModal({
                 name="description"
                 value={input.description}
                 onChange={handleChangeInput}
-                className="block w-full outline-none resize-none border-2 border-primary p-2 rounded-md"
+                className="block w-full outline-none resize-none border-2 border-primary p-2 rounded-md "
                 rows="4"
                 placeholder="Personal Description"
               />
             </main>
             <div className="flex justify-center gap-3">
-
-              <button 
-              className="text-textNavy font-semibold bg-gradient-to-r from-backgroundWhiteGray  to-textGrayLight
+              <button
+                className="text-textNavy font-semibold bg-gradient-to-r from-backgroundWhiteGray  to-textGrayLight
               hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm w-[20%] py-1.5 text-center place-content-center-center"
-              >Edit</button>
-            <button onClick={handdleClickDelete}
-    className="text-whitetext font-semibold bg-gradient-to-r from-secondary  to-secondaryDark hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm w-[20%] py-1.5 text-center place-content-center-center"
-    >Delete</button>
-    
-
-
-    </div>
-
-
-              
+              >
+                Edit
+              </button>
+              <button
+                onClick={handdleClickDelete}
+                className="text-whitetext font-semibold bg-gradient-to-r from-secondary  to-secondaryDark hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm w-[20%] py-1.5 text-center place-content-center-center"
+              >
+                Delete
+              </button>
+            </div>
           </form>
         </div>
       </div>
