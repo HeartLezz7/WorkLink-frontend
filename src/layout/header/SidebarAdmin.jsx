@@ -15,7 +15,7 @@ export default function SideBar() {
       </Link>
       <Link to="/admin/managetransection">
         <div className="h-24 border cursor-pointer border-textGrayLight flex justify-center items-center ">
-          <p>Manage Transection</p>
+          <p>Manage Transaction</p>
         </div>
       </Link>
     </div>

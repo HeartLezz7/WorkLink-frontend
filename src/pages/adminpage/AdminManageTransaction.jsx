@@ -1,7 +1,7 @@
 import { useState } from "react";
-import TransctionCardAdmin from "./TransctionCardAdmin";
+import TransctionCardAdmin from "./TransactionCardAdmin";
 
-export default function AdminManageTransction() {
+export default function AdminManageTransaction() {
   const users = [
     {
       id: 1,

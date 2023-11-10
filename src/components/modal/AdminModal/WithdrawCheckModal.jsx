@@ -2,17 +2,17 @@ import React from 'react';
 import { useState } from 'react';
 import Loading from "../../Loading/Loading";
 
-export default function WithdrawCheckModal({ onclose }) {
+export default function WithdrawCheckModal({ onclose, updateDataType, data }) {
     // const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    const [isHover, setIsHover] = useState(false);
 
     //const [input, setInput] = useState({ adminDescription: admin.adminDescription || "" });
 
     const handleSubmitForm = async (e) => {
         try {
             e.preventDefault();
-            await axios.patch('admin/withdrawconfirmtransaction')
+            await updateDataType(data)
         } catch (error) {
             console.log(error);
         }
@@ -34,9 +34,6 @@ export default function WithdrawCheckModal({ onclose }) {
     return (
         <>
             {loading && <Loading />}
-            {/* <div onClick={() => setIsOpen(true)}>BBB</div> */}
-
-            {/* {isOpen && */}
             <>
                 < div className="fixed inset-0 bg-black/70 z-[30]" ></ div>
                 <div className="fixed z-[30] min-h-full inset-0 flex justify-center items-center">
@@ -131,7 +128,7 @@ export default function WithdrawCheckModal({ onclose }) {
                     </form>
                 </div>
             </>
-            {/* } */}
+
 
         </>
     )

@@ -1,8 +1,21 @@
 import { useState } from "react";
 import WithdrawCheckModal from "../../components/modal/AdminModal/WithdrawCheckModal";
+import axios from "axios";
 
-export default function TransctionCardAdmin({ data }) {
+export default function TransactionCardAdmin({ data }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  console.log(data);
+
+  const updateDataType = async (data) => {
+    try {
+      await axios.patch("/admin/updatetype", data)
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
 
   console.log(data.status);
   console.log(data);
@@ -51,8 +64,9 @@ export default function TransctionCardAdmin({ data }) {
             {data.status}
           </button>
 
+
           {isOpen &&
-            <WithdrawCheckModal onclose={setIsOpen} />
+            <WithdrawCheckModal onclose={setIsOpen} updateDataType={updateDataType} data={data} />
           }
 
         </div>
