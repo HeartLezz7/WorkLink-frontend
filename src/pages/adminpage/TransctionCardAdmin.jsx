@@ -1,7 +1,7 @@
 export default function TransctionCardAdmin({ data }) {
   return (
     <div className="flex flex-col w-full p-3">
-      <div className="flex justify-between items-center gap-5 border p-4 border-textGrayLight rounded-2xl shadow-lg">
+      <div className="flex justify-between items-center gap-5 border px-8 py-4 border-textGrayLight rounded-2xl bg-background shadow-lg">
         <div className="flex gap-10 items-center">
           <img
             src="/defaultImage.jpg"

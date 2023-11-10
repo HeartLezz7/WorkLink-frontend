@@ -1,35 +1,39 @@
-// import { SearchPrimary } from "../icons";
+import { useState } from "react";
+import AdminWorkCard from "./AdminWorkCard";
 
 export default function AdminPage() {
+  const [search, setSearch] = useState("");
+  const handleInput = (e) => {
+    setSearch(e.target.value);
+  };
+  console.log(search);
   return (
     <div className="flex flex-col w-full">
-      <div className="flex p-8 gap-5 ">
-        <div className="flex  flex-row  justify-between  items-center h-10  w-64 border rounded ">
-          <div className=" p-2 text-primaryDarker">
-            <p>Search for...</p>
-          </div>
-          <div className=" p-2 text-primaryDarker">
-            <img
-              src="./icons/SearchPrimary.png"
-              alt=""
-              className=" text-gradiantPrimaryDark"
-            />
-          </div>
+      <div className="flex gap-4 items-center justify-start p-6">
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="search for..."
+            className="p-2 text-primaryDarker rounded-xl w-72 px-5"
+            onChange={handleInput}
+          />
         </div>
-        <div className="flex gap-5 items-center justify-center">
-          <div className=" text-gradiantPrimaryDark">
-            <p>All</p>
-          </div>
-          <div>
-            <p>Waiting reviwe</p>
-          </div>
-          <div>
-            <p>Issue</p>
-          </div>
+        <div className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl">
+          All
+        </div>
+        <div className="cursor-pointer p-2 bg-primaryLight w-44 flex justify-center rounded-xl">
+          Waiting Review
+        </div>
+        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+          Issus
         </div>
       </div>
-
-      <div></div>
+      <div className=" flex flex-col justify-center items-center ">
+        <AdminWorkCard />
+        <AdminWorkCard />
+        <AdminWorkCard />
+        <AdminWorkCard />
+      </div>
     </div>
   );
 }
