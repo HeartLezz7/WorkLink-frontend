@@ -1,6 +1,15 @@
 // import { SearchPrimary } from "../icons";
 
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 export default function AdminPage() {
+  const [workData, setWorkData] = useState(null);
+
+  useEffect(() => {
+    axios.get("/").then((res) => res.json().then((data) => console.log(data)));
+  }, []);
+
   return (
     <div className="flex flex-col w-full">
       <div className="flex p-8 gap-5 ">
