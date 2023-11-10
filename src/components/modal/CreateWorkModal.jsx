@@ -185,6 +185,9 @@ export default function CreateWorkModal({ setIsOpen }) {
                     Computer & technology
                   </option>
                   <option value={2} className="text-sm">
+                    Graphic & Design
+                  </option>
+                  <option value={3} className="text-sm">
                     Document
                   </option>
                 </select>
