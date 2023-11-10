@@ -18,6 +18,11 @@ export default function SideBar() {
           <p>Manage Transection</p>
         </div>
       </Link>
+      <Link to="/admin/managereport">
+        <div className="h-24 border cursor-pointer border-textGrayLight flex justify-center items-center bg-textWhite ">
+          <p>Manage Report</p>
+        </div>
+      </Link>
     </div>
   );
 }

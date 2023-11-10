@@ -17,6 +17,7 @@ import ChatContextProvider from "../contexts/ChatContext";
 
 import AdminManageUser from "../pages/adminpage/AdminManageUser";
 import AdminManageTransction from "../pages/adminpage/AdminManageTransction";
+import AdminManageReport from "../pages/adminpage/AdminManageReport";
 
 const router = createBrowserRouter([
   {
@@ -95,6 +96,7 @@ const router = createBrowserRouter([
       { path: "manageuser", element: <AdminManageUser /> },
 
       { path: "managetransection", element: <AdminManageTransction /> },
+      { path: "managereport", element: <AdminManageReport /> },
     ],
   },
 ]);
