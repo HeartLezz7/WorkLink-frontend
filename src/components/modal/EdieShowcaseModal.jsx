@@ -1,52 +1,42 @@
 import { useState, useRef } from "react";
 import Loading from "../Loading/Loading";
-import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 
 export default function EditProfileModal({
   setIsOpen,
-  profileData,
-  setProfileData,
+  showcase,
+  getShowcase,
+  handdleClickDelete,
 }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const { user, setUser } = useAuth();
   const fileEl = useRef(null);
+
   const [input, setInput] = useState({
-    profileImage: user.profileImage,
-    address: user.address || "",
-    personalDescription: user.personalDescription || "",
+    id: showcase.id,
+    imagePicture: showcase.imagePicture,
+    description: showcase.description,
   });
+
+  console.log(showcase);
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
+
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
       const formData = new FormData();
-
-      //   const { value, error } = schema.validate(input, {
-      //     abortEarly: false,
-      //   });
-      //   if (error) {
-      //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
-      //   }
       setLoading(true);
       for (let key in input) {
         if (input[key]) {
           formData.append(`${key}`, input[key]);
         }
       }
-        console.log(formData);
-      const res = await axios.patch("user/editprofile", formData);
-      setProfileData({
-        ...profileData,
-        address: res.data.updateProfile.address,
-        profileImage: res.data.updateProfile.profileImage,
-        personalDescription: res.data.updateProfile.personalDescription,
-      });
-      setUser(res.data.updateProfile);
+      await axios.patch("user/editshowcase", formData);
+      //for re-render
+      getShowcase();
       setIsOpen(false);
     } catch (err) {
       console.log(err);
@@ -75,7 +65,7 @@ export default function EditProfileModal({
               />
             </div>
             <div className="text-textNavy text-3xl font-semibold w-full text-center py-2">
-              Edit personal profile
+              Edit Working History
             </div>
             <main className="px-[30px] py-[10px] flex flex-col items-center gap-[15px]">
               <div
@@ -97,14 +87,14 @@ export default function EditProfileModal({
                     </div>
                   </div>
                 )}
-                {input.profileImage instanceof File ? (
+                {input.imagePicture instanceof File ? (
                   <img
-                    src={URL.createObjectURL(input.profileImage)}
+                    src={URL.createObjectURL(input.imagePicture)}
                     className="object-cover w-full h-full"
                   />
-                ) : input.profileImage ? (
+                ) : input.imagePicture ? (
                   <img
-                    src={input.profileImage}
+                    src={input.imagePicture}
                     className="object-cover w-full h-full"
                   />
                 ) : (
@@ -120,7 +110,7 @@ export default function EditProfileModal({
               <input
                 type="file"
                 className="hidden"
-                name="profileImage"
+                name="imagePicture"
                 ref={fileEl}
                 onChange={(e) => {
                   if (e.target.files[0]) {
@@ -131,28 +121,27 @@ export default function EditProfileModal({
                   }
                 }}
               />
-
-              <input
-                type="text"
-                placeholder="Address"
-                name="address"
-                value={input.address}
-                onChange={handleChangeInput}
-                className=" border-2 p-2 border-primary w-full outline-none rounded-md"
-              />
-
               <textarea
-                name="personalDescription"
-                value={input.personalDescription}
+                name="description"
+                value={input.description}
                 onChange={handleChangeInput}
-                className="block w-full outline-none resize-none border-2 border-primary p-2 rounded-md"
+                className="block w-full outline-none resize-none border-2 border-primary p-2 rounded-md "
                 rows="4"
                 placeholder="Personal Description"
               />
             </main>
-            <div className="flex justify-center">
-              <button className="text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-2xl w-[80%] py-1.5 text-center place-content-center-center">
+            <div className="flex justify-center gap-3">
+              <button
+                className="text-textNavy font-semibold bg-gradient-to-r from-backgroundWhiteGray  to-textGrayLight
+              hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm w-[20%] py-1.5 text-center place-content-center-center"
+              >
                 Edit
+              </button>
+              <button
+                onClick={handdleClickDelete}
+                className="text-whitetext font-semibold bg-gradient-to-r from-secondary  to-secondaryDark hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-sm w-[20%] py-1.5 text-center place-content-center-center"
+              >
+                Delete
               </button>
             </div>
           </form>
