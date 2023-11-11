@@ -10,6 +10,7 @@ import getDateFormat from "../../utils/getDateFormat";
 const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
+import ConfirmCancleWork from "./ConfirmCancleWorkModal";
 
 export default function EditWorkModal({ setIsOpen, work }) {
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,7 @@ export default function EditWorkModal({ setIsOpen, work }) {
   const [address, setAddress] = useState([]);
   console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
+  const [isCancleOpen, setIsCancleOpen] = useState(false);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     id: work.id,
@@ -229,9 +231,20 @@ export default function EditWorkModal({ setIsOpen, work }) {
                 <button className="flex-[7] text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-2xl py-1.5 text-center place-content-center-center">
                   Edit
                 </button>
-                <button className="flex-[3] text-whitetext font-semibold bg-textGrayLight  focus:outline-none  shadow-md  font-md rounded-lg py-1.5 text-center place-content-center-center whiteDivShadow">
-                  Delete work
+                <button
+                  type="button"
+                  onClick={() => setIsCancleOpen(true)}
+                  className="flex-[3] text-whitetext font-semibold bg-textGrayLight  focus:outline-none  shadow-md  font-md rounded-lg py-1.5 text-center place-content-center-center whiteDivShadow"
+                >
+                  Cancle work
                 </button>
+                {isCancleOpen && (
+                  <ConfirmCancleWork
+                    setIsCancleOpen={setIsCancleOpen}
+                    workId={work.id}
+                    setIsEditOpen={setIsOpen}
+                  />
+                )}
               </div>
             </main>
           </form>

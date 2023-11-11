@@ -29,8 +29,8 @@ export default function CreateWorkModal({ setIsOpen }) {
     price: "",
     addressLat: "",
     addressLong: "",
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: "",
+    endDate: "",
   });
   // console.log(allWorks, "allWorks");
 
@@ -203,10 +203,10 @@ export default function CreateWorkModal({ setIsOpen }) {
               </div>
               <div className="flex gap-2 w-full">
                 <RangePicker
-                  defaultValue={[
-                    dayjs(getDateFormat(input.startDate), dateFormat),
-                    dayjs(getDateFormat(input.endDate), dateFormat),
-                  ]}
+                  // defaultValue={[
+                  //   dayjs(getDateFormat(input.startDate), dateFormat),
+                  //   dayjs(getDateFormat(input.endDate), dateFormat),
+                  // ]}
                   format={dateFormat}
                   disabledDate={disabledDate}
                   allowEmpty={[false, true]}

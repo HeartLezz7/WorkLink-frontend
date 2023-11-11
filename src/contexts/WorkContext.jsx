@@ -39,8 +39,18 @@ export default function WorkContextProvider({ children }) {
     setAllWorks(newAllWorks);
   };
 
-  const deleteWork = async (workId) => {
-    const res = await axios.delete(`work/delete/${workId}`);
+  const cancleWork = async (workId) => {
+    try {
+      console.log("first");
+      const res = await axios.patch(`work/cancle/${workId}`);
+      const cancleWork = res.data.cancleWork;
+      const cancleIndex = allWorks.findIndex((el) => el.id === cancleWork.id);
+      const newAllWorks = [...allWorks];
+      newAllWorks.splice(cancleIndex, 1, cancleWork);
+      setAllWorks(newAllWorks);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -48,7 +58,7 @@ export default function WorkContextProvider({ children }) {
       value={{
         createWork,
         editWork,
-        deleteWork,
+        cancleWork,
         allWorks,
         setAllWorks,
         loading,
