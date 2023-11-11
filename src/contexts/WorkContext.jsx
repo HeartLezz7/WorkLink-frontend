@@ -30,9 +30,30 @@ export default function WorkContextProvider({ children }) {
     setAllWorks([res.data.createWork, ...allWorks]);
   };
 
+  const editWork = async (data) => {
+    const res = await axios.patch("work/editwork", data);
+    const editedWork = res.data.editedWork;
+    const editIndex = allWorks.findIndex((el) => el.id === editedWork.id);
+    const newAllWorks = [...allWorks];
+    newAllWorks.splice(editIndex, 1, editedWork);
+    setAllWorks(newAllWorks);
+  };
+
+  const deleteWork = async (workId) => {
+    const res = await axios.delete(`work/delete/${workId}`);
+  };
+
   return (
     <WorkContext.Provider
-      value={{ createWork, allWorks, setAllWorks, loading, category }}
+      value={{
+        createWork,
+        editWork,
+        deleteWork,
+        allWorks,
+        setAllWorks,
+        loading,
+        category,
+      }}
     >
       {children}
     </WorkContext.Provider>
