@@ -10,7 +10,7 @@ export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
-  // console.log(user);
+  console.log(user, "user");
 
   const [loading, setLoading] = useState(true);
 

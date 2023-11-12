@@ -19,7 +19,6 @@ import useAuth from "../../hooks/useAuth";
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
-  // const ownerId = user.id;
   const ownerId = 2;
   const status = STATUS_ONPROCESS;
   const workId = 1;
@@ -38,7 +37,13 @@ export default function ChatStatusWork() {
                 size={20}
                 onClick={() => setIsOpen(!isOpen)}
               />
-              {isOpen && <ReportItem workId={workId} workerId={workerId} />}
+              {isOpen && (
+                <ReportItem
+                  workId={workId}
+                  workerId={workerId}
+                  setIsOpen={setIsOpen}
+                />
+              )}
             </div>
             <div className=" text-secondaryLight font-semibold text-lg">
               Work Detail

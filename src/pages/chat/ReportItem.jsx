@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "../../configs/axios";
 
-export default function ReportItem({ workId, workerId }) {
+export default function ReportItem({ workId, workerId, setIsOpen }) {
   const [reportMessage, setReportMessage] = useState("");
 
   const handleInput = (e) => {
@@ -11,10 +11,11 @@ export default function ReportItem({ workId, workerId }) {
     try {
       e.preventDefault();
       await axios.post("/report/createReport", {
-        reportMessage,
+        reportMessage: reportMessage.report,
         workId,
         workerId,
       });
+      setIsOpen(false);
     } catch (err) {
       console.log(err);
     }
@@ -34,7 +35,7 @@ export default function ReportItem({ workId, workerId }) {
             onChange={handleInput}
             className="rounded-lg p-2 border"
           ></textarea>
-          <div className="w-full flex ">
+          <div className="w-full flex">
             <button
               className="bg-error text-textWhite py-2  px-3 rounded-2xl w-full"
               type="submit"

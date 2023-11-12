@@ -7,8 +7,6 @@ export default function AdminManageReport() {
     setSearch(e.target.value);
   };
 
-  let filterReport = [];
-
   return (
     <div className="flex flex-col w-full">
       <div className="flex gap-4 items-center justify-start p-6">

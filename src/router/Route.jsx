@@ -18,6 +18,7 @@ import ChatContextProvider from "../contexts/ChatContext";
 import AdminManageUser from "../pages/adminpage/AdminManageUser";
 import AdminManageTransction from "../pages/adminpage/AdminManageTransction";
 import AdminManageReport from "../pages/adminpage/AdminManageReport";
+import RedirectIsAdmin from "./redirect/RedirectIsAdmin";
 
 const router = createBrowserRouter([
   {
@@ -89,7 +90,11 @@ const router = createBrowserRouter([
   { path: "/loveworklink" },
   {
     path: "/admin",
-    element: <LayoutAdmin />,
+    element: (
+      <RedirectIsAdmin>
+        <LayoutAdmin />
+      </RedirectIsAdmin>
+    ),
     children: [
       { path: "", element: <AdminPage /> },
 

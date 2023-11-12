@@ -11,26 +11,26 @@ export default function ChallengerItem({ challenger, work }) {
 
   const createchatRoom = async () => {
     try {
-      // const getRoom = await axios.get("/chat/get");
-      // console.log(getRoom.data.chatRoom, "get");
-      // const foundRoom = getRoom.data.chatRoom.find(
-      //   (item) =>
-      //     item.createrId == owner.id &&
-      //     item.workId == work.id &&
-      //     item.id == user.id
-      // );
-      // console.log(foundRoom);
-      // if (foundRoom) {
-      //   navigate(`/chatRoom/${foundRoom.id}`);
-      //   return;
-      // } else {
-      const response = await axios.post("/chat/createRoom", {
-        workId: work.id,
-        dealerId: user.id,
-      });
-      console.log(response, "chat");
-      navigate(`/chatRoom/${response.data.chatRoom.id}`);
-      // }
+      const getRoom = await axios.get("/chat/get");
+      console.log(getRoom.data.allChatRoom, "get");
+      const foundRoom = getRoom.data.allChatRoom.find(
+        (item) =>
+          item.createrId == owner.id &&
+          item.workId == work.id &&
+          item.id == user.id
+      );
+      console.log(foundRoom);
+      if (foundRoom) {
+        navigate(`/chatRoom/${foundRoom.id}`);
+        return;
+      } else {
+        const response = await axios.post("/chat/createRoom", {
+          workId: work.id,
+          dealerId: user.id,
+        });
+        console.log(response, "chat");
+        navigate(`/chatRoom/${response.data.chatRoom.id}`);
+      }
     } catch (err) {
       console.log(err);
     }
