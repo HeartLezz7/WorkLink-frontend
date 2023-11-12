@@ -3,10 +3,12 @@ import ReportCard from "./ReportCard";
 
 export default function AdminManageReport() {
   const [search, setSearch] = useState("");
-  const [filterReport, setFilterReport] = useState([]);
   const handleInput = (e) => {
     setSearch(e.target.value);
   };
+
+  let filterReport = [];
+
   return (
     <div className="flex flex-col w-full">
       <div className="flex gap-4 items-center justify-start p-6">
@@ -23,9 +25,6 @@ export default function AdminManageReport() {
         </div>
         <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
           Waiting
-        </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
-          Success
         </div>
       </div>
       <div className="flex flex-col w-full p-3">

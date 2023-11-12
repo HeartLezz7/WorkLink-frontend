@@ -64,7 +64,18 @@ export default function ChatBox() {
     const foundRoom = allChatRoom.find((room) => room.id == +chatRoomId);
     setChatRoom(foundRoom);
     return () => socket.disconnect();
-  }, [chatRoomId, allChatRoom, getChatroom]);
+  }, [allChatRoom]);
+
+  useEffect(() => {
+    socket.on("receive_message", (obj) => {
+      console.log(obj);
+      if (obj.chatRoomId == chatRoomId) {
+        setChatMessage([...chatMessage, obj]);
+      }
+    });
+    return () => socket.off("receive_message");
+  }, [chatMessage]);
+
   const checkUser = () => {
     if (chatRoom.createrId === user.id) {
       return chatRoom.dealerId;
@@ -74,20 +85,16 @@ export default function ChatBox() {
   const handleSubmitChat = async (e) => {
     try {
       e.preventDefault();
-
-      // setChatMessage([...chatMessage, response.data.createMessage]);
-      socket.emit("sent_message", {
+      const message = {
         message: input,
-        from: user.id,
-        to: checkUser(),
+        senderId: user.id,
+        receiverId: checkUser(),
         room: +chatRoomId,
-      });
-      console.log("first");
-      socket.on("receive_message", (obj) => {
-        console.log(obj, "obj");
-        setChatMessage([...chatMessage, obj]);
-      });
+      };
+
+      socket.emit("sent_message", message);
       setInput("");
+      setChatMessage([...chatMessage, message]);
     } catch (err) {
       console.log(err);
     }
