@@ -32,17 +32,16 @@ const InputMessage = ({ value, onChange }) => {
       placeholder="message..."
       value={value}
       onChange={onChange}
-      className="w-full rounded-xl py-2 px-4 outline-none "
+      className="w-full rounded-xl py-2 px-4 outline-none bg-backgroundWhiteBlue"
     />
   );
 };
 export default function ChatBox() {
   const [input, setInput] = useState("");
   const [chatMessage, setChatMessage] = useState([]);
-  const [chatRoom, setChatRoom] = useState({});
 
   const { user } = useAuth();
-  const { allChatRoom } = useChat();
+  const { allChatRoom, chatRoom, setChatRoom } = useChat();
 
   const { chatRoomId } = useParams();
 
@@ -122,7 +121,7 @@ export default function ChatBox() {
         </div>
       </div>
       <div className="row-span-1 p-5 flex items-center justify-center ">
-        <div className="border flex justify-between items-center px-6 py-3 rounded-xl w-full gap-2">
+        <div className="border flex justify-between items-center px-6 py-3 rounded-full w-full gap-2">
           <form
             className="w-full flex items-center gap-2"
             onSubmit={handleSubmitChat}
