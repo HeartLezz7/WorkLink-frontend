@@ -24,8 +24,11 @@ export default function ChatStatusWork() {
   const { user } = useAuth();
   const { allWorks } = useWork();
   const { chatRoom } = useChat();
+  console.log(chatRoom, "room");
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
+
+  console.log(work, "work");
 
   const status = STATUS_ONPROCESS;
   return (
@@ -44,7 +47,7 @@ export default function ChatStatusWork() {
               {isOpen && (
                 <ReportItem
                   workId={chatRoom?.workId}
-                  workerId={chatRoom?.dealer.id}
+                  workerId={chatRoom?.dealer?.id}
                   setIsOpen={setIsOpen}
                 />
               )}
@@ -54,24 +57,24 @@ export default function ChatStatusWork() {
             </div>
             <div className="flex flex-col">
               <p className="text-secondary">
-                Work id : <span className="text-black">{work.id}</span>
+                Work id : <span className="text-black">{work?.id}</span>
               </p>
               <p className="text-secondary">
-                Work name :<span className="text-black">{work.title}</span>
+                Work name :<span className="text-black">{work?.title}</span>
               </p>
               <p className="text-secondary">
                 Start work :{" "}
-                <span className="text-black">{work.createdAt}</span>
+                <span className="text-black">{work?.createdAt}</span>
               </p>
               <p className="text-secondary">
-                Price : <span className="text-black">{work.price}</span>
+                Price : <span className="text-black">{work?.price}</span>
               </p>
               <p className="text-secondary">
-                Status : <span className="text-black">{work.statusWork}</span>
+                Status : <span className="text-black">{work?.statusWork}</span>
               </p>
               <p className="text-secondary">
                 Description :{" "}
-                <span className="text-black">{work.description}</span>
+                <span className="text-black">{work?.description}</span>
               </p>
             </div>
           </div>

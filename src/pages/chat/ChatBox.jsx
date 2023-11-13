@@ -1,13 +1,10 @@
-import { useState } from "react";
 import plane from "../../../public/icons/plane.png";
 import plus from "../../../public/icons/plus.png";
 import socket from "../../configs/socket";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import useChat from "../../hooks/useChat";
-import { useCallback } from "react";
 
 const BoxMessage = ({ senderId, message }) => {
   const { user } = useAuth();
@@ -38,30 +35,26 @@ const InputMessage = ({ value, onChange }) => {
 };
 export default function ChatBox() {
   const [input, setInput] = useState("");
-  const [chatMessage, setChatMessage] = useState([]);
 
   const { user } = useAuth();
-  const { allChatRoom, chatRoom, setChatRoom } = useChat();
+  const {
+    allChatRoom,
+    chatRoom,
+    setChatMessage,
+    chatMessage,
+    getChatroomMessage,
+  } = useChat();
 
   const { chatRoomId } = useParams();
 
-  const getChatroom = useCallback(async () => {
-    try {
-      const resonse = await axios.get(`/chat/getMessage/${chatRoomId}`);
-      setChatMessage(resonse.data.allMessage);
-      socket.auth = {
-        id: user.id,
-      };
-      socket.connect();
-    } catch (err) {
-      console.log(err);
-    }
-  }, [chatRoomId, user]);
-
   useEffect(() => {
-    getChatroom();
-    const foundRoom = allChatRoom.find((room) => room.id == +chatRoomId);
-    setChatRoom(foundRoom);
+    console.log("tiger1");
+    getChatroomMessage(chatRoomId);
+    socket.auth = {
+      id: user.id,
+    };
+    socket.connect();
+
     return () => socket.disconnect();
   }, [allChatRoom]);
 
