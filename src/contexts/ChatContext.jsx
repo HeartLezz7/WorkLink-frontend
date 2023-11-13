@@ -25,7 +25,6 @@ export default function ChatContextProvider({ children }) {
       const foundRoom = allChatRoom.find((room) => {
         return room.id == +chatRoomId;
       });
-      console.log(foundRoom, "context");
       setChatRoom(foundRoom);
     } catch (err) {
       console.log(err);
