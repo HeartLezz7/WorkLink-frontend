@@ -5,17 +5,15 @@ import useAuth from "../../../hooks/useAuth";
 
 export default function ChallengerItem({ challenger, work }) {
   const { user } = challenger;
-  console.log(challenger, "cha");
   const { user: owner } = useAuth();
-  console.log(owner, "ow");
 
   const navigate = useNavigate();
 
   const createchatRoom = async () => {
     try {
       const getRoom = await axios.get("/chat/get");
-      console.log(getRoom.data.chatRoom, "get");
-      const foundRoom = getRoom.data.chatRoom.find(
+      console.log(getRoom.data.allChatRoom, "get");
+      const foundRoom = getRoom.data.allChatRoom.find(
         (item) =>
           item.createrId == owner.id &&
           item.workId == work.id &&

@@ -1,6 +1,5 @@
 import axios from "../configs/axios";
 import { createContext, useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth";
 
 export const WorkContext = createContext();
 

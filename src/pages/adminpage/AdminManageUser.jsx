@@ -1,5 +1,6 @@
-import axios from "../../configs/axios";
+import { useEffect } from "react";
 import UserCard from "./UserCard";
+import axios from "../../configs/axios";
 import { useEffect, useState } from "react";
 
 export default function AdminManageUser() {

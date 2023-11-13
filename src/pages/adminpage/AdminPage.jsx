@@ -1,7 +1,7 @@
-import { useState } from "react";
 import AdminWorkCard from "./AdminWorkCard";
-import axios from "axios";
-import { useEffect } from "react";
+
+import axios from "../../configs/axios";
+import { useEffect, useState } from "react";
 import useDropdown from "../../hooks/useDropdown";
 import AdminSelectWorkModal from "./AdminSelectWorkModal";
 

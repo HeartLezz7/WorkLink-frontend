@@ -70,10 +70,12 @@ export default function ValidatePage() {
       e.preventDefault();
       setLoading(true);
       const data = handleFormData();
-      // console.log(data);
+      console.log(data), "dataa";
+      setError({});
       const res = await axios.patch("/user/validateuser", data);
       // console.log(res.data.user);
       setUser(res.data.user);
+
       navigate(`/userprofile/${user.id}`);
     } catch (error) {
       console.log(error);
