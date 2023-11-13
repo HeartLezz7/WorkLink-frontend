@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TransctionCardAdmin from "./TransctionCardAdmin";
+import TransctionCardAdmin from "./TransactionCardAdmin";
 import axios from "../../configs/axios";
 
 export default function AdminManageTransction() {
