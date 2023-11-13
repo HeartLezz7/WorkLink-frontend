@@ -33,11 +33,9 @@ export default function CategoryItem({
       ) : (
         ""
       )}
-      <p className="text-center text-lg font-bold text-textGrayDark">
-        {message1}
-      </p>
+      <p className="text-center text font-bold text-textGrayDark">{message1}</p>
       {message2 ? (
-        <p className="text-center text-lg font-bold text-textGrayDark">
+        <p className="text-center text font-bold text-textGrayDark">
           {" " && message2}
         </p>
       ) : (

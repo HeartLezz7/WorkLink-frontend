@@ -2,12 +2,13 @@ import { BiSearchAlt } from "react-icons/bi";
 import { useState } from "react";
 import CategoryLists from "./CategoryLists";
 import ModalMap from "../../components/modal/ModalMap";
-
+import useWork from "../../hooks/useWork";
 
 export default function SearchContainer() {
   const [orderBy, setOrderBy] = useState("all");
   const [address, setAddress] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const { searchName, setSearchName } = useWork();
   console.log(address);
   return (
     <>
@@ -17,6 +18,8 @@ export default function SearchContainer() {
         </div>
         <input
           type="text"
+          onChange={(e) => setSearchName(e.target.value)}
+          value={searchName}
           placeholder="Search"
           className="rounded-full pl-12 py-2 w-full text-2xl shadow-md shadow-primaryDark/50 outline-none text-secondary focus:ring placeholder:text-secondary"
         />

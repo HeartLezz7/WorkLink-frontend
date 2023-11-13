@@ -5,16 +5,27 @@ import useAuth from "../hooks/useAuth";
 export const WorkContext = createContext();
 
 export default function WorkContextProvider({ children }) {
-  const [allWorks, setAllWorks] = useState([]);
   const [category, setCategory] = useState([]);
-
+  const [allWorks, setAllWorks] = useState([]);
+  const [findingWork, setFindingWork] = useState([]);
+  const [showWork, setShowWork] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchName, setSearchName] = useState("");
+  const [searchCatId, setSearchCatId] = useState(0);
+  const [searchLocation, setSearchLocation] = useState({});
 
   useEffect(() => {
     setLoading(true);
     axios
       .get("/work")
-      .then((res) => setAllWorks(res.data.allWork))
+      .then((res) => {
+        setAllWorks(res.data.allWork);
+        const works = res.data.allWork.filter(
+          (work) => work.statusWork === "finding"
+        );
+        setFindingWork(works);
+        setShowWork(works);
+      })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
     axios
@@ -22,8 +33,22 @@ export default function WorkContextProvider({ children }) {
       .then((res) => setCategory(res.data.allCategories))
       .catch((err) => console.log(err));
   }, []);
-  console.log(allWorks);
-  console.log(category);
+
+  useEffect(() => {
+    let baseWork = [...findingWork];
+    if (searchName) {
+      baseWork = baseWork.filter((el) => {
+        if (el.title.toLowerCase().includes(searchName.toLowerCase())) {
+          return true;
+        }
+        return false;
+      });
+    }
+    if (searchCatId) {
+      baseWork = baseWork.filter((el) => el.categoryId == searchCatId);
+    }
+    setShowWork(baseWork);
+  }, [searchName, searchCatId, searchLocation]);
 
   const createWork = async (data) => {
     const res = await axios.post("work/creatework", data);
@@ -63,6 +88,12 @@ export default function WorkContextProvider({ children }) {
         setAllWorks,
         loading,
         category,
+        findingWork,
+        showWork,
+        setSearchName,
+        searchName,
+        searchCatId,
+        setSearchCatId,
       }}
     >
       {children}
