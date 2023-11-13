@@ -27,17 +27,7 @@ export default function AdminManageUser() {
   ];
 
   const [search, setSearch] = useState("");
-  const [dataType, setDataType] = useState([]);
-  useEffect(() => {
-    axios
-      .get("/admin/getdataType")
-      .then((res) => {
-        setDataType(res.data.dataType)
-      })
-      .catch((error) =>
-        console.log(error));
-  }, [])
-  console.log(dataType, "*********");
+
 
   const handleInput = (e) => {
     setSearch(e.target.value);

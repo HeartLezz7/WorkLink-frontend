@@ -6,9 +6,6 @@ import { useEffect } from "react";
 export default function TransactionCardAdmin({ data }) {
   const [isOpen, setIsOpen] = useState(false);
   const [getstatus, setGetStatus] = useState(null)
-  // console.log(data);
-
-
 
   useEffect(() => {
     axios
@@ -20,8 +17,6 @@ export default function TransactionCardAdmin({ data }) {
         console.log(error));
 
   }, [])
-  console.log(getstatus, "<<<<<<<<<<<<");
-
 
   const updateDataType = async (data) => {
     try {
@@ -34,9 +29,6 @@ export default function TransactionCardAdmin({ data }) {
 
   }
 
-
-  // console.log(data.status);
-  // console.log(data);
   return (
     <div className="flex flex-col w-full p-3">
       <div className="flex justify-between items-center gap-5 border p-4 border-textGrayLight rounded-2xl shadow-lg">
