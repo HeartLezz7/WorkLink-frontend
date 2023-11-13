@@ -32,9 +32,20 @@ export default function AuthContextProvider({ children }) {
     setUser(registerData.data.user);
     return registerData.data.user;
   };
+  const adminregister = async (adminregister) => {
+    const registerData = await axios.post("/admin/register", adminregister);
+    createAccessToken(registerData.data.accessToken);
+    setUser(registerData.data.createAdmin);
+    return registerData.data.createAdmin;
+  };
 
   const login = async (loginInput) => {
     const user = await axios.post("/auth/login", loginInput);
+    createAccessToken(user.data.accessToken);
+    setUser(user.data.user);
+  };
+  const adminlogin = async (adminloginInput) => {
+    const user = await axios.post("/admin/login", adminloginInput);
     createAccessToken(user.data.accessToken);
     setUser(user.data.user);
   };
@@ -61,6 +72,8 @@ export default function AuthContextProvider({ children }) {
         setLoading,
         setUser,
         loginGoogle,
+        adminlogin,
+        adminregister,
       }}
     >
       {children}

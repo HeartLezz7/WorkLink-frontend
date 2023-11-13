@@ -18,6 +18,9 @@ import AdminManageUser from "../pages/adminpage/AdminManageUser";
 import AdminManageTransction from "../pages/adminpage/AdminManageTransction";
 import AdminManageReport from "../pages/adminpage/AdminManageReport";
 import RedirectIsAdmin from "./redirect/RedirectIsAdmin";
+import AdminLoginPage from "../pages/loginpage/AdminLogin";
+import AdminRegisterPage from "../pages/registerpage/AdminRegister";
+import WalletContextProvider from "../contexts/WalletContext";
 
 const router = createBrowserRouter([
   {
@@ -37,9 +40,11 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <RedirectIfNotLogin>
-            <UserDashBoardPage />
-          </RedirectIfNotLogin>
+          <WalletContextProvider>
+            <RedirectIfNotLogin>
+              <UserDashBoardPage />
+            </RedirectIfNotLogin>
+          </WalletContextProvider>
         ),
       },
       {
@@ -88,13 +93,13 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "", element: <AdminPage /> },
-
       { path: "manageuser", element: <AdminManageUser /> },
-
       { path: "managetransection", element: <AdminManageTransction /> },
       { path: "managereport", element: <AdminManageReport /> },
     ],
   },
+  { path: "adminlogin", element: <AdminLoginPage /> },
+  { path: "adminregister", element: <AdminRegisterPage /> },
 ]);
 
 export default function Route() {
