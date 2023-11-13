@@ -13,8 +13,8 @@ export default function WithdrawCheckModal({ onclose, updateDataType, data }) {
     const handleSubmitForm = async (e) => {
         try {
             e.preventDefault();
-            console.log('xxxxxxx');
             await updateDataType(data)
+            onclose()
         } catch (error) {
             console.log(error);
         }

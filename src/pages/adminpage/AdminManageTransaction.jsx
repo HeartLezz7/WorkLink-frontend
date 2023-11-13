@@ -45,6 +45,7 @@ export default function AdminManageTransaction() {
   };
 
   let filterUsers = [...users];
+
   console.log(filterUsers);
 
   if (search) {
