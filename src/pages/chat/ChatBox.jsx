@@ -98,6 +98,7 @@ export default function ChatBox() {
     getEmoji.forEach((item) => emojiArray.push("0x" + item));
     let emoji = String.fromCodePoint(...emojiArray);
     setInput(input + emoji);
+    setEmojiOpen(false);
   };
 
   const handleSubmitChat = async (e) => {
@@ -154,7 +155,12 @@ export default function ChatBox() {
             </div>
             <div className="absolute bottom-[70px]">
               {emojiOpen && (
-                <Picker data={data} value={data} onEmojiSelect={addEmoji} />
+                <Picker
+                  data={data}
+                  value={data}
+                  maxFrequentRows={2}
+                  onEmojiSelect={addEmoji}
+                />
               )}
             </div>
             <InputMessage
