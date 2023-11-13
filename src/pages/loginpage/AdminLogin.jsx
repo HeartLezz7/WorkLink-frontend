@@ -6,16 +6,13 @@ import { loginSchema } from "../../utils/auth-validator";
 import { Link, useNavigate } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
 import BallAnimation from "../../components/BallAnimation";
-import jwtDecode from "jwt-decode";
 
-import { GoogleLogin } from "@react-oauth/google";
-
-export default function LoginPage() {
+export default function AdminLoginPage() {
   const [input, setInput] = useState({ emailOrPhoneNumber: "", password: "" });
   const [error, setError] = useState({});
   const navigate = useNavigate();
 
-  const { login, loginGoogle } = useAuth();
+  const { adminlogin } = useAuth();
 
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -30,34 +27,18 @@ export default function LoginPage() {
       }
       setError({});
       // console.log("before");
-      await login(result.value);
-      navigate("/dashboard");
+      await adminlogin(result.value);
+      navigate(`/admin`);
       // console.log("after");
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleLoginGoogle = async (e) => {
-    try {
-      e.preventDefault();
-      const result = input;
-      if (result.error) {
-        return setError(result.error);
-      }
-      console.log(result);
-      const user = await loginGoogle(result.value);
-      navigate(`/validate/${user.id}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // console.log(handleLoginGoogle);
   return (
     <div
       className="w-screen relative overflow-hidden "
-      style={{ height: "calc(100vh - 60px)" }}
+      style={{ height: "calc(100vh)" }}
     >
       {/* ball container */}
       <div className="w-full h-full z-[-30] bg-background absolute">
@@ -153,16 +134,6 @@ export default function LoginPage() {
           onSubmit={handleLogin}
         >
           <div className="text-3xl font-semibold text-primary">WorkLink</div>
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              const data = jwtDecode(credentialResponse.credential);
-              loginGoogle(data);
-              console.log(data);
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-          />
           <hr className="w-full border border-textGrayLight" />
           <InputForm
             placeholder="email or phone number"
@@ -180,10 +151,18 @@ export default function LoginPage() {
             onChange={handleInput}
             errorInput={error.password}
           />
+          <InputForm
+            type="text"
+            placeholder="adminKey"
+            name="adminKey"
+            value={input.adminKey}
+            onChange={handleInput}
+            errorInput={error.adminKey}
+          />
           <ActionButton title="Log in" />
 
-          <Link to="/register">
-            <div>Create new account?</div>
+          <Link to="/adminregister">
+            <div>Create Admin account?</div>
           </Link>
         </form>
       </div>

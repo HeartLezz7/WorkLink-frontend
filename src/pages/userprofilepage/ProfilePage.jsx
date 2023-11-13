@@ -25,7 +25,7 @@ export default function UserProfilePage() {
               <div className="flex flex-col gap-5">
                 <ReviewCard />
                 <ReviewCard />
-                <ReviewCard />
+                {/* <ReviewCard /> */}
               </div>
             </div>
           </div>

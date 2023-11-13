@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import Loading from "../Loading/Loading";
-import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 import useWork from "../../hooks/useWork";
@@ -12,7 +11,7 @@ const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
 
-export default function CreateWorkModal({ setIsOpen }) {
+export default function EditWorkModal({ setIsOpen, work }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const { allWorks, createWork, category } = useWork();
@@ -21,18 +20,18 @@ export default function CreateWorkModal({ setIsOpen }) {
   const [isOpen, setIsOpenMap] = useState(false);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
-    title: "",
-    categoryId: "",
-    isOnsite: 0,
-    workImage: "",
-    description: "",
-    price: "",
-    addressLat: "",
-    addressLong: "",
-    startDate: new Date(),
-    endDate: new Date(),
+    title: work.title,
+    categoryId: work.categoryId,
+    isOnsite: work.isOnsite,
+    workImage: work.workImage,
+    description: work.description,
+    price: work.price,
+    addressLat: work.addressLat,
+    addressLong: work.addressLong,
+    startDate: work.startDate,
+    endDate: work.endDate,
   });
-  // console.log(allWorks, "allWorks");
+  console.log(work);
 
   const handleChangeCategory = (e) => {
     setInput({ ...input, categoryId: e.target.value });
@@ -73,7 +72,10 @@ export default function CreateWorkModal({ setIsOpen }) {
           formData.append(`${key}`, input[key]);
         }
       }
-      await createWork(formData);
+      // console.log(formData);
+      const res = await axios.post("work/creatework", formData);
+      // console.log(res);
+      setAllWorks([...allWorks, res.data.createWork]);
       setIsOpen(false);
     } catch (err) {
       console.log(err);
@@ -117,7 +119,7 @@ export default function CreateWorkModal({ setIsOpen }) {
               />
             </div>
             <div className="text-textNavy text-2xl font-semibold w-full text-center py-2">
-              Create delegated work
+              Edit detail work
             </div>
             <main className="px-[30px] py-[10px] flex flex-col items-center gap-2">
               <div
@@ -181,12 +183,14 @@ export default function CreateWorkModal({ setIsOpen }) {
                   value={input.title}
                   onChange={handleChangeInput}
                   className="w-[60%] border p-1 border-primary outline-none rounded-md text-sm text-textNavy"
+                  disabled
                 />
                 <select
                   name="categoryId"
                   value={input.categoryId}
                   onChange={handleChangeCategory}
                   className="w-[40%] flex-1 border border-primary text-sm outline-none p-1 rounded-md truncate"
+                  disabled
                 >
                   <option value="" disabled className="text-sm text-disable">
                     Select category
@@ -293,12 +297,15 @@ export default function CreateWorkModal({ setIsOpen }) {
                 rows="4"
                 placeholder="Work Description"
               />
+              <div className="flex justify-center gap-3 w-full">
+                <button className="flex-[7] text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-2xl py-1.5 text-center place-content-center-center">
+                  Edit
+                </button>
+                <button className="flex-[3] text-whitetext font-semibold bg-textGrayLight  focus:outline-none  shadow-md  font-md rounded-lg py-1.5 text-center place-content-center-center whiteDivShadow">
+                  Delete work
+                </button>
+              </div>
             </main>
-            <div className="flex justify-center">
-              <button className="text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-2xl w-[80%] py-1.5 text-center place-content-center-center">
-                Create
-              </button>
-            </div>
           </form>
         </div>
       </div>

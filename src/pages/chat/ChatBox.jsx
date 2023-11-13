@@ -1,15 +1,15 @@
-import { useState } from "react";
 import plane from "../../../public/icons/plane.png";
 import plus from "../../../public/icons/plus.png";
 import socket from "../../configs/socket";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import useChat from "../../hooks/useChat";
-import { useCallback } from "react";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { BsEmojiSmile } from "react-icons/bs";
 
-const BoxMessage = ({ senderId, message }) => {
+const BoxMessage = ({ senderId, message, dealerImage }) => {
   const { user } = useAuth();
   return (
     <div
@@ -17,7 +17,15 @@ const BoxMessage = ({ senderId, message }) => {
         senderId === user.id ? "justify-end" : "justify-start"
       } items-center gap-[5px]`}
     >
-      {senderId === user.id ? "" : <img src={plus} alt="profile img" />}
+      {senderId === user.id ? (
+        ""
+      ) : (
+        <img
+          src={dealerImage}
+          alt="profile img"
+          className="w-10 rounded-full"
+        />
+      )}
       <div className="border border-textGrayLight w-fit py-2 px-4 rounded-full">
         {message}
       </div>
@@ -32,62 +40,80 @@ const InputMessage = ({ value, onChange }) => {
       placeholder="message..."
       value={value}
       onChange={onChange}
-      className="w-full rounded-xl py-2 px-4 outline-none "
+      className="w-full rounded-xl py-2 px-4 outline-none bg-backgroundWhiteBlue"
     />
   );
 };
 export default function ChatBox() {
   const [input, setInput] = useState("");
-  const [chatMessage, setChatMessage] = useState([]);
-  const [chatRoom, setChatRoom] = useState({});
+  const [emojiOpen, setEmojiOpen] = useState(false);
 
   const { user } = useAuth();
-  const { allChatRoom } = useChat();
+  const {
+    allChatRoom,
+    chatRoom,
+    setChatMessage,
+    chatMessage,
+    getChatroomMessage,
+  } = useChat();
 
   const { chatRoomId } = useParams();
 
-  const getChatroom = useCallback(async () => {
-    try {
-      const resonse = await axios.get(`/chat/getMessage/${chatRoomId}`);
-      setChatMessage(resonse.data.allMessage);
-      socket.auth = {
-        id: user.id,
-      };
-      socket.connect();
-    } catch (err) {
-      console.log(err);
-    }
-  }, [chatRoomId, user]);
+  useEffect(() => {
+    socket.auth = {
+      id: user.id,
+    };
+    socket.connect();
+
+    return () => socket.disconnect();
+  }, []);
 
   useEffect(() => {
-    getChatroom();
-    const foundRoom = allChatRoom.find((room) => room.id == +chatRoomId);
-    setChatRoom(foundRoom);
-    return () => socket.disconnect();
-  }, [chatRoomId, allChatRoom, getChatroom]);
+    getChatroomMessage(chatRoomId);
+  }, [allChatRoom]);
+
+  useEffect(() => {
+    socket.on("receive_message", (obj) => {
+      console.log(obj);
+      if (obj.chatRoomId == chatRoomId) {
+        setChatMessage([...chatMessage, obj]);
+      }
+    });
+    return () => {
+      socket.off("receive_message");
+    };
+  }, [chatMessage]);
+
+  console.log(chatMessage, "AAAAA");
+
   const checkUser = () => {
     if (chatRoom.createrId === user.id) {
       return chatRoom.dealerId;
     } else return chatRoom.createrId;
   };
 
+  const addEmoji = (e) => {
+    const getEmoji = e.unified.split("_");
+    const emojiArray = [];
+    getEmoji.forEach((item) => emojiArray.push("0x" + item));
+    let emoji = String.fromCodePoint(...emojiArray);
+    setInput(input + emoji);
+    setEmojiOpen(false);
+  };
+
   const handleSubmitChat = async (e) => {
     try {
       e.preventDefault();
-
-      // setChatMessage([...chatMessage, response.data.createMessage]);
-      socket.emit("sent_message", {
+      const message = {
         message: input,
-        from: user.id,
-        to: checkUser(),
+        senderId: user.id,
+        receiverId: checkUser(),
         room: +chatRoomId,
-      });
-      console.log("first");
-      socket.on("receive_message", (obj) => {
-        console.log(obj, "obj");
-        setChatMessage([...chatMessage, obj]);
-      });
+      };
+
+      socket.emit("sent_message", message);
       setInput("");
+      setChatMessage([...chatMessage, message]);
     } catch (err) {
       console.log(err);
     }
@@ -108,19 +134,35 @@ export default function ChatBox() {
                 key={chat.id}
                 message={chat.message}
                 senderId={chat.senderId}
-                dealerImage={chat}
+                dealerImage={chat?.receiver?.profileImage}
               />
             );
           })}
         </div>
       </div>
       <div className="row-span-1 p-5 flex items-center justify-center ">
-        <div className="border flex justify-between items-center px-6 py-3 rounded-xl w-full gap-2">
+        <div className="border flex justify-between items-center px-6 py-3 rounded-full w-full gap-2 relative">
           <form
             className="w-full flex items-center gap-2"
             onSubmit={handleSubmitChat}
           >
             <img src={plus} alt="plus" className="w-[40px]" />
+            <div
+              onClick={() => setEmojiOpen(!emojiOpen)}
+              className="cursor-pointer"
+            >
+              <BsEmojiSmile size={30} />
+            </div>
+            <div className="absolute bottom-[70px]">
+              {emojiOpen && (
+                <Picker
+                  data={data}
+                  value={data}
+                  maxFrequentRows={2}
+                  onEmojiSelect={addEmoji}
+                />
+              )}
+            </div>
             <InputMessage
               value={input}
               onChange={(e) => setInput(e.target.value)}

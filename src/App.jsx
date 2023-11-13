@@ -1,4 +1,5 @@
 import Loading from "./components/Loading/Loading";
+import ChatContextProvider from "./contexts/ChatContext";
 import WorkContextProvider from "./contexts/WorkContext";
 import useAuth from "./hooks/useAuth";
 import Route from "./router/Route";
@@ -9,9 +10,11 @@ function App() {
     return <Loading />;
   }
   return (
-    <WorkContextProvider>
-      <Route />
-    </WorkContextProvider>
+    <ChatContextProvider>
+      <WorkContextProvider>
+        <Route />
+      </WorkContextProvider>
+    </ChatContextProvider>
   );
 }
 

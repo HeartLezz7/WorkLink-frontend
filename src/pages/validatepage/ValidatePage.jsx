@@ -10,19 +10,21 @@ import { useNavigate } from "react-router-dom";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import getDateFormat from "../../utils/getDateFormat";
+import Loading from "../../components/Loading/Loading";
 
 const dateFormat = "YYYY-MM-DD";
 
 // hong edit complete
 
 export default function ValidatePage() {
-  const { user, setUser, setLoading, loading } = useAuth();
+  const { user, setUser } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [validateInput, setValidateInput] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
     phoneNumber: user.authUser.phoneNumber,
     email: user.authUser.email,
-    birthDate: user.birthDate || new Date(),
+    birthDate: null,
     identifyId: user.identifyId || "",
   });
   // console.log(user);
@@ -51,6 +53,7 @@ export default function ValidatePage() {
 
     const { value, error } = validateSchema(identifySchema, validateInput);
     if (error) {
+      // console.log(error);
       setError(error);
       return;
     } else if (file && value) {
@@ -67,10 +70,12 @@ export default function ValidatePage() {
       e.preventDefault();
       setLoading(true);
       const data = handleFormData();
-      // console.log(data);
+      console.log(data), "dataa";
+      setError({});
       const res = await axios.patch("/user/validateuser", data);
       // console.log(res.data.user);
       setUser(res.data.user);
+
       navigate(`/userprofile/${user.id}`);
     } catch (error) {
       console.log(error);
@@ -84,6 +89,7 @@ export default function ValidatePage() {
         style={{ height: "calc(100vh - 60px)" }}
         className="w-screen h-screen  px-10 bg-gradient-to-b from-gradiantPrimaryDark to bg-textWhite"
       >
+        {loading && <Loading />}
         <div className="h-full max-w-[1440px] mx-auto flex gap-4 items-center justify-center">
           <div className=" w-1/2">
             <img src={validate} alt="validate" className="w-full" />
@@ -129,18 +135,22 @@ export default function ValidatePage() {
                 />
               </div>
               <div className="grid grid-cols-2  gap-2">
-                <DatePicker
-                  defaultValue={dayjs(
-                    getDateFormat(validateInput.birthDate),
-                    dateFormat
+                <div className="w-full">
+                  <DatePicker
+                    defaultValue={
+                      validateInput.birthDate &&
+                      dayjs(getDateFormat(validateInput.birthDate), dateFormat)
+                    }
+                    format={dateFormat}
+                    onChange={handleChangeDate}
+                    disabledDate={disabledDate}
+                    className="bg-primaryDark/0 w-full h-[41px]"
+                    placeholder="Select your birthdate"
+                  />
+                  {error.birthDate && (
+                    <InputErrorMessage message={error.birthDate} />
                   )}
-                  format={dateFormat}
-                  onChange={handleChangeDate}
-                  disabledDate={disabledDate}
-                  className="bg-primaryDark/0"
-                  placeholder="Select your birthdate"
-                />
-
+                </div>
                 <InputForm
                   placeholder="ID card"
                   name="identifyId"

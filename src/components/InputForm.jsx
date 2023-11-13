@@ -8,6 +8,7 @@ export default function InputForm({
   onChange,
   errorInput,
 }) {
+  // console.log(errorInput);
   return (
     <div className={`flex flex-col gap-2 w-full `}>
       {/* <input
@@ -31,7 +32,7 @@ export default function InputForm({
           {placeholder}
         </label>
       </div>
-      {{ errorInput } && <InputErrorMessage message={errorInput} />}
+      {errorInput && <InputErrorMessage message={errorInput} />}
     </div>
   );
 }
