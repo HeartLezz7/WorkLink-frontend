@@ -9,7 +9,7 @@ export default function TransactionCardAdmin({ data }) {
 
   const updateDataType = async (data) => {
     try {
-      await axios.patch("/admin/updatetype", data)
+      await axios.post("/admin/updatetype", data)
     } catch (error) {
       console.log(error);
     }

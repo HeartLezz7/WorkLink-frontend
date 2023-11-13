@@ -10,9 +10,9 @@ export default function AdminManageTransaction() {
       Phone: "1234567890",
       Date: "31 Oct 2023",
       Time: "15:35:08",
-      Type: "WITHDRAW",
-      Amount: "2,000 THB",
-      status: "PENDING",
+      Type: "withdraw",
+      Amount: 2000,
+      status: "pending",
     },
     {
       id: 2,
@@ -21,9 +21,9 @@ export default function AdminManageTransaction() {
       Phone: "1234567891",
       Date: "31 Oct 2023",
       Time: "15:35:08",
-      Type: "WITHDRAW",
-      Amount: "2,000 THB",
-      status: "PENDING",
+      Type: "withdraw",
+      Amount: 2000,
+      status: "pending",
     },
     {
       id: 3,
@@ -32,9 +32,9 @@ export default function AdminManageTransaction() {
       Phone: "1234567892",
       Date: "31 Oct 2023",
       Time: "15:35:08",
-      Type: "DEPOSIT",
-      Amount: "2,000 THB",
-      status: "REJECT",
+      Type: "deposit",
+      Amount: 2000,
+      status: "reject",
     },
   ];
 
@@ -45,6 +45,7 @@ export default function AdminManageTransaction() {
   };
 
   let filterUsers = [...users];
+  console.log(filterUsers);
 
   if (search) {
     filterUsers = users.filter((el) => {

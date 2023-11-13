@@ -8,10 +8,12 @@ export default function WithdrawCheckModal({ onclose, updateDataType, data }) {
     const [isHover, setIsHover] = useState(false);
 
     //const [input, setInput] = useState({ adminDescription: admin.adminDescription || "" });
+    console.log(data);
 
     const handleSubmitForm = async (e) => {
         try {
             e.preventDefault();
+            console.log('xxxxxxx');
             await updateDataType(data)
         } catch (error) {
             console.log(error);
@@ -77,25 +79,19 @@ export default function WithdrawCheckModal({ onclose, updateDataType, data }) {
                             </div>
                             <div className='w-full '>
                                 <div className='flex flex-col'>
-                                    <div className='flex gap-20 font-bold'>
-                                        <p className=''>Bank Name :</p>
+                                    <div className='flex gap-10 font-bold'>
+                                        <p className=''>User :</p>
                                         <p className='text-primary text-xl'>John Doe</p>
                                     </div>
                                     <div className='flex gap-10 font-bold mt-5'>
-                                        <p className=''>Book Account Number :</p>
-                                        <p className='text-primary text-xl'>001234567890099</p>
+                                        <p className=''>Type :</p>
+                                        <p className='text-primary text-xl'>withdraw</p>
                                     </div>
 
                                 </div>
                                 <div className='flex gap-5 reletive mt-5'>
                                     <div className='flex gap-10 font-bold w-full'>
                                         <p>Amount :</p>
-                                        {/* 
-                                    <input
-                                        type="text"
-                                        // value={input.address}
-                                        className=" border-2 p-2 border-primary w-[600px] outline-none rounded-md"
-                                    /> */}
                                         <p className='text-primary text-xl'> 1000 </p>
                                     </div>
                                     <div className='absolute right-5'>THB</div>
@@ -103,8 +99,8 @@ export default function WithdrawCheckModal({ onclose, updateDataType, data }) {
                                 <div className='flex gap-5 font-bold mt-5'>
                                     <p>Comment</p>
                                     <textarea
-                                        // name="adminDescription"
-                                        // value={input.adminDescription}
+                                        name="adminDescription"
+                                        value={input.adminDescription}
                                         onChange={handleChangeInput}
                                         className="block w-[600px] outline-none resize-none border-2 border-primary p-2 rounded-md"
                                         rows="4"

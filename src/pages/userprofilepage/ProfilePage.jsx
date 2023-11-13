@@ -32,8 +32,8 @@ export default function UserProfilePage() {
             </div>
             <div></div>
 
-            {/* <DepositCheckModal /> */}
-            <WithdrawCheckModal />
+            <DepositCheckModal />
+            {/* <WithdrawCheckModal /> */}
 
           </div>
         </div>
