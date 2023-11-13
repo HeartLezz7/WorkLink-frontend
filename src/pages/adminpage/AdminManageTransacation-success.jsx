@@ -1,4 +1,4 @@
-export default function AdminManageTransctionSuccess() {
+export default function AdminManageTransactionSuccess() {
   return (
     <div>
       <div className="flex p-8 gap-5 ">

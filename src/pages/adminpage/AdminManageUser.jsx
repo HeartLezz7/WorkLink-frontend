@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import UserCard from "./UserCard";
 import axios from "../../configs/axios";
 import { useEffect, useState } from "react";
@@ -59,7 +60,7 @@ export default function AdminManageUser() {
             type="text"
             placeholder="search for..."
             className="p-2 text-primaryDarker rounded-xl w-72 px-5"
-            // onChange={handleInput}
+          // onChange={handleInput}
           />
         </div>
         <div className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl">
