@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import UserCard from "./UserCard";
 import { useState } from "react";
+import axios from "axios";
 
 export default function AdminManageUser() {
   console.log("first");
@@ -25,6 +27,18 @@ export default function AdminManageUser() {
   ];
 
   const [search, setSearch] = useState("");
+  const [dataType, setDataType] = useState([]);
+  useEffect(() => {
+    axios
+      .get("/admin/getdataType")
+      .then((res) => {
+        setDataType(res.data.dataType)
+      })
+      .catch((error) =>
+        console.log(error));
+  }, [])
+  console.log(dataType, "*********");
+
   const handleInput = (e) => {
     setSearch(e.target.value);
   };

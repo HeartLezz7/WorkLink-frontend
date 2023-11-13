@@ -1,21 +1,20 @@
 import React from 'react';
 import { useState } from 'react';
 import Loading from "../../Loading/Loading";
-import { useRef } from 'react';
-import { useEffect } from 'react';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 
-export default function WithdrawCheckModal({ onclose, updateDataType, data }) {
+export default function DepositCheckModal({ onclose, updateDataType, data }) {
     // const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isHover, setIsHover] = useState(false);
 
     //const [input, setInput] = useState({ adminDescription: admin.adminDescription || "" });
+    console.log(data);
 
     const handleSubmitForm = async (e) => {
         try {
             e.preventDefault();
             await updateDataType(data)
+            onclose()
         } catch (error) {
             console.log(error);
         }
@@ -55,7 +54,7 @@ export default function WithdrawCheckModal({ onclose, updateDataType, data }) {
                             />
                         </div>
                         <div className="text-primary text-3xl font-semibold w-full text-center py-2">
-                            Withdraw
+                            Deposit
                         </div>
                         <main className="w-full flex flex-col items-center gap-[15px]">
                             <div
@@ -86,7 +85,7 @@ export default function WithdrawCheckModal({ onclose, updateDataType, data }) {
                                     </div>
                                     <div className='flex gap-10 font-bold mt-5'>
                                         <p className=''>Type :</p>
-                                        <p className='text-primary text-xl'>WITHDRAW</p>
+                                        <p className='text-primary text-xl'>deposit</p>
                                     </div>
 
                                 </div>
