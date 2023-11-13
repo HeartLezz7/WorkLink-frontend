@@ -14,17 +14,23 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { useState } from "react";
 import WorkButton from "./WorkButton";
 import ReportItem from "./ReportItem";
+import useChat from "../../hooks/useChat";
+import useWork from "../../hooks/useWork";
 import useAuth from "../../hooks/useAuth";
 
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
+
   const { user } = useAuth();
-  // const ownerId = user.id;
-  const ownerId = 2;
+  const { allWorks } = useWork();
+  const { chatRoom } = useChat();
+  console.log(chatRoom, "room");
+
+  const work = allWorks.find((item) => item.id === chatRoom?.workId);
+
+  console.log(work, "work");
+
   const status = STATUS_ONPROCESS;
-  const workId = 1;
-  const workerId = 2;
-  const userId = ownerId;
   return (
     <>
       <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-2 ">
@@ -38,39 +44,43 @@ export default function ChatStatusWork() {
                 size={20}
                 onClick={() => setIsOpen(!isOpen)}
               />
-              {isOpen && <ReportItem workId={workId} workerId={workerId} />}
+              {isOpen && (
+                <ReportItem
+                  workId={chatRoom?.workId}
+                  workerId={chatRoom?.dealer?.id}
+                  setIsOpen={setIsOpen}
+                />
+              )}
             </div>
             <div className=" text-secondaryLight font-semibold text-lg">
               Work Detail
             </div>
             <div className="flex flex-col">
               <p className="text-secondary">
-                Work id : <span className="text-black">WLPT123456789</span>
+                Work id : <span className="text-black">{work?.id}</span>
               </p>
               <p className="text-secondary">
-                Work name :
-                <span className="text-black">Take care of animal</span>
+                Work name :<span className="text-black">{work?.title}</span>
               </p>
               <p className="text-secondary">
-                Start work : <span className="text-black">26 Oct 2023</span>
+                Start work :{" "}
+                <span className="text-black">{work?.createdAt}</span>
               </p>
               <p className="text-secondary">
-                Price : <span className="text-black">500 THB</span>
+                Price : <span className="text-black">{work?.price}</span>
               </p>
-              <p>{status}</p>
+              <p className="text-secondary">
+                Status : <span className="text-black">{work?.statusWork}</span>
+              </p>
               <p className="text-secondary">
                 Description :{" "}
-                <span className="text-black">
-                  Your pets are a precious part of your family. So when they
-                  fall ill, you want them to be seen by experts who love our
-                  animal friends as much as you do.
-                </span>
+                <span className="text-black">{work?.description}</span>
               </p>
             </div>
           </div>
         </div>
         <div className="row-span-1 p-10 flex flex-col items-center justify-center gap-2">
-          {userId === ownerId ? (
+          {/* {user.id === chatRoom.creater?.id ? (
             ownerId && status === STATUS_FINDING ? (
               <>
                 <WorkButton title="Edit" />
@@ -87,19 +97,19 @@ export default function ChatStatusWork() {
             ) : (
               ""
             )
-          ) : workerId && status === STATUS_FINDING ? (
+          ) : chatRoom.dealer?.id && status === STATUS_FINDING ? (
             ""
-          ) : workerId && status === STATUS_MAKEDEAL ? (
+          ) : chatRoom.dealer?.id && status === STATUS_MAKEDEAL ? (
             <>
               <WorkButton title="Accept" />
             </>
-          ) : workerId && status === STATUS_ONPROCESS ? (
+          ) : chatRoom.dealer?.id && status === STATUS_ONPROCESS ? (
             <>
               <WorkButton title="Success" />
             </>
           ) : (
             ""
-          )}
+          )} */}
         </div>
       </div>
     </>
