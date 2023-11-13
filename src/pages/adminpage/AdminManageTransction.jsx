@@ -4,19 +4,34 @@ import axios from "../../configs/axios";
 
 export default function AdminManageTransction() {
   const [allTransaction, setAllTransaction] = useState([]);
+  const [pending, setPending] = useState([]);
 
   useEffect(() => {
     getTransaction();
   }, []);
 
+  console.log(pending);
   const getTransaction = async () => {
     const res = await axios
       .get("/transaction/alltransaction")
-      .then((res) => setAllTransaction(res.data.alltransaction))
+      .then((res) => {
+        setAllTransaction(res.data.alltransaction);
+        setPending(res.data.alltransaction);
+      })
       .catch((error) => console.log(error));
     return res;
   };
-  console.log(allTransaction);
+
+  const statusTransaction = (status = "all") => {
+    if (status === "all") {
+      setPending(allTransaction);
+    } else {
+      let newTransaction = allTransaction.filter(
+        (transaction) => transaction.status === status
+      );
+      setPending(newTransaction);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -28,22 +43,32 @@ export default function AdminManageTransction() {
             className="p-2 text-primaryDarker rounded-xl w-72 px-5"
           />
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl"
+          onClick={() => statusTransaction("all")}
+        >
           All
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          onClick={() => statusTransaction("pending")}
+        >
           Waiting
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          onClick={() => statusTransaction("approve")}
+        >
           Success
         </div>
       </div>
+      <p className="text-xs px-5 w-full flex justify-end">
+        count : {pending.length}
+      </p>
       <div>
-        {allTransaction.map((el) => (
+        {pending.map((el) => (
           <TransctionCardAdmin key={el.id} data={el} />
         ))}
-
-        {/* <TransctionCardAdmin /> */}
       </div>
     </div>
   );

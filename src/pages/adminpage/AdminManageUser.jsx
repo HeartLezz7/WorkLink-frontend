@@ -4,9 +4,14 @@ import { useEffect, useState } from "react";
 
 export default function AdminManageUser() {
   const [alluser, setAllUser] = useState([]);
+  const [notiVerify, setNotiVerify] = useState([]);
 
   useEffect(() => {
     getuser();
+  }, []);
+
+  useEffect(() => {
+    notiverify();
   }, []);
 
   const getuser = async () => {
@@ -17,39 +22,29 @@ export default function AdminManageUser() {
     return res;
   };
 
-  console.log(alluser);
+  const notiverify = async () => {
+    const noti = await axios
+      .get("/user/verifyuser")
+      .then((res) => setNotiVerify(res.data.varify))
+      .catch((error) => console.log(error));
+    return noti;
+  };
 
-  // const [search, setSearch] = useState("");
-  // const handleInput = (e) => {
-  //   setSearch(e.target.value);
-  // };
+  const getverify = async () => {
+    const verify = await axios
+      .get("/user/verifyuser")
+      .then((res) => setAllUser(res.data.varify))
+      .catch((error) => console.log(error));
+    return verify;
+  };
 
-  // const  handleSubmit = async((e) => {
-  //     try {
-  //       e.userProfile()
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  // })
-
-  // let filterData = [...users];
-
-  // console.log(filterData, "clone");
-
-  // if (search) {
-  //   filterData = users.filter((el) => {
-  //     if (el.Name.toLowerCase().includes(search.toLowerCase())) {
-  //       return true;
-  //     }
-  //     if (el.Email.toLowerCase().includes(search.toLowerCase())) {
-  //       return true;
-  //     }
-  //     if (el.Phone.toLowerCase().includes(search.toLowerCase())) {
-  //       return true;
-  //     }
-  //     return false;
-  //   });
-  // }
+  const getbanned = async () => {
+    const banned = await axios
+      .get("/user/banneduser")
+      .then((res) => setAllUser(res.data.isBanned))
+      .catch((error) => console.log(error));
+    return banned;
+  };
 
   return (
     <div className="flex flex-col w-full ">
@@ -59,19 +54,37 @@ export default function AdminManageUser() {
             type="text"
             placeholder="search for..."
             className="p-2 text-primaryDarker rounded-xl w-72 px-5"
-            // onChange={handleInput}
           />
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl"
+          onClick={() => getuser()}
+        >
           All
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          onClick={() => getverify()}
+        >
           Pending
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          onClick={() => getbanned()}
+        >
           Banned
         </div>
+        {notiVerify.length === 0 ? (
+          ""
+        ) : (
+          <p className=" relative flex justify-center items-center bg-secondary rounded-full font-serif right-[178px] bottom-3.5 w-7 h-7 text-textWhite">
+            {notiVerify.length}
+          </p>
+        )}
       </div>
+      <p className="text-xs px-5 w-full flex justify-end">
+        count : {alluser.length}
+      </p>
       <div className="flex flex-col">
         {alluser.map((el) => (
           <UserCard key={el.id} userObj={el} />

@@ -10,37 +10,45 @@ export default function TransctionCardAdmin({ data }) {
           />
           <div className=" flex flex-col ">
             <div className=" flex ">
-              <div className="w-32">Name : </div>
-              <div>{data.Name}</div>
+              <div className="w-16">Name : </div>
+              <div>
+                {data.user.firstName} {data.user.lastName}
+              </div>
             </div>
             <div className=" flex ">
-              <div className="w-32">Email : </div>
-              <div>{data.Email}</div>
+              <div className="w-16">Email : </div>
+              <div>{data.user.authUser[0].email}</div>
             </div>
             <div className=" flex">
-              <div className="w-32">Phone : </div>
-              <div>{data.Phone}</div>
+              <div className="w-16">Phone : </div>
+              <div>{data.user.authUser[0].phoneNumber}</div>
             </div>
           </div>
         </div>
         <div>
           <div className=" flex ">
-            <div className="w-32">Date : </div> <div>{data.Date}</div>
+            <div className="w-20">Date : </div>{" "}
+            <div>{data.createdAt.split("T")[0]}</div>
           </div>
           <div className=" flex">
-            <div className="w-32">Time : </div> <div>{data.Time}</div>
+            <div className="w-20">Time : </div>{" "}
+            <div>{data.createdAt.split("T")[1]}</div>
           </div>
+
           <div className=" flex">
-            <div className="w-32">Type : </div> <div>{data.status}</div>
-          </div>
-          <div className=" flex">
-            <div className="w-32">Amount : </div> <div>{data.Amount}</div>
+            <div className="w-20">Amount : </div> <div>{data.amount}</div>
           </div>
         </div>
         <div>
-          <button className="border  w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-primary">
-            {data.status}
-          </button>
+          {data.status === "pending" ? (
+            <button className="border  w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-primary">
+              {data.status}
+            </button>
+          ) : (
+            <button className="border bg-primary w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 ">
+              {data.status}
+            </button>
+          )}
         </div>
       </div>
     </div>
