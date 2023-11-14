@@ -4,16 +4,22 @@ import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
 import useWork from "../../hooks/useWork";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import getDateFormat from "../../utils/getDateFormat";
+
+const dateFormat = "YYYY-MM-DD";
+const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
 
 
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const { allWorks, createWork, category } = useWork();
   const [isOpen, setIsOpenMap] = useState(false);
   const [address, setAddress] = useState();
   console.log(address);
-  const { allWorks, setAllWorks } = useWork();
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
@@ -24,10 +30,23 @@ export default function CreateWorkModal({ setIsOpen }) {
     price: "",
     addressLat: "",
     addressLong: "",
-    startDate: "",
-    endDate: "",
+    startDate: new Date(),
+    endDate: new Date(),
   });
   // console.log(allWorks, "allWorks");
+
+  const handleChangeCategory = (e) => {
+    setInput({ ...input, categoryId: e.target.value });
+    if (input.workImage instanceof File) {
+      setInput({ ...input, categoryId: e.target.value });
+    } else {
+      setInput({
+        ...input,
+        categoryId: e.target.value,
+        workImage: category[e.target.value - 1].categoryImage,
+      });
+    }
+  };
 
   const handleChangeInput = (e) => {
     // console.log(e.target.name, e.target.checked, e.target.value);
@@ -55,16 +74,28 @@ export default function CreateWorkModal({ setIsOpen }) {
           formData.append(`${key}`, input[key]);
         }
       }
-      // console.log(formData);
-      const res = await axios.post("work/creatework", formData);
-      // console.log(res);
-      setAllWorks([...allWorks, res.data.createWork]);
+      await createWork(formData);
       setIsOpen(false);
     } catch (err) {
       console.log(err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleChangeDate = (date, dateString) => {
+    console.log(date, dateString);
+    setInput({
+      ...input,
+      startDate: dateString[0],
+      endDate: dateString[1],
+    });
+  };
+
+  const disabledDate = (current) => {
+    const today = new Date();
+    const currentDate = new Date(current.format("YYYY-MM-DD"));
+    return currentDate < today;
   };
 
   return (
@@ -115,9 +146,9 @@ export default function CreateWorkModal({ setIsOpen }) {
                     src={URL.createObjectURL(input.workImage)}
                     className="object-cover w-full h-full"
                   />
-                ) : input.profileImage ? (
+                ) : input.workImage ? (
                   <img
-                    src={input.profileImage}
+                    src={input.workImage}
                     className="object-cover w-full h-full"
                   />
                 ) : (
@@ -155,41 +186,34 @@ export default function CreateWorkModal({ setIsOpen }) {
                 <select
                   name="categoryId"
                   value={input.categoryId}
-                  onChange={handleChangeInput}
+                  onChange={handleChangeCategory}
                   className="w-[40%] flex-1 border border-primary text-sm outline-none p-1 rounded-md truncate"
                 >
                   <option value="" disabled className="text-sm text-disable">
                     Select category
                   </option>
-                  <option value={1} className="text-sm">
-                    Computer & technology
-                  </option>
-                  <option value={2} className="text-sm">
-                    Document
-                  </option>
+
+                  {category.map((el) => {
+                    return (
+                      <option key={el.id} value={el.id} className="text-sm">
+                        {el.category}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div className="flex gap-2 w-full">
-                <div className="w-full">
-                  <label className="text-textNavy block text-sm">
-                    StartDate
-                  </label>
-                  <input
-                    name="startDate"
-                    onChange={handleChangeInput}
-                    type="date"
-                    className="border border-primary text-sm p-1 rounded-md w-full"
-                  />
-                </div>
-                <div className="w-full">
-                  <label className="text-textNavy block text-sm">EndDate</label>
-                  <input
-                    name="endDate"
-                    onChange={handleChangeInput}
-                    type="date"
-                    className="border border-primary text-sm p-1 rounded-md w-full"
-                  />
-                </div>
+                <RangePicker
+                  defaultValue={[
+                    dayjs(getDateFormat(input.startDate), dateFormat),
+                    dayjs(getDateFormat(input.endDate), dateFormat),
+                  ]}
+                  format={dateFormat}
+                  disabledDate={disabledDate}
+                  allowEmpty={[false, true]}
+                  onCalendarChange={handleChangeDate}
+                  className="border-primary"
+                />
               </div>
               <div className="flex gap-2 w-full">
                 <input
@@ -239,11 +263,6 @@ export default function CreateWorkModal({ setIsOpen }) {
                     </div>
                     : <p>Add location</p>}
                   </div>
-
-                  {/* <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
-                    
-                  </div> */}
-
                   {/* <input
                     type="text"
                     placeholder="AddressLat"

@@ -1,11 +1,11 @@
 import axios from "../configs/axios";
 import { createContext, useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth";
 
 export const WorkContext = createContext();
 
 export default function WorkContextProvider({ children }) {
   const [allWorks, setAllWorks] = useState([]);
+  const [category, setCategory] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -16,11 +16,23 @@ export default function WorkContextProvider({ children }) {
       .then((res) => setAllWorks(res.data.allWork))
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
+    axios
+      .get("/work/allCategories")
+      .then((res) => setCategory(res.data.allCategories))
+      .catch((err) => console.log(err));
   }, []);
   console.log(allWorks);
+  console.log(category);
+
+  const createWork = async (data) => {
+    const res = await axios.post("work/creatework", data);
+    setAllWorks([res.data.createWork, ...allWorks]);
+  };
 
   return (
-    <WorkContext.Provider value={{ allWorks, setAllWorks, loading }}>
+    <WorkContext.Provider
+      value={{ createWork, allWorks, setAllWorks, loading, category }}
+    >
       {children}
     </WorkContext.Provider>
   );

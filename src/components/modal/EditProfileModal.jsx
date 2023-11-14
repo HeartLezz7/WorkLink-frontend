@@ -38,7 +38,7 @@ export default function EditProfileModal({
           formData.append(`${key}`, input[key]);
         }
       }
-      //   console.log(formData);
+        console.log(formData);
       const res = await axios.patch("user/editprofile", formData);
       setProfileData({
         ...profileData,

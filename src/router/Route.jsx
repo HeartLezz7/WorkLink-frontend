@@ -8,11 +8,19 @@ import UserProfilePage from "../pages/userprofilepage/ProfilePage";
 import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
 import ValidatePage from "../pages/validatepage/ValidatePage";
 import ChatPage from "../pages/chat/ChatPage";
-import ChatContextProvider from "../contexts/ChatContext";
 import RedirectIfNotLogin from "./redirect/RedirectIfNotLogin";
 import RedirectIfLogin from "./redirect/RedirectIfLogin";
 import AdminPage from "../pages/adminpage/AdminPage";
 import LayoutAdmin from "../layout/LayoutAdmit";
+import ChatContent from "../pages/chat/ChatContent";
+
+import AdminManageUser from "../pages/adminpage/AdminManageUser";
+import AdminManageTransction from "../pages/adminpage/AdminManageTransction";
+import AdminManageReport from "../pages/adminpage/AdminManageReport";
+import RedirectIsAdmin from "./redirect/RedirectIsAdmin";
+import AdminLoginPage from "../pages/loginpage/AdminLogin";
+import AdminRegisterPage from "../pages/registerpage/AdminRegister";
+import WalletContextProvider from "../contexts/WalletContext";
 
 const router = createBrowserRouter([
   {
@@ -32,9 +40,11 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <RedirectIfNotLogin>
-            <UserDashBoardPage />
-          </RedirectIfNotLogin>
+          <WalletContextProvider>
+            <RedirectIfNotLogin>
+              <UserDashBoardPage />
+            </RedirectIfNotLogin>
+          </WalletContextProvider>
         ),
       },
       {
@@ -63,19 +73,33 @@ const router = createBrowserRouter([
       },
       {
         path: "/chatroom",
-        element: (
-          <ChatContextProvider>
-            <ChatPage />
-          </ChatContextProvider>
-        ),
+        element: <ChatPage />,
+        children: [
+          {
+            path: "/chatroom/:chatRoomId",
+            element: <ChatContent />,
+          },
+        ],
       },
     ],
   },
+  { path: "/loveworklink" },
   {
     path: "/admin",
-    element: <LayoutAdmin />,
-    children: [{ path: "", element: <AdminPage /> }],
+    element: (
+      <RedirectIsAdmin>
+        <LayoutAdmin />
+      </RedirectIsAdmin>
+    ),
+    children: [
+      { path: "", element: <AdminPage /> },
+      { path: "manageuser", element: <AdminManageUser /> },
+      { path: "managetransection", element: <AdminManageTransction /> },
+      { path: "managereport", element: <AdminManageReport /> },
+    ],
   },
+  { path: "adminlogin", element: <AdminLoginPage /> },
+  { path: "adminregister", element: <AdminRegisterPage /> },
 ]);
 
 export default function Route() {
