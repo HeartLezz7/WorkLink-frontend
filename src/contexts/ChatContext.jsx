@@ -1,6 +1,5 @@
 import axios from "../configs/axios";
-import { useState, useEffect, createContext } from "react";
-import { getAccessToken } from "../utils/local-storage";
+import { useState, createContext } from "react";
 
 export const ChatContext = createContext();
 
@@ -8,14 +7,7 @@ export default function ChatContextProvider({ children }) {
   const [allChatRoom, setAllChatRoom] = useState([]);
   const [chatRoom, setChatRoom] = useState({});
   const [chatMessage, setChatMessage] = useState([]);
-
-  useEffect(() => {
-    if (getAccessToken()) {
-      axios.get("/chat/get").then((res) => {
-        setAllChatRoom(res.data.allChatRoom);
-      });
-    }
-  }, []);
+  const [Refresh, setRefresh] = useState(false);
 
   const getChatroomMessage = async (chatRoomId) => {
     try {
@@ -40,6 +32,8 @@ export default function ChatContextProvider({ children }) {
         chatMessage,
         getChatroomMessage,
         setChatMessage,
+        Refresh,
+        setRefresh,
       }}
     >
       {children}
