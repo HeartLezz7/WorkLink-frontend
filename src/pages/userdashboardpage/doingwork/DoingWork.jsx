@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DoingWorkCard from "./DoingWorkCard";
+import axios from "../../../configs/axios";
 
 export default function DoingWork() {
   const [filter, setFilter] = useState("all");
+  const [mySignWork, setMySignWork] = useState([]);
+  useEffect(() => {
+    axios
+      .get("/work/mysignwork")
+      .then((res) => setMySignWork(res.data.mySignWork))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className="p-1 h-full relative">
       <div className="text-2xl font-bold text-textNavy px-1 absolute top-[-10px] left-[20px] bg-primaryLight">
@@ -45,7 +53,10 @@ export default function DoingWork() {
           </div>
         </div>
         <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[96%] flex flex-col gap-3 pr-2">
-          <DoingWorkCard />
+          {mySignWork.length > 0 &&
+            mySignWork.map((el) => (
+              <DoingWorkCard key={el.id} work={el.work} />
+            ))}
         </div>
       </div>
     </div>
