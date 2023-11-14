@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import DoingWorkCard from "./DoingWorkCard";
+import DoingWorkCard from "./SignUpWorkCard";
 import axios from "../../../configs/axios";
+import { STATUS_FINDING, STATUS_MAKEDEAL } from "../../../configs/constants";
+import SignUpWorkCard from "./SignUpWorkCard";
+import useWork from "../../../hooks/useWork";
 
 export default function DoingWork() {
   const [filter, setFilter] = useState("all");
-  const [mySignWork, setMySignWork] = useState([]);
-  useEffect(() => {
-    axios
-      .get("/work/mysignwork")
-      .then((res) => setMySignWork(res.data.mySignWork))
-      .catch((err) => console.log(err));
-  }, []);
+  const { myDoingWork, mySignWork } = useWork();
+  console.log(myDoingWork);
+
   return (
     <div className="p-1 h-full relative">
       <div className="text-2xl font-bold text-textNavy px-1 absolute top-[-10px] left-[20px] bg-primaryLight">
@@ -53,9 +52,11 @@ export default function DoingWork() {
           </div>
         </div>
         <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[96%] flex flex-col gap-3 pr-2">
+          {myDoingWork.length > 0 &&
+            myDoingWork.map((el) => <SignUpWorkCard key={el.id} work={el} />)}
           {mySignWork.length > 0 &&
             mySignWork.map((el) => (
-              <DoingWorkCard key={el.id} work={el.work} />
+              <SignUpWorkCard key={el.id} work={el.work} />
             ))}
         </div>
       </div>

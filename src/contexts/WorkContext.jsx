@@ -1,17 +1,23 @@
 import axios from "../configs/axios";
 import { createContext, useState, useEffect } from "react";
+import useAuth from "../hooks/useAuth";
+import { STATUS_FINDING, STATUS_MAKEDEAL } from "../configs/constants";
 
 export const WorkContext = createContext();
 
 export default function WorkContextProvider({ children }) {
   const [category, setCategory] = useState([]);
   const [allWorks, setAllWorks] = useState([]);
+  const [mySignWork, setMySignWork] = useState([]);
+  const [myDoingWork, setMyDoingWork] = useState([]);
   const [findingWork, setFindingWork] = useState([]);
   const [showWork, setShowWork] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [searchCatId, setSearchCatId] = useState(0);
   const [searchLocation, setSearchLocation] = useState();
+
+  const { user } = useAuth();
 
   useEffect(() => {
     setLoading(true);
@@ -24,12 +30,28 @@ export default function WorkContextProvider({ children }) {
         );
         setFindingWork(works);
         setShowWork(works);
+        const doingWork = res.data.allWork.filter(
+          (work) => work.workerId == user.id
+        );
+        setMyDoingWork(doingWork);
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
     axios
       .get("/work/allCategories")
       .then((res) => setCategory(res.data.allCategories))
+      .catch((err) => console.log(err));
+    axios
+      .get("/work/mysignwork")
+      .then((res) => {
+        const mySignWork = res.data.mySignWork.filter((el) => {
+          if (el.work.statusWork === STATUS_FINDING && !el.work.workerId) {
+            return true;
+          }
+          return false;
+        });
+        setMySignWork(mySignWork);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -95,6 +117,10 @@ export default function WorkContextProvider({ children }) {
         setSearchCatId,
         searchLocation,
         setSearchLocation,
+        mySignWork,
+        setMySignWork,
+        myDoingWork,
+        setMyDoingWork,
       }}
     >
       {children}

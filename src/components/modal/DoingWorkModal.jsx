@@ -3,9 +3,8 @@ import { useState } from "react";
 import Loading from "../Loading/Loading";
 import getDate from "../../utils/getDate";
 
-export default function DoingWorkModal({ work }) {
+export default function DoingWorkModal({ work, setIsOpen }) {
   const [isLoading, setIsLoading] = useState();
-  //   const [thisWork, setThisWork] = useState({});
   //   useEffect(() => {
   //     axios
   //       .get(`/work/getdelegatedworkbyid/${work.id}`)
@@ -35,8 +34,8 @@ export default function DoingWorkModal({ work }) {
             {isLoading ? (
               <Loading />
             ) : (
-              <main className="flex items-center h-[500px] w-[800px]">
-                <div className="h-full w-[50%] flex flex-col p-3">
+              <main className="flex items-center h-[450pxpx] w-[400px]">
+                <div className="h-full flex flex-col p-3">
                   <div className="text-lg font-semibold first-letter:uppercase p-2">
                     {work.title}
                   </div>
@@ -47,8 +46,6 @@ export default function DoingWorkModal({ work }) {
                       className="w-[90%] aspect-video object-cover mx-auto rounded-md mb-2"
                     />
                     <div>Status : {work.statusWork}</div>
-                    {/* <div>Category : {work.category.category}</div> */}
-                    <div>CreateAt : {getDate(work.createdAt)}</div>
                     <div>Work type : {work.isOnsite ? "Onsite" : "Remote"}</div>
                     {work.isOnsite ? <div>address : </div> : ""}
                     <div>Price : {work.price}</div>
@@ -62,6 +59,14 @@ export default function DoingWorkModal({ work }) {
                       )}{" "}
                     </div>
                     <div>Description : {work.description}</div>
+                  </div>
+                  <div className="flex gap-3 justify-center items-center">
+                    <div className="px-3 py-1 bg-textGrayLight rounded-md">
+                      Chat
+                    </div>
+                    <div className="px-3 py-1 bg-textGrayLight rounded-md">
+                      Sign out
+                    </div>
                   </div>
                 </div>
               </main>
