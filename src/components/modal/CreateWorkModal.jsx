@@ -29,8 +29,8 @@ export default function CreateWorkModal({ setIsOpen }) {
     price: "",
     addressLat: "",
     addressLong: "",
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: "",
+    endDate: "",
   });
   // console.log(allWorks, "allWorks");
 
@@ -194,7 +194,7 @@ export default function CreateWorkModal({ setIsOpen }) {
 
                   {category.map((el) => {
                     return (
-                      <option value={el.id} className="text-sm">
+                      <option key={el.id} value={el.id} className="text-sm">
                         {el.category}
                       </option>
                     );
@@ -203,10 +203,10 @@ export default function CreateWorkModal({ setIsOpen }) {
               </div>
               <div className="flex gap-2 w-full">
                 <RangePicker
-                  defaultValue={[
-                    dayjs(getDateFormat(input.startDate), dateFormat),
-                    dayjs(getDateFormat(input.endDate), dateFormat),
-                  ]}
+                  // defaultValue={[
+                  //   dayjs(getDateFormat(input.startDate), dateFormat),
+                  //   dayjs(getDateFormat(input.endDate), dateFormat),
+                  // ]}
                   format={dateFormat}
                   disabledDate={disabledDate}
                   allowEmpty={[false, true]}
@@ -249,17 +249,18 @@ export default function CreateWorkModal({ setIsOpen }) {
               </div>
               {input.isOnsite != 0 && (
                 <div className="flex gap-2 w-full">
+                  <div className=" border p-1 border-primary w-3/4 outline-none rounded-md font-semibold text-textNavy text-center">
+                    <p>{address}</p>
+                  </div>
                   <div
-                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center"
+                    className="p-1 bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight w-1/4 outline-none rounded-md font-semibold text-textNavy text-center cursor-pointer"
                     onClick={() => {
                       setIsOpenMap(true);
                     }}
                   >
                     <p>Add location</p>
                   </div>
-                  <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
-                    <p>{address}</p>
-                  </div>
+
                   <ModalMap
                     open={isOpen}
                     onClose={() => setIsOpenMap(false)}
