@@ -1,7 +1,26 @@
 import { useNavigate } from "react-router-dom";
+import VerifyModal from "../../components/modal/AdminModal/VerifyModal";
+import { useState } from "react";
+import axios from "../../configs/axios";
 
 export default function UserCard({ userObj }) {
-  console.log("userObj", userObj);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const banuser = async () => {
+    try {
+      await axios.patch(`/user/banuser/${userObj.id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const unbanuser = async () => {
+    try {
+      await axios.patch(`/user/unbanuser/${userObj.id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const navigate = useNavigate();
   return (
     <div className=" p-3">
@@ -28,19 +47,35 @@ export default function UserCard({ userObj }) {
         </div>
 
         <div className=" flex items-center gap-3">
-          <button className="border  w-24 h-12 rounded-xl  bg-primaryLight border-spacing-2">
+          <button
+            className="border  w-24 h-12 rounded-xl  bg-primaryLight border-spacing-2"
+            onClick={() => setIsOpen(true)}
+          >
             {userObj.verifyStatus}
           </button>
           {userObj.isBanned === false ? (
-            <button className="border  w-24 h-12 rounded-xl  bg-secondaryLight border-secondary">
+            <button
+              className="border  w-24 h-12 rounded-xl  bg-secondaryLight border-secondary"
+              onClick={() => banuser()}
+            >
               Permit
             </button>
           ) : (
-            <button className="border  w-24 h-12 rounded-xl  bg-disable border-spacing-2">
+            <button
+              className="border  w-24 h-12 rounded-xl  bg-disable border-spacing-2"
+              onClick={() => unbanuser()}
+            >
               Ban
             </button>
           )}
         </div>
+      </div>
+      <div>
+        <VerifyModal
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          userObj={userObj}
+        />
       </div>
     </div>
   );

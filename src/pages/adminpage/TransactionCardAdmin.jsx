@@ -5,29 +5,26 @@ import { useEffect } from "react";
 
 export default function TransactionCardAdmin({ data }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [getstatus, setGetStatus] = useState(null)
+  const [getstatus, setGetStatus] = useState(null);
 
   useEffect(() => {
     axios
       .get("/admin/getstatus")
       .then((res) => {
-        setGetStatus(res.data.statusApprove)
+        setGetStatus(res.data.statusApprove);
       })
-      .catch((error) =>
-        console.log(error));
-
-  }, [])
+      .catch((error) => console.log(error));
+  }, []);
 
   const updateDataType = async (data) => {
     try {
-      const res = await axios.post("/admin/updatetype", data)
+      const res = await axios.post("/admin/updatetype", data);
       console.log(res);
-      setGetStatus(res.data.statusApprove)
+      setGetStatus(res.data.statusApprove);
     } catch (error) {
       console.log(error);
     }
-
-  }
+  };
 
   return (
     <div className="flex flex-col w-full p-3">
@@ -69,17 +66,20 @@ export default function TransactionCardAdmin({ data }) {
         </div>
 
         <div>
-
-          <button className="border  w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-primary" onClick={() => setIsOpen(true)}>
+          <button
+            className="border  w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-primary"
+            onClick={() => setIsOpen(true)}
+          >
             {data.status}
           </button>
 
-
-          {isOpen &&
-            <WithdrawCheckModal onclose={setIsOpen} updateDataType={updateDataType} data={data}
+          {isOpen && (
+            <WithdrawCheckModal
+              onclose={setIsOpen}
+              updateDataType={updateDataType}
+              data={data}
             />
-          }
-
+          )}
         </div>
       </div>
     </div>
