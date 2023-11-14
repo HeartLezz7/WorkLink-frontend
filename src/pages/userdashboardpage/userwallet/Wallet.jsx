@@ -15,7 +15,7 @@ export default function Wallet() {
         My Wallet
       </p>
       <div className="w-[100%] flex flex-col items-center justify-center gap-5 py-3">
-        <p className="text-primary pt-4 text-3xl font-semibold">
+        <p className="text-primary pt-4 text-2xl font-semibold">
           {user.wallet} Bath
         </p>
         <div className="w-full flex justify-evenly">

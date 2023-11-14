@@ -2,7 +2,7 @@ import { useState } from "react";
 import InputForm from "../../components/InputForm";
 import useAuth from "../../hooks/useAuth";
 import validateSchema from "../../utils/validate-schema";
-import { loginSchema } from "../../utils/auth-validator";
+import { loginAdminSchema } from "../../utils/auth-validator";
 import { Link, useNavigate } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
 import BallAnimation from "../../components/BallAnimation";
@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
-      const result = validateSchema(loginSchema, input);
+      const result = validateSchema(loginAdminSchema, input);
       if (result.error) {
         return setError(result.error);
       }

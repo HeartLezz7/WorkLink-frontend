@@ -10,20 +10,20 @@ import getDateFormat from "../../utils/getDateFormat";
 const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
+import ConfirmCancleWork from "./ConfirmCancleWorkModal";
 
 export default function EditWorkModal({ setIsOpen, work }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const { allWorks, createWork, category } = useWork();
+  const { allWorks, editWork, category } = useWork();
   const [address, setAddress] = useState([]);
   console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
+  const [isCancleOpen, setIsCancleOpen] = useState(false);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
-    title: work.title,
-    categoryId: work.categoryId,
+    id: work.id,
     isOnsite: work.isOnsite,
-    workImage: work.workImage,
     description: work.description,
     price: work.price,
     addressLat: work.addressLat,
@@ -31,20 +31,7 @@ export default function EditWorkModal({ setIsOpen, work }) {
     startDate: work.startDate,
     endDate: work.endDate,
   });
-  console.log(work);
-
-  const handleChangeCategory = (e) => {
-    setInput({ ...input, categoryId: e.target.value });
-    if (input.workImage instanceof File) {
-      setInput({ ...input, categoryId: e.target.value });
-    } else {
-      setInput({
-        ...input,
-        categoryId: e.target.value,
-        workImage: category[e.target.value - 1].categoryImage,
-      });
-    }
-  };
+  console.log(work, category);
 
   const handleChangeInput = (e) => {
     // console.log(e.target.name, e.target.checked, e.target.value);
@@ -57,7 +44,6 @@ export default function EditWorkModal({ setIsOpen, work }) {
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
-      const formData = new FormData();
 
       //   const { value, error } = schema.validate(input, {
       //     abortEarly: false,
@@ -67,15 +53,7 @@ export default function EditWorkModal({ setIsOpen, work }) {
       //   }
       setLoading(true);
       console.log(input);
-      for (let key in input) {
-        if (input[key]) {
-          formData.append(`${key}`, input[key]);
-        }
-      }
-      // console.log(formData);
-      const res = await axios.post("work/creatework", formData);
-      // console.log(res);
-      setAllWorks([...allWorks, res.data.createWork]);
+      await editWork(input);
       setIsOpen(false);
     } catch (err) {
       console.log(err);
@@ -122,74 +100,26 @@ export default function EditWorkModal({ setIsOpen, work }) {
               Edit detail work
             </div>
             <main className="px-[30px] py-[10px] flex flex-col items-center gap-2">
-              <div
-                onMouseEnter={() => {
-                  setIsHover(true);
-                }}
-                onMouseLeave={() => {
-                  setIsHover(false);
-                }}
-                onClick={() => fileEl.current.click()}
-                className="w-[250px] aspect-video rounded-md overflow-hidden border-2 border-textGrayDark cursor-pointer relative whiteDivShadow"
-              >
-                {isHover && (
-                  <div className="absolute w-full h-full">
-                    <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
-                      <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
-                        edit
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {/* Continue this */}
-                {input.workImage instanceof File ? (
-                  <img
-                    src={URL.createObjectURL(input.workImage)}
-                    className="object-cover w-full h-full"
-                  />
-                ) : input.workImage ? (
-                  <img
-                    src={input.workImage}
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-                    <LuImagePlus color="#3CB97F" size={40} />
-                    <div className="text-center text-sm whitespace-wrap">
-                      Add your work image
-                    </div>
-                  </div>
-                )}
+              <div className="w-[250px] aspect-video rounded-md overflow-hidden border-2 border-textGrayDark cursor-pointer relative whiteDivShadow">
+                <img
+                  src={work.workImage}
+                  className="object-cover w-full h-full"
+                />
               </div>
-              <input
-                type="file"
-                className="hidden"
-                name="workImage"
-                ref={fileEl}
-                onChange={(e) => {
-                  if (e.target.files[0]) {
-                    setInput({
-                      ...input,
-                      [e.target.name]: e.target.files[0],
-                    });
-                  }
-                }}
-              />
+
               <div className="flex gap-2 w-full">
                 <input
                   type="text"
                   placeholder="Title"
                   name="title"
-                  value={input.title}
-                  onChange={handleChangeInput}
-                  className="w-[60%] border p-1 border-primary outline-none rounded-md text-sm text-textNavy"
+                  value={work.title}
+                  className="w-[60%] border p-1 border-textGrayLight outline-none rounded-md text-sm text-textGrayDark"
                   disabled
                 />
                 <select
                   name="categoryId"
-                  value={input.categoryId}
-                  onChange={handleChangeCategory}
-                  className="w-[40%] flex-1 border border-primary text-sm outline-none p-1 rounded-md truncate"
+                  value={work.categoryId}
+                  className="w-[40%] flex-1 border border-textGrayLight text-sm outline-none p-1 rounded-md truncate text-textGrayDark"
                   disabled
                 >
                   <option value="" disabled className="text-sm text-disable">
@@ -301,9 +231,20 @@ export default function EditWorkModal({ setIsOpen, work }) {
                 <button className="flex-[7] text-whitetext font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-2xl py-1.5 text-center place-content-center-center">
                   Edit
                 </button>
-                <button className="flex-[3] text-whitetext font-semibold bg-textGrayLight  focus:outline-none  shadow-md  font-md rounded-lg py-1.5 text-center place-content-center-center whiteDivShadow">
-                  Delete work
+                <button
+                  type="button"
+                  onClick={() => setIsCancleOpen(true)}
+                  className="flex-[3] text-whitetext font-semibold bg-textGrayLight  focus:outline-none  shadow-md  font-md rounded-lg py-1.5 text-center place-content-center-center whiteDivShadow"
+                >
+                  Cancle work
                 </button>
+                {isCancleOpen && (
+                  <ConfirmCancleWork
+                    setIsCancleOpen={setIsCancleOpen}
+                    workId={work.id}
+                    setIsEditOpen={setIsOpen}
+                  />
+                )}
               </div>
             </main>
           </form>
