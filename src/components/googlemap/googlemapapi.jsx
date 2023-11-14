@@ -23,6 +23,8 @@ const key = 1;
 const libraries = ["places"];
 
 function GoogleMapApi({ open, onClose, setAddress, address }) {
+  const [render, setRender] = useState(false);
+  const [mapAddress,setMapAddress] = useState([])
   let libRef = useRef(libraries);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API,
@@ -33,50 +35,74 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
   const [redPin, setRedPin] = useState([]);
   // console.log(redPin)
   const thisPin = redPin[0];
-  console.log(thisPin);
-  const geoCoding = async (thisPin) => {
+
+  const onMapClick = useCallback( (e) => {
+    const latAndLog = {
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+      // time: new Date(),
+      // next is show this newState on Map
+    }
+    setRedPin(() => [latAndLog
+      ,
+    ]
+    );
+    return latAndLog
+    
+    // console.log('docall')
+  }, []);
+
+  console.log("State-----RedPin", thisPin);
+  const geoCoding = async (pin) => {
     try {
+      console.log(pin,"Pin AAAAAAAAAA")
       const result = await googleAxios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${thisPin.lat},${thisPin.lng}&key=${GOOGLE_MAP_API}`
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${pin.lat},${pin.lng}&key=${GOOGLE_MAP_API}`
       );
-      console.log(result.data.results[0].formatted_address, "ResultFromGooglemapJson");
+      setMapAddress(result.data.results[0].formatted_address);
+      console.log(result.data.results[0].formatted_address)
       return result.data.results[0].formatted_address;
     } catch (err) {
       console.log(err);
     }
   };
-  const callGeoCoding = async () => {
-    try {
-      const getGeoCoding = await geoCoding(thisPin);
-      console.log(getGeoCoding,"---------getGeoCoding----------");
-      setAddress(getGeoCoding);
-      onClose();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const callGeoCoding = async () => {
+  //   try {
+  //     const getGeoCoding = await geoCoding(thisPin);
+  //     console.log(getGeoCoding, "---------getGeoCoding----------");
+  //     setAddress(getGeoCoding);
+  //     return getGeoCoding;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const getMap = (e) => {
+const pin = onMapClick(e)
+console.log(pin,"pin addressssssssssssssssssssssssssss")
+geoCoding(pin)
+  }
+
+  
+
   //useCallback is function that allow you to retain same value atleast [] change
-  const onMapClick = useCallback((e) => {
-    setRedPin(() => [
-      {
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-        // time: new Date(),
-        // next is show this newState on Map
-      },
-    ]);
-  }, []);
+
   //useRef to retain state without causing(โดยไม่ทำให้) rerender
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
+
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
   }, []);
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
+
+
+
+  // console.log("22222222222 USER_SELECTED 22222222222", userSelected);
   return (
     <>
       {open && (
@@ -85,7 +111,8 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
             className="flex-col h-screen w-screen fixed inset-0 flex items-center justify-center z-50"
             onSubmit={(e) => {
               e.preventDefault();
-              callGeoCoding();
+              setAddress(mapAddress)
+              onClose();
             }}
           >
             <div className="w-screen h-screen bg-textGrayLight bg-opacity-70 flex flex-col justify-center items-center">
@@ -97,8 +124,8 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
                   <Search
                     userLocation={userLocation}
                     panTo={panTo}
-                    setAddress={setAddress}
-                    address={address}
+                    setAddress={setMapAddress}
+                    address={mapAddress}
                     thisPin={thisPin}
                   />
                 </div>
@@ -108,7 +135,7 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
                   mapContainerStyle={mapContainerStyle}
                   center={userLocation}
                   zoom={12}
-                  onClick={onMapClick}
+                  onClick={getMap}
                   onLoad={onMapLoad}
                 >
                   {redPin.map((marker) => (
@@ -132,6 +159,7 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
                     >
                       <div>
                         <p className="text-2xl">Work Place Work Link</p>
+                        <p>{address}</p>
                         <p>Work Detail...</p>
                       </div>
                     </InfoWindow>

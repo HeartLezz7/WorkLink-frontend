@@ -2,13 +2,15 @@ import { BiSearchAlt } from "react-icons/bi";
 import { useState } from "react";
 import CategoryLists from "./CategoryLists";
 import ModalMap from "../../components/modal/ModalMap";
+import { useEffect } from "react";
 
 
 export default function SearchContainer() {
   const [orderBy, setOrderBy] = useState("all");
   const [address, setAddress] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  console.log(address);
+  // console.log(address);
+
   return (
     <>
       <div className="relative w-[60%]">
