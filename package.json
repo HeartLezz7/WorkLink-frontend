@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@reach/combobox": "^0.18.0",
     "@react-google-maps/api": "^2.19.2",
     "@react-oauth/google": "^0.11.1",
@@ -17,6 +19,7 @@
     "antd": "^5.11.0",
     "axios": "^1.6.0",
     "dayjs": "^1.11.10",
+    "emoji-mart": "^5.5.2",
     "joi": "^17.11.0",
     "jwt-decode": "3",
     "react": "^18.2.0",

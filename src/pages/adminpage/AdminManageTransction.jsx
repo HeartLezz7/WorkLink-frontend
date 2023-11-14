@@ -1,76 +1,37 @@
-import { useState } from "react";
-import TransctionCardAdmin from "./TransctionCardAdmin";
+import { useEffect, useState } from "react";
+import TransctionCardAdmin from "./TransactionCardAdmin";
+import axios from "../../configs/axios";
 
 export default function AdminManageTransction() {
-  const users = [
-    {
-      id: 1,
-      Name: "Mike Pirom",
-      Email: "mikepirom@gmail.com",
-      Phone: "1234567890",
-      Date: "31 Oct 2023",
-      Time: "15:35:08",
-      Type: "WITHDRAW",
-      Amount: "2,000 THB",
-      status: "PENDING",
-    },
-    {
-      id: 2,
-      Name: "John Doe",
-      Email: "johndoe@gmail.com",
-      Phone: "1234567891",
-      Date: "31 Oct 2023",
-      Time: "15:35:08",
-      Type: "WITHDRAW",
-      Amount: "2,000 THB",
-      status: "PENDING",
-    },
-    {
-      id: 3,
-      Name: "Jack Pancake",
-      Email: "jack@gmail.com",
-      Phone: "1234567892",
-      Date: "31 Oct 2023",
-      Time: "15:35:08",
-      Type: "DEPOSIT",
-      Amount: "1,990 THB",
-      status: "REJECT",
-    },
-  ];
+  const [allTransaction, setAllTransaction] = useState([]);
+  const [pending, setPending] = useState([]);
 
-  const [search, setSearch] = useState("");
-  // const [filterStatus, setFilterStatus] = useState("");
-  const handleInput = (e) => {
-    setSearch(e.target.value);
+  useEffect(() => {
+    getTransaction();
+  }, []);
+
+  console.log(pending);
+  const getTransaction = async () => {
+    const res = await axios
+      .get("/transaction/alltransaction")
+      .then((res) => {
+        setAllTransaction(res.data.alltransaction);
+        setPending(res.data.alltransaction);
+      })
+      .catch((error) => console.log(error));
+    return res;
   };
 
-  let filterUsers = [...users];
-
-  if (search) {
-    filterUsers = users.filter((el) => {
-      if (el.Name.toLowerCase().includes(search.toLowerCase())) {
-        return true;
-      }
-      if (el.Email.toLowerCase().includes(search.toLowerCase())) {
-        return true;
-      }
-      if (el.Phone.toLowerCase().includes(search.toLowerCase())) {
-        return true;
-      }
-      // if (
-      //   (search.toLowerCase() === "reject" ||
-      //     search.toLowerCase() === "pending") &&
-      //   el.status.toLowerCase() === search.toLowerCase()
-      // ) {
-      //   return true;
-      // }
-      if (el.status.toLowerCase().includes(search.toLowerCase())) {
-        return true;
-      }
-
-      return false;
-    });
-  }
+  const statusTransaction = (status = "all") => {
+    if (status === "all") {
+      setPending(allTransaction);
+    } else {
+      let newTransaction = allTransaction.filter(
+        (transaction) => transaction.status === status
+      );
+      setPending(newTransaction);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -80,25 +41,34 @@ export default function AdminManageTransction() {
             type="text"
             placeholder="search for..."
             className="p-2 text-primaryDarker rounded-xl w-72 px-5"
-            onChange={handleInput}
           />
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl"
+          onClick={() => statusTransaction("all")}
+        >
           All
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          onClick={() => statusTransaction("pending")}
+        >
           Waiting
         </div>
-        <div className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl">
+        <div
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          onClick={() => statusTransaction("approve")}
+        >
           Success
         </div>
       </div>
+      <p className="text-xs px-5 w-full flex justify-end">
+        count : {pending.length}
+      </p>
       <div>
-        {filterUsers.map((el) => (
+        {pending.map((el) => (
           <TransctionCardAdmin key={el.id} data={el} />
         ))}
-
-        {/* <TransctionCardAdmin /> */}
       </div>
     </div>
   );
