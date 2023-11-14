@@ -23,7 +23,6 @@ const key = 1;
 const libraries = ["places"];
 
 function GoogleMapApi({ open, onClose, setAddress, address }) {
-  const [render, setRender] = useState(false);
   const [mapAddress,setMapAddress] = useState([])
   let libRef = useRef(libraries);
   const { isLoaded, loadError } = useLoadScript({
@@ -49,7 +48,6 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
     );
     return latAndLog
     
-    // console.log('docall')
   }, []);
 
   console.log("State-----RedPin", thisPin);
@@ -100,7 +98,7 @@ geoCoding(pin)
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
 
-
+console.log(mapAddress,"xxxxx")
 
   // console.log("22222222222 USER_SELECTED 22222222222", userSelected);
   return (
