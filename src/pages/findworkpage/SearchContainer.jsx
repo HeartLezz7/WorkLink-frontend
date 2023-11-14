@@ -28,10 +28,10 @@ export default function SearchContainer() {
         <CategoryLists />
       </div>
       <div className=" flex items-end justify-start w-[80%] mt-10 gap-5">
-        <p className="text-textNavy text-2xl font-bold">Filter :</p>
+        <p className="text-textNavy text-2xl font-bold py-1">Filter :</p>
         <p
           onClick={() => setOrderBy("all")}
-          className={` cursor-pointer px-3 font-semibold text-2xl ${
+          className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
             orderBy === "all"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
@@ -44,13 +44,13 @@ export default function SearchContainer() {
             setOrderBy("nearme");
             setIsOpen(true);
           }}
-          className={` cursor-pointer px-3 font-semibold text-2xl ${
+          className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
             orderBy === "nearme"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
         >
-          Near me
+          Near Me (10km)
         </p>
 
         <ModalMap
@@ -62,13 +62,13 @@ export default function SearchContainer() {
 
         <p
           onClick={() => setOrderBy("soon")}
-          className={` cursor-pointer px-3 font-semibold text-2xl ${
+          className={` cursor-pointer px-3 py-1 font-semibold text-2xl ${
             orderBy === "soon"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
         >
-          Coming Soon
+          Remote Work
         </p>
       </div>
     </>

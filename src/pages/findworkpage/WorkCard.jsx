@@ -4,6 +4,7 @@ import getDate from "../../utils/getDate";
 import useAuth from "../../hooks/useAuth";
 import { useEffect } from "react";
 import axios from "../../configs/axios";
+import Loading from "../../components/Loading/Loading";
 
 export default function WorkCard({
   id,
@@ -20,6 +21,7 @@ export default function WorkCard({
 }) {
   const [flipped, set] = useState(false);
   const [isSingUp, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
@@ -36,16 +38,20 @@ export default function WorkCard({
 
   const handleSignUp = async () => {
     try {
+      setLoading(true);
       const res = await axios.post(`/work/challenger/${id}`);
       setIsSignUp(true);
       console.log(res);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="relative text-textGrayDark ">
+      {loading && <Loading />}
       <a.div
         onClick={() => set((state) => !state)}
         className={`p-3 border border-textGrayLight rounded-xl overflow-hidden h-[400px] w-[350px] shadow shadow-black/40 absolute cursor-pointer bg-background whiteDivShadow ${
