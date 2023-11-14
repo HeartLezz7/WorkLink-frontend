@@ -12,12 +12,14 @@ export default function ChallengerItem({ challenger, work }) {
   const createchatRoom = async () => {
     try {
       const getRoom = await axios.get("/chat/get");
-      console.log(getRoom.data.allChatRoom, "get");
-      const foundRoom = getRoom.data.allChatRoom.find(
+      const allChatRoom = [...getRoom.data.allChatRoom];
+      console.log(allChatRoom, "get");
+      console.log(owner.id, "owner", user.id, "user");
+      const foundRoom = allChatRoom.find(
         (item) =>
           item.createrId == owner.id &&
-          item.workId == work.id &&
-          item.id == user.id
+          item.dealerId == user.id &&
+          item.workId == work.id
       );
       console.log(foundRoom);
       if (foundRoom) {
