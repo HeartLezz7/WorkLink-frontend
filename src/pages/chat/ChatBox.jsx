@@ -55,6 +55,8 @@ export default function ChatBox() {
     setChatMessage,
     chatMessage,
     getChatroomMessage,
+    Refresh,
+    setRefresh,
   } = useChat();
 
   const { chatRoomId } = useParams();
@@ -70,7 +72,7 @@ export default function ChatBox() {
 
   useEffect(() => {
     getChatroomMessage(chatRoomId);
-  }, [allChatRoom]);
+  }, [allChatRoom, chatRoomId, Refresh]);
 
   useEffect(() => {
     socket.on("receive_message", (obj) => {
@@ -134,7 +136,7 @@ export default function ChatBox() {
                 key={chat.id}
                 message={chat.message}
                 senderId={chat.senderId}
-                dealerImage={chat?.receiver?.profileImage}
+                dealerImage={chat.sender?.profileImage}
               />
             );
           })}
