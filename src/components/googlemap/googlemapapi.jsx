@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { GOOGLE_MAP_API} from "../../configs/env"
+import { GOOGLE_MAP_API } from "../../configs/env";
 import {
   GoogleMap,
   useLoadScript,
@@ -8,10 +8,8 @@ import {
 } from "@react-google-maps/api";
 import { useCallback } from "react";
 
-
 import "@reach/combobox/styles.css";
 import Search from "./Search";
-
 
 const testData = {
   Work: "Cleaner",
@@ -42,10 +40,9 @@ function GoogleMapApi({ open, onClose, setAddress }) {
   const [userSelected, setUserSelected] = useState(null);
 
   const [redPin, setRedPin] = useState([]);
-  console.log(redPin)
+  console.log(redPin);
 
-
-const thisPin = redPin[0]
+  const thisPin = redPin[0];
   console.log(thisPin);
 
   //useCallback is function that allow you to retain same value atleast [] change
@@ -67,10 +64,10 @@ const thisPin = redPin[0]
     mapRef.current = map;
   }, []);
 
-  const panTo = useCallback(({lat,lng}) => {
-    mapRef.current.panTo({lat,lng})
-    mapRef.current.setZoom(14)
-  },[])
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
+  }, []);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
@@ -95,7 +92,11 @@ const thisPin = redPin[0]
                   <h4 className="w-full text-center p-2">
                     Connect with thousands of workers near you
                   </h4>
-                  <Search userLocation={userLocation}  panTo={panTo}/>
+                  <Search
+                    userLocation={userLocation}
+                    panTo={panTo}
+                    setUserSelected={setUserSelected}
+                  />
                 </div>
 
                 <GoogleMap
@@ -127,8 +128,7 @@ const thisPin = redPin[0]
                       onCloseClick={() => setUserSelected(null)}
                     >
                       <div>
-                        <p className="text-2xl">Work Place Work Link</p>
-                        <p>Have Hotel Have room Have.....</p>
+                        <p className="text-2xl">Pin your location</p>
                       </div>
                     </InfoWindow>
                   ) : null}
@@ -152,6 +152,5 @@ const thisPin = redPin[0]
     </>
   );
 }
-
 
 export default GoogleMapApi;

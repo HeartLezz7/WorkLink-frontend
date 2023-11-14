@@ -12,7 +12,7 @@ export default function WorkContextProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [searchCatId, setSearchCatId] = useState(0);
-  const [searchLocation, setSearchLocation] = useState({});
+  const [searchLocation, setSearchLocation] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -94,6 +94,8 @@ export default function WorkContextProvider({ children }) {
         searchName,
         searchCatId,
         setSearchCatId,
+        searchLocation,
+        setSearchLocation,
       }}
     >
       {children}

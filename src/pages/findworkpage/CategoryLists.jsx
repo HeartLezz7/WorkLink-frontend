@@ -91,7 +91,7 @@ export default function CategoryLists() {
   };
   //   console.log(isHover);
   return (
-    <div className="bg-[#ffffff] w-fit h-[180px] rounded-3xl mt-10 flex items-end p-3 gap-4 whiteDivShadow mx-auto ">
+    <div className="bg-[#ffffff] max-w-fit  overflow-x-scroll h-[180px] rounded-3xl mt-10 flex items-end p-3 whiteDivShadow mx-auto hiddenScrollStyle">
       {categoryLists.map((el) => (
         <CategoryItem
           key={el.id}

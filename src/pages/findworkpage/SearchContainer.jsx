@@ -28,7 +28,7 @@ export default function SearchContainer() {
         <CategoryLists />
       </div>
       <div className=" flex items-end justify-start w-[80%] mt-10 gap-5">
-        <p className="text-textNavy text-2xl font-bold">OrderBy :</p>
+        <p className="text-textNavy text-2xl font-bold">Filter :</p>
         <p
           onClick={() => setOrderBy("all")}
           className={` cursor-pointer px-3 font-semibold text-2xl ${
