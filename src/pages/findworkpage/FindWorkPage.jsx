@@ -6,15 +6,8 @@ import WorkCard from "./WorkCard";
 import { useEffect } from "react";
 
 export default function FindWorkPage() {
-  const [findingWork, setFindingWork] = useState([]);
-  const { allWorks } = useWork();
-  useEffect(() => {
-    if (allWorks.length > 0) {
-      const works = allWorks.filter((work) => work.statusWork === "finding");
-      setFindingWork(works);
-    }
-  }, [allWorks]);
-  console.log(findingWork);
+  const { showWork } = useWork();
+
   return (
     <div className="relative overflow-hidden">
       <div className="absolute bg-primary w-[900px] rounded-full aspect-square z-[-10] place-context-center left-[-450px] top-[-600px]">
@@ -36,7 +29,7 @@ export default function FindWorkPage() {
         </div>
         <SearchContainer />
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 place-content-center p-5 w-fit mx-auto">
-          {findingWork.map((work) => (
+          {showWork.map((work) => (
             <WorkCard
               key={work.id}
               id={work.id}
