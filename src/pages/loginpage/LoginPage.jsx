@@ -29,7 +29,7 @@ export default function LoginPage() {
         return setError(result.error);
       }
       setError({});
-      // console.log("before");
+      console.log("before");
       await login(result.value);
       navigate("/dashboard");
       // console.log("after");

@@ -12,7 +12,6 @@ export default function ChatContextProvider({ children }) {
   useEffect(() => {
     if (getAccessToken()) {
       axios.get("/chat/get").then((res) => {
-        console.log(res.data.allChatRoom, "useEff res");
         setAllChatRoom(res.data.allChatRoom);
       });
     }

@@ -70,7 +70,7 @@ export default function ChatBox() {
 
   useEffect(() => {
     getChatroomMessage(chatRoomId);
-  }, [allChatRoom]);
+  }, [allChatRoom, chatRoomId]);
 
   useEffect(() => {
     socket.on("receive_message", (obj) => {
