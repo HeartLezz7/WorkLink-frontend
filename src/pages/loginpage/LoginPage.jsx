@@ -32,7 +32,7 @@ export default function LoginPage() {
       }
       console.log("first1111");
       setError({});
-      // console.log("before");
+      console.log("before");
       await login(result.value);
       navigate("/dashboard");
       // console.log("after");
