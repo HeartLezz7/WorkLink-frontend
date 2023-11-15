@@ -35,7 +35,7 @@ export default function WorkButton({ title, workId, workerId }) {
         workStatus = STATUS_FINDING;
         await axios("/work/rejectDeal", { workStatus, workId, workerId });
         return;
-      } else if (status === "Success") {
+      } else if (status === "Request Success") {
         workStatus = STATUS_REQUEST;
       } else if (status === "Cancel") {
         workStatus = STATUS_CANCEL;

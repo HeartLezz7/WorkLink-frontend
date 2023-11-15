@@ -13,13 +13,20 @@ import useWork from "../../hooks/useWork";
 import useAuth from "../../hooks/useAuth";
 import ReviewModal from "../../components/modal/ReviewModal";
 
-const SuccessButton = ({ onClick }) => {
-  return <button onClick={onClick}>Success</button>;
-};
+// const SuccessButton = ({ onClick }) => {
+//   return (
+//     <button
+//       className="w-[20rem]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
+//       onClick={onClick}
+//     >
+//       Success
+//     </button>
+//   );
+// };
 
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   const { user } = useAuth();
   const { allWorks } = useWork();
@@ -34,7 +41,7 @@ export default function ChatStatusWork() {
           <div className="bg-secondaryLight text-textWhite text-4xl text-center p-3 font-semibold">
             Status
           </div>
-          <div className="flex flex-col items-center gap-10 p-10 relative overflow-y-scroll h-[550px]">
+          <div className="flex flex-col items-center gap-10 p-10 relative overflow-y-scroll ">
             <div className="absolute top-5 right-5  border rounded-full cursor-pointer">
               <BiDotsHorizontalRounded
                 size={20}
@@ -93,7 +100,12 @@ export default function ChatStatusWork() {
               </>
             ) : chatRoom?.creater?.id && work.statusWork === STATUS_REQUEST ? (
               <>
-                <WorkButton title="Success" workId={work?.id} />
+                <button
+                  className="w-[20rem]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
+                  onClick={() => setOpenModal(true)}
+                >
+                  Success
+                </button>
               </>
             ) : (
               ""
@@ -115,9 +127,14 @@ export default function ChatStatusWork() {
             </>
           ) : chatRoom?.dealer?.id && work.statusWork === STATUS_ONPROCESS ? (
             <>
-              <SuccessButton
+              {/* <SuccessButton
                 workId={work?.id}
                 onClick={() => setOpenModal(true)}
+              /> */}
+              <WorkButton
+                title="Request Success"
+                workId={work?.id}
+                workerId={chatRoom?.dealer?.id}
               />
             </>
           ) : (
