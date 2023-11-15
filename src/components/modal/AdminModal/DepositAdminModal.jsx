@@ -1,16 +1,12 @@
-import axios from "../../../configs/axios";
 import { useState } from "react";
-import InputErrorMessage from "../../InputErroMessage";
-import { LuImagePlus } from "react-icons/lu";
-import { useRef } from "react";
 
-export default function DepositCheckModal({ setIsOpen, open, data }) {
+import axios from "../../../configs/axios";
+
+export default function DepositAdminModal({ setIsOpen, data, open }) {
   const [isHover, setIsHover] = useState(false);
-  const fileEl = useRef(null);
-  const [slipImage, setSlipImage] = useState(data.slipImage);
-  const [error, setError] = useState({});
   const [input, setInput] = useState({
     comment: data.comment,
+    slipImage: "",
   });
 
   console.log(isHover);
@@ -32,7 +28,14 @@ export default function DepositCheckModal({ setIsOpen, open, data }) {
 
   const adminConfirm = async () => {
     try {
-      await axios.patch(`/transaction/deposit/${data.id}`, slipImage);
+      const formData = new FormData();
+
+      for (let key in input) {
+        if (input[key]) {
+          formData.append(`${key}`, input[key]);
+        }
+      }
+      await axios.patch(`/transaction/deposit/${data.id}`, formData);
       await axios.patch(
         `/transaction/walletupdate/${data.user.id}`,
         walletupdate
@@ -72,62 +75,17 @@ export default function DepositCheckModal({ setIsOpen, open, data }) {
                 {data.type}
               </div>
               <main className="w-full flex flex-col items-center gap-[15px]">
-                <div className="flex flex-col items-center justify-center gap-3">
-                  <div
-                    onMouseEnter={() => {
-                      setIsHover(true);
-                    }}
-                    onMouseLeave={() => {
-                      setIsHover(false);
-                    }}
-                    onClick={() => fileEl.current.click()}
-                    className="w-[250px] h-[300px] rounded-md overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
-                  >
-                    {isHover && (
-                      <div className="absolute w-full h-full">
-                        <div className="w-full h-full bg-textGrayDark/60 flex justify-center items-center">
-                          <div className="px-2 py-1 border rounded-md text-textWhite border-textWhite">
-                            edit
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {slipImage.slipImage instanceof File ? (
-                      <img
-                        src={URL.createObjectURL(slipImage.slipImage)}
-                        className="object-cover w-full h-full"
-                      />
-                    ) : slipImage.slipImage ? (
-                      <img
-                        src={slipImage.slipImage}
-                        className="object-cover w-full h-full"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-                        <LuImagePlus color="#3CB97F" size={40} />
-                        <div className="text-center text-sm whitespace-wrap">
-                          Slip Image
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  {error.slipImage && (
-                    <InputErrorMessage message={error.slipImage} />
-                  )}
-                </div>
-
-                <input
-                  type="file"
-                  className="hidden"
-                  name="slipImage"
-                  ref={fileEl}
-                  onChange={(e) => {
-                    if (e.target.files[0]) {
-                      setSlipImage(e.target.files[0]);
-                    }
+                <div
+                  onMouseEnter={() => {
+                    setIsHover(true);
                   }}
-                />
-
+                  onMouseLeave={() => {
+                    setIsHover(false);
+                  }}
+                  className="w-[300px] h-[400px] aspect-square rounded-md overflow-hidden border-2 border-textGrayDark cursor-pointer content-center relative whiteDivShadow"
+                >
+                  <img src={data.slipImage} alt="" />
+                </div>
                 <div className="w-full flex flex-col gap-3 ">
                   <div className="flex flex-col gap-3">
                     <div className="flex gap-10 font-bold">

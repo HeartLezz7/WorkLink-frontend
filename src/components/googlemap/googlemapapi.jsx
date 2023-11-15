@@ -33,19 +33,22 @@ function GoogleMapApi({ open, onClose, setAddress }) {
   //marker that user wants to see detail for
   const [userSelected, setUserSelected] = useState(null);
   const [redPin, setRedPin] = useState([]);
-  // console.log(redPin)
-  const thisPin = redPin[0];
+  console.log(redPin)
 
-  const onMapClick = useCallback( (e) => {
-    const latAndLog = {
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
-      // time: new Date(),
-      // next is show this newState on Map
-    }
-    setRedPin(() => [latAndLog]
-    );
-    return latAndLog
+
+const thisPin = redPin[0]
+  console.log(thisPin);
+
+  //useCallback is function that allow you to retain same value atleast [] change
+  const onMapClick = useCallback((e) => {
+    setRedPin(() => [
+      {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+        // time: new Date(),
+        // next is show this newState on Map
+      },
+    ]);
   }, []);
   console.log("State-----RedPin", thisPin);
 
@@ -79,10 +82,11 @@ geoCoding(pin)
     mapRef.current = map;
   }, []);
 
-  const panTo = useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(14);
-  }, []);
+  const panTo = useCallback(({lat,lng}) => {
+    mapRef.current.panTo({lat,lng})
+    mapRef.current.setZoom(14)
+  },[])
+
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
 
@@ -106,13 +110,7 @@ console.log(mapAddress,"xxxxx")
                   <h4 className="w-full text-center p-2">
                     Connect with thousands of workers near you
                   </h4>
-                  <Search
-                    userLocation={userLocation}
-                    panTo={panTo}
-                    setAddress={setMapAddress}
-                    address={mapAddress}
-                    thisPin={thisPin}
-                  />
+                  <Search userLocation={userLocation}  panTo={panTo}/>
                 </div>
 
                 <GoogleMap
@@ -144,7 +142,7 @@ console.log(mapAddress,"xxxxx")
                     >
                       <div>
                         <p className="text-2xl">Work Place Work Link</p>
-                        <p>{mapAddress}</p>
+                        <p>Have Hotel Have room Have.....</p>
                       </div>
                     </InfoWindow>
                   ) : null}

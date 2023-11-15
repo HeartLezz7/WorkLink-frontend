@@ -13,8 +13,7 @@ import "@reach/combobox/styles.css";
 import { useState } from "react";
 
 export default function Search({ userLocation, panTo }) {
-
-  const [keepLocation,setKeepLocation] = useState([])
+  const [keepLocation, setKeepLocation] = useState([]);
 
   //return number variable in obj
   const {
@@ -37,8 +36,8 @@ export default function Search({ userLocation, panTo }) {
  // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
 
   const handdleSelect = async (address) => {
-    setValue(address,false)
-    clearSuggestions()
+    setValue(address, false);
+    clearSuggestions();
     try {
       const resultfromGeocode = await getGeocode({ address });
       console.log("Search and Select location",resultfromGeocode[0]);
@@ -70,7 +69,6 @@ export default function Search({ userLocation, panTo }) {
             }}
             disabled={!ready}
             placeholder="Enter an address"
-            
           />
           <ComboboxPopover className="z-[100]">
             <ComboboxList>

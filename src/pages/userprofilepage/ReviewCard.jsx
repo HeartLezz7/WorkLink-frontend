@@ -2,7 +2,7 @@ import { RatingStar } from "../../components/RatingStar";
 
 export default function ReviewCard() {
   return (
-    <div className="sm:w-[730px] w-[300px] bg-background/70 p-5 rounded-xl flex flex-col gap-2 shadow-lg shadow-black/70">
+    <div className=" bg-background/70 p-5 rounded-xl flex flex-col gap-2 shadow-lg shadow-black/70">
       <div className="flex gap-5 items-center">
         <div className="rounded-full overflow-hidden w-[50px] shadow-md">
           <img

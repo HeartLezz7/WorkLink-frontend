@@ -31,7 +31,7 @@ export default function VerifyModal({ open, onClose, userObj }) {
                     <p>Email : {userObj.email}</p>
                     <p>PhoneNumber : {userObj.phoneNumber}</p>
                     <p>
-                      Birth Day :{" "}
+                      Birth Day :
                       {userObj.user.birthDate === null
                         ? "Don't have Data"
                         : userObj.user.birthDate.split("T")[0]}

@@ -5,11 +5,13 @@ import Loading from "../../Loading/Loading";
 import ChallengerItem from "./ChallengerItem";
 import { IoMdClose } from "react-icons/io";
 import EditWorkModal from "../EditWorkModal";
+import useWork from "../../../hooks/useWork";
 
 export default function OwnerWorkModal({ work, setIsOpen }) {
   const [thisWork, setThisWork] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const { allWorks } = useWork();
 
   useEffect(() => {
     axios
@@ -21,7 +23,7 @@ export default function OwnerWorkModal({ work, setIsOpen }) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [allWorks]);
 
   console.log(thisWork);
   // console.log(thisWork.challenger.length == 0);
@@ -64,7 +66,8 @@ export default function OwnerWorkModal({ work, setIsOpen }) {
                     {thisWork.isOnsite ? <div>address : </div> : ""}
                     <div>Price : {thisWork.price}</div>
                     <div>
-                      Start-End Date: {getDate(thisWork.startDate)}{" "}
+                      Start-End Date: {getDate(thisWork.startDate)}
+                      {"-"}
                       {thisWork.endDate ? (
                         getDate(thisWork.endDate)
                       ) : (

@@ -2,13 +2,13 @@ import { BiSearchAlt } from "react-icons/bi";
 import { useState } from "react";
 import CategoryLists from "./CategoryLists";
 import ModalMap from "../../components/modal/ModalMap";
-import { useEffect } from "react";
-
+import useWork from "../../hooks/useWork";
 
 export default function SearchContainer() {
   const [orderBy, setOrderBy] = useState("all");
   const [address, setAddress] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const { searchName, setSearchName } = useWork();
   console.log(address);
 
   return (
@@ -19,6 +19,8 @@ export default function SearchContainer() {
         </div>
         <input
           type="text"
+          onChange={(e) => setSearchName(e.target.value)}
+          value={searchName}
           placeholder="Search"
           className="rounded-full pl-12 py-2 w-full text-2xl shadow-md shadow-primaryDark/50 outline-none text-secondary focus:ring placeholder:text-secondary"
         />
@@ -27,10 +29,10 @@ export default function SearchContainer() {
         <CategoryLists />
       </div>
       <div className=" flex items-end justify-start w-[80%] mt-10 gap-5">
-        <p className="text-textNavy text-2xl font-bold">OrderBy :</p>
+        <p className="text-textNavy text-2xl font-bold py-1">Filter :</p>
         <p
           onClick={() => setOrderBy("all")}
-          className={` cursor-pointer px-3 font-semibold text-2xl ${
+          className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
             orderBy === "all"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
@@ -43,13 +45,13 @@ export default function SearchContainer() {
             setOrderBy("nearme");
             setIsOpen(true);
           }}
-          className={` cursor-pointer px-3 font-semibold text-2xl ${
+          className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
             orderBy === "nearme"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
         >
-          Near me
+          Near Me (10km)
         </p>
 
         <ModalMap
@@ -61,13 +63,13 @@ export default function SearchContainer() {
 
         <p
           onClick={() => setOrderBy("soon")}
-          className={` cursor-pointer px-3 font-semibold text-2xl ${
+          className={` cursor-pointer px-3 py-1 font-semibold text-2xl ${
             orderBy === "soon"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
         >
-          Coming Soon
+          Remote Work
         </p>
       </div>
     </>

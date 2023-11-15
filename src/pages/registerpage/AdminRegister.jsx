@@ -1,7 +1,7 @@
 import { useState } from "react";
 import InputForm from "../../components/InputForm";
 import ActionButton from "../../components/ActionButton";
-import { registerSchema } from "../../utils/auth-validator";
+import { registerAdminSchema } from "../../utils/auth-validator";
 import validateSchema from "../../utils/validate-schema";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ export default function AdminRegisterPage() {
     try {
       e.preventDefault();
       setLoading(true);
-      const result = validateSchema(registerSchema, input);
+      const result = validateSchema(registerAdminSchema, input);
 
       if (result.error) {
         console.log(result.error, "validateError ");

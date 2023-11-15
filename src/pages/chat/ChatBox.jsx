@@ -8,6 +8,7 @@ import useChat from "../../hooks/useChat";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { BsEmojiSmile } from "react-icons/bs";
+import { useRef } from "react";
 
 const BoxMessage = ({ senderId, message, dealerImage }) => {
   const { user } = useAuth();
@@ -46,6 +47,7 @@ const InputMessage = ({ value, onChange }) => {
 };
 export default function ChatBox() {
   const [input, setInput] = useState("");
+  const [file, setFile] = useState(null);
   const [emojiOpen, setEmojiOpen] = useState(false);
 
   const { user } = useAuth();
@@ -55,8 +57,10 @@ export default function ChatBox() {
     setChatMessage,
     chatMessage,
     getChatroomMessage,
+    Refresh,
   } = useChat();
 
+  const chatImage = useRef();
   const { chatRoomId } = useParams();
 
   useEffect(() => {
@@ -70,7 +74,7 @@ export default function ChatBox() {
 
   useEffect(() => {
     getChatroomMessage(chatRoomId);
-  }, [allChatRoom]);
+  }, [allChatRoom, chatRoomId, Refresh]);
 
   useEffect(() => {
     socket.on("receive_message", (obj) => {
@@ -83,8 +87,6 @@ export default function ChatBox() {
       socket.off("receive_message");
     };
   }, [chatMessage]);
-
-  console.log(chatMessage, "AAAAA");
 
   const checkUser = () => {
     if (chatRoom.createrId === user.id) {
@@ -105,11 +107,23 @@ export default function ChatBox() {
     try {
       e.preventDefault();
       const message = {
-        message: input,
+        message: "",
         senderId: user.id,
         receiverId: checkUser(),
         room: +chatRoomId,
       };
+      if (file) {
+        const data = new FormData();
+        data.append("chatImage", file);
+        data.append("message", input);
+        console.log("image");
+        message.message = data;
+      } else if (input) {
+        console.log("text");
+        message.message = input;
+      } else {
+        return console.log("message required");
+      }
 
       socket.emit("sent_message", message);
       setInput("");
@@ -134,7 +148,7 @@ export default function ChatBox() {
                 key={chat.id}
                 message={chat.message}
                 senderId={chat.senderId}
-                dealerImage={chat?.receiver?.profileImage}
+                dealerImage={chat.sender?.profileImage}
               />
             );
           })}
@@ -146,7 +160,19 @@ export default function ChatBox() {
             className="w-full flex items-center gap-2"
             onSubmit={handleSubmitChat}
           >
-            <img src={plus} alt="plus" className="w-[40px]" />
+            <div onClick={() => chatImage.current.click()}>
+              <img src={plus} alt="plus" className="w-[40px]" />
+              <input
+                type="file"
+                className="hidden"
+                ref={chatImage}
+                onChange={(e) => {
+                  if (e.target.files[0]) {
+                    setFile(e.target.files[0]);
+                  }
+                }}
+              />
+            </div>
             <div
               onClick={() => setEmojiOpen(!emojiOpen)}
               className="cursor-pointer"
@@ -163,10 +189,19 @@ export default function ChatBox() {
                 />
               )}
             </div>
-            <InputMessage
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
+            <div>
+              {file && (
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="file"
+                  className="h-36 border border-textGrayLight p-2"
+                />
+              )}
+              <InputMessage
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+            </div>
           </form>
           <div>
             <img src={plane} alt="plane" className="w-[40px]" />

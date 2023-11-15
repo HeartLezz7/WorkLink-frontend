@@ -24,13 +24,10 @@ export default function ChatStatusWork() {
   const { user } = useAuth();
   const { allWorks } = useWork();
   const { chatRoom } = useChat();
-  console.log(chatRoom, "room");
+  console.log(chatRoom?.creater, "room");
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
 
-  console.log(work, "work");
-
-  const status = STATUS_ONPROCESS;
   return (
     <>
       <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-2 ">
@@ -80,36 +77,41 @@ export default function ChatStatusWork() {
           </div>
         </div>
         <div className="row-span-1 p-10 flex flex-col items-center justify-center gap-2">
-          {/* {user.id === chatRoom.creater?.id ? (
-            ownerId && status === STATUS_FINDING ? (
+          {user.id === chatRoom?.creater?.id ? (
+            chatRoom?.creater?.id && work.statusWork === STATUS_FINDING ? (
               <>
-                <WorkButton title="Edit" />
-                <WorkButton title="Submit" />
+                <WorkButton title="Edit" workId={work?.id} />
+                <WorkButton
+                  title="Submit"
+                  workId={work?.id}
+                  workerId={chatRoom?.dealer?.id}
+                />
               </>
-            ) : ownerId && status === STATUS_MAKEDEAL ? (
+            ) : chatRoom?.creater?.id &&
+              work?.statusWork === STATUS_MAKEDEAL ? (
               <>
-                <WorkButton title="Cancel" />
+                <WorkButton title="Cancel" workId={work?.id} />
               </>
-            ) : ownerId && status === STATUS_REQUEST ? (
+            ) : chatRoom?.creater?.id && work.statusWork === STATUS_REQUEST ? (
               <>
-                <WorkButton title="Success" />
+                <WorkButton title="Success" workId={work?.id} />
               </>
             ) : (
               ""
             )
-          ) : chatRoom.dealer?.id && status === STATUS_FINDING ? (
+          ) : chatRoom?.dealer?.id && work.statusWork === STATUS_FINDING ? (
             ""
-          ) : chatRoom.dealer?.id && status === STATUS_MAKEDEAL ? (
+          ) : chatRoom?.dealer?.id && work.statusWork === STATUS_MAKEDEAL ? (
             <>
-              <WorkButton title="Accept" />
+              <WorkButton title="Accept" workId={work?.id} />
             </>
-          ) : chatRoom.dealer?.id && status === STATUS_ONPROCESS ? (
+          ) : chatRoom?.dealer?.id && work.statusWork === STATUS_ONPROCESS ? (
             <>
-              <WorkButton title="Success" />
+              <WorkButton title="Success" workId={work?.id} />
             </>
           ) : (
             ""
-          )} */}
+          )}
         </div>
       </div>
     </>
