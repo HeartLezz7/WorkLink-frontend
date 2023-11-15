@@ -22,13 +22,14 @@ const userLocation = {
 const key = 1;
 const libraries = ["places"];
 
-function GoogleMapApi({ open, onClose, setAddress, address }) {
+function GoogleMapApi({ open, onClose, setAddress }) {
   const [mapAddress,setMapAddress] = useState([])
   let libRef = useRef(libraries);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API,
     libraries: libRef.current,
   });
+
   //marker that user wants to see detail for
   const [userSelected, setUserSelected] = useState(null);
   const [redPin, setRedPin] = useState([]);
@@ -42,18 +43,15 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
       // time: new Date(),
       // next is show this newState on Map
     }
-    setRedPin(() => [latAndLog
-      ,
-    ]
+    setRedPin(() => [latAndLog]
     );
     return latAndLog
-    
   }, []);
-
   console.log("State-----RedPin", thisPin);
+
   const geoCoding = async (pin) => {
     try {
-      console.log(pin,"Pin AAAAAAAAAA")
+      // console.log(pin,"Pin AAAAAAAAAA")
       const result = await googleAxios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${pin.lat},${pin.lng}&key=${GOOGLE_MAP_API}`
       );
@@ -64,20 +62,10 @@ function GoogleMapApi({ open, onClose, setAddress, address }) {
       console.log(err);
     }
   };
-  // const callGeoCoding = async () => {
-  //   try {
-  //     const getGeoCoding = await geoCoding(thisPin);
-  //     console.log(getGeoCoding, "---------getGeoCoding----------");
-  //     setAddress(getGeoCoding);
-  //     return getGeoCoding;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
-  const getMap = (e) => {
+const getMap = (e) => {
 const pin = onMapClick(e)
-console.log(pin,"pin addressssssssssssssssssssssssssss")
+// console.log(pin,"pin addressssssssssssssssssssssssssss")
 geoCoding(pin)
   }
 
@@ -100,7 +88,6 @@ geoCoding(pin)
 
 console.log(mapAddress,"xxxxx")
 
-  // console.log("22222222222 USER_SELECTED 22222222222", userSelected);
   return (
     <>
       {open && (
@@ -157,8 +144,7 @@ console.log(mapAddress,"xxxxx")
                     >
                       <div>
                         <p className="text-2xl">Work Place Work Link</p>
-                        <p>{address}</p>
-                        <p>Work Detail...</p>
+                        <p>{mapAddress}</p>
                       </div>
                     </InfoWindow>
                   ) : null}

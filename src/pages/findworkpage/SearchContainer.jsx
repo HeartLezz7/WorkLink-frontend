@@ -9,7 +9,7 @@ export default function SearchContainer() {
   const [orderBy, setOrderBy] = useState("all");
   const [address, setAddress] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(address);
+  console.log(address);
 
   return (
     <>
