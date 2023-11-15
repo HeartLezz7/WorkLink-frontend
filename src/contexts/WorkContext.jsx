@@ -99,12 +99,28 @@ export default function WorkContextProvider({ children }) {
     }
   };
 
+  const signOut = async (workId) => {
+    try {
+      const res = await axios.delete(`/work/signoutwork/${workId}`);
+      console.log(res.data.deleteChallenger); //{id: 5, userId: 3, workId: 8}
+      const newSignUpWork = [...mySignWork];
+      const signoutIndex = newSignUpWork.findIndex(
+        (el) => el.id == res.data.deleteChallenger.workId
+      );
+      newSignUpWork.splice(signoutIndex, 1);
+      setMySignWork(newSignUpWork);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <WorkContext.Provider
       value={{
         createWork,
         editWork,
         cancleWork,
+        signOut,
         allWorks,
         setAllWorks,
         loading,

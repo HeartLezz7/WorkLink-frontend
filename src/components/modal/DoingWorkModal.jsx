@@ -2,20 +2,33 @@ import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 import Loading from "../Loading/Loading";
 import getDate from "../../utils/getDate";
+import { useEffect } from "react";
+import axios from "../../configs/axios";
+import { Link } from "react-router-dom";
+import useWork from "../../hooks/useWork";
 
-export default function DoingWorkModal({ work, setIsOpen }) {
+export default function DoingWorkModal({ work, setIsOpen, isDoing }) {
   const [isLoading, setIsLoading] = useState();
-  //   useEffect(() => {
-  //     axios
-  //       .get(`/work/getdelegatedworkbyid/${work.id}`)
-  //       .then((res) => {
-  //         setThisWork(res.data.work);
-  //       })
-  //       .catch((err) => console.log(err))
-  //       .finally(() => {
-  //         setIsLoading(false);
-  //       });
-  //   }, []);
+  const [chatRoomId, setChatRoomId] = useState();
+  const { signOut } = useWork();
+  useEffect(() => {
+    // check chat room
+    axios
+      .get(`/chat/checkchatroom/${work.id}`)
+      .then((res) => {
+        setChatRoomId(res.data.chatroom);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  const handleSignOut = async () => {
+    await signOut(work.id);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <div className="fixed inset-0 bg-black/70 z-[30]"></div>
@@ -61,12 +74,22 @@ export default function DoingWorkModal({ work, setIsOpen }) {
                     <div>Description : {work.description}</div>
                   </div>
                   <div className="flex gap-3 justify-center items-center">
-                    <div className="px-3 py-1 bg-textGrayLight rounded-md">
-                      Chat
-                    </div>
-                    <div className="px-3 py-1 bg-textGrayLight rounded-md">
-                      Sign out
-                    </div>
+                    {chatRoomId && (
+                      <Link
+                        to={`/chatRoom/${chatRoomId}`}
+                        className="px-3 py-1 bg-textGrayLight rounded-md cursor-pointer"
+                      >
+                        Chat
+                      </Link>
+                    )}
+                    {!isDoing && (
+                      <div
+                        onClick={handleSignOut}
+                        className="px-3 py-1 bg-textGrayLight rounded-md cursor-pointer"
+                      >
+                        Sign out
+                      </div>
+                    )}
                   </div>
                 </div>
               </main>
