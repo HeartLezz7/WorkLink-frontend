@@ -10,11 +10,9 @@ export default function ChatList({ chatRoom }) {
   };
 
   let filterName = [...chatRoom];
-
-  console.log(searchName);
-  console.log(chatRoom);
-  console.log(filterName, "FilterName........");
-
+  // console.log(searchName);
+  // console.log(chatRoom);
+  // console.log(filterName, "FilterName........");
   if (searchName) {
     filterName = chatRoom.filter((el) => {
       if (
@@ -25,19 +23,19 @@ export default function ChatList({ chatRoom }) {
       return false;
     });
   }
-
-  console.log(filterName, "xxxxxxxxxxxx");
-
+  // console.log(filterName, "xxxxxxxxxxxx");
   return (
     <div className="h-[calc(100vh-60px)]">
       <div className="p-5 border-b h-[100px] flex justify-center items-center">
-        <div className="w-full border flex justify-between items-center px-6 py-3 rounded-xl ">
+        <div className="w-full border flex justify-between items-center px-3 py-3 rounded-xl gap-2">
+          <div className="w-full flex justify-between items-center px-1  rounded-xl">
           <input
             type="text"
             placeholder="Search..."
-            className="w-full  flex justify-between items-center px-6 py-3 rounded-xl"
+            className="w-full flex justify-between items-center px-3 py-2 rounded-xl"
             onChange={handleInput}
-          />
+            />
+            </div>
           <div>
             <img src={search} alt="search" className="w-[30px]" />
           </div>
