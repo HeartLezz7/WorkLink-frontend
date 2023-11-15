@@ -3,6 +3,7 @@ import Loading from "../Loading/Loading";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
+import toast from "react-hot-toast";
 
 export default function EditProfileModal({
   setIsOpen,
@@ -38,7 +39,7 @@ export default function EditProfileModal({
           formData.append(`${key}`, input[key]);
         }
       }
-        console.log(formData);
+      console.log(formData);
       const res = await axios.patch("user/editprofile", formData);
       setProfileData({
         ...profileData,
@@ -47,8 +48,10 @@ export default function EditProfileModal({
         personalDescription: res.data.updateProfile.personalDescription,
       });
       setUser(res.data.updateProfile);
+      toast.success("Successfully !");
       setIsOpen(false);
     } catch (err) {
+      toast.error("Error");
       console.log(err);
     } finally {
       setLoading(false);
