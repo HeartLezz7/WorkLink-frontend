@@ -28,8 +28,6 @@ export default function ChatStatusWork() {
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
 
-  console.log(work, "work");
-
   return (
     <>
       <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-2 ">
@@ -83,7 +81,11 @@ export default function ChatStatusWork() {
             chatRoom?.creater?.id && work.statusWork === STATUS_FINDING ? (
               <>
                 <WorkButton title="Edit" workId={work?.id} />
-                <WorkButton title="Submit" workId={work?.id} />
+                <WorkButton
+                  title="Submit"
+                  workId={work?.id}
+                  workerId={chatRoom?.dealer?.id}
+                />
               </>
             ) : chatRoom?.creater?.id &&
               work?.statusWork === STATUS_MAKEDEAL ? (

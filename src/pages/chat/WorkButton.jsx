@@ -7,14 +7,20 @@ import {
 } from "../../configs/constants";
 import useChat from "../../hooks/useChat";
 
-export default function WorkButton({ title, workId }) {
+export default function WorkButton({ title, workId, workerId }) {
   const { Refresh, setRefresh } = useChat();
   const handleStatusWork = async (status) => {
     try {
-      console.log(status, "check");
+      console.log(workerId, "check");
       let workStatus = "";
       if (status === "Submit") {
         workStatus = STATUS_MAKEDEAL;
+
+        await axios.patch("/work/updateStatus", {
+          workStatus,
+          workId,
+          workerId,
+        });
       } else if (status === "Accept") {
         workStatus = STATUS_ONPROCESS;
       } else if (status === "Success") {
@@ -22,8 +28,7 @@ export default function WorkButton({ title, workId }) {
       } else if (status === "Cancel") {
         workStatus = STATUS_CANCEL;
       }
-      const a = await axios.patch("/work/updateStatus", { workStatus, workId });
-      console.log(a.data, "test01");
+      await axios.patch("/work/updateStatus", { workStatus, workId });
       setRefresh(!Refresh);
     } catch (err) {
       console.log(err);
