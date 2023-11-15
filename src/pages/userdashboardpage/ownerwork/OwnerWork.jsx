@@ -12,7 +12,9 @@ export default function OwnerWork() {
   const { user } = useAuth();
   useEffect(() => {
     if (allWorks.length > 0) {
-      const ownerWork = allWorks.filter((work) => work.ownerId === user.id);
+      const ownerWork = allWorks.filter(
+        (work) => work.ownerId === user.id && work.statusWork != "cancel"
+      );
 
       // console.log(ownerWork);
       setDelegatedWork(ownerWork);
