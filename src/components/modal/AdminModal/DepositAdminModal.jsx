@@ -28,14 +28,7 @@ export default function DepositAdminModal({ setIsOpen, data, open }) {
 
   const adminConfirm = async () => {
     try {
-      const formData = new FormData();
-
-      for (let key in input) {
-        if (input[key]) {
-          formData.append(`${key}`, input[key]);
-        }
-      }
-      await axios.patch(`/transaction/deposit/${data.id}`, formData);
+      await axios.patch(`/transaction/deposit/${data.id}`);
       await axios.patch(
         `/transaction/walletupdate/${data.user.id}`,
         walletupdate
@@ -44,7 +37,9 @@ export default function DepositAdminModal({ setIsOpen, data, open }) {
       console.log(error);
     }
   };
+
   console.log(data);
+
   const adminReject = async () => {
     try {
       await axios.patch(`/transaction/reject/${data.id}`, input);
@@ -52,6 +47,7 @@ export default function DepositAdminModal({ setIsOpen, data, open }) {
       console.log(error);
     }
   };
+
   return (
     <>
       {open && (
