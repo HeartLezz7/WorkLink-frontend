@@ -34,8 +34,8 @@ export default function LoginPage() {
       console.log("first1111");
       setError({});
       console.log("before");
-      toast.success('Successfully login!')
       await login(result.value);
+      toast.success('Successfully login!')
       navigate("/dashboard");
       // console.log("after");
     } catch (err) {
