@@ -29,7 +29,7 @@ export default function UserCard({ userObj }) {
           <img
             src={userObj.user.profileImage}
             alt=""
-            className="rounded-full h-24 cursor-pointer"
+            className="rounded-full h-24 cursor-pointer aspect-square"
             onClick={() => navigate(`/userprofile/${userObj.id}`)}
           />
           <div>

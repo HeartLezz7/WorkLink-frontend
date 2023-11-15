@@ -26,7 +26,7 @@ export default function AdminWorkCard({ workObj }) {
           </div>
           <div className="flex ">
             <p className="w-32 ">Work :</p>
-            <p className="h-32 w-full overflow-auto hover:overflow-y-scroll">
+            <p className="max-h-20 w-full overflow-auto hiddenScrollStyle">
               {workObj.description}
             </p>
           </div>
@@ -42,7 +42,7 @@ export default function AdminWorkCard({ workObj }) {
               )}
               <div className="flex">
                 <p className="w-28">Price :</p>{" "}
-                <p className="font-bold">{workObj.price}</p>
+                <p className="font-bold">{workObj.price} THB</p>
               </div>
             </div>
             {workObj.statusWork === "adminReview" ? (
