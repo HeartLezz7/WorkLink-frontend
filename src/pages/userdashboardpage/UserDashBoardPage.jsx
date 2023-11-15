@@ -1,3 +1,4 @@
+import ReviewModal from "../../components/modal/ReviewModal";
 import DoingWork from "./doingwork/DoingWork";
 import OwnerWork from "./ownerwork/OwnerWork";
 import UserWallet from "./userwallet/UserWallet";

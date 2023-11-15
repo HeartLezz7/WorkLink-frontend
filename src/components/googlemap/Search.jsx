@@ -31,31 +31,28 @@ export default function Search({ userLocation, panTo }) {
     },
   });
 
-  // console.log(value)
-  // console.log(data)
-
-  // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
+// console.log(value)
+// console.log(data)
+ // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
 
   const handdleSelect = async (address) => {
     setValue(address, false);
     clearSuggestions();
     try {
       const resultfromGeocode = await getGeocode({ address });
-      console.log("xxxxxxxxxxxxxxxxxxx", resultfromGeocode[0]);
+      console.log("Search and Select location",resultfromGeocode[0]);
       const { lat, lng } = await getLatLng(resultfromGeocode[0]);
       panTo({ lat, lng });
-      console.log("lat:", lat, "lng:", lng);
-
-      const area = data;
-      console.log(area);
-      setKeepLocation(area, ...keepLocation);
-      clearSuggestions();
+      const area = data
+      // console.log(area)
+      setKeepLocation(area,...keepLocation)
+      clearSuggestions()
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log(keepLocation);
+  // console.log(keepLocation)
   return (
     <div>
       <div className="flex items-center justify-center gap-2">
@@ -82,9 +79,6 @@ export default function Search({ userLocation, panTo }) {
             </ComboboxList>
           </ComboboxPopover>
         </Combobox>
-        {/* <button className="bg-primaryDarker rounded-2xl p-2 w-32 text-lg font-bold cursor-pointer text-textWhite invisible ">
-          Go
-        </button> */}
       </div>
     </div>
   );

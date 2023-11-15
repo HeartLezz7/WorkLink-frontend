@@ -36,7 +36,7 @@ export default function TransactionCard({ detail }) {
         )}
 
         <p className="text-secondaryLight text-sm font-bold truncate">
-          Status : pending
+          Status : {detail.status}
         </p>
       </div>
     </div>

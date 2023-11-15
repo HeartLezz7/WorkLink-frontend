@@ -53,7 +53,8 @@ export default function OwnerWorkCard({ work }) {
             CreateAt : {getDate(work.createdAt)}
           </div>
           <div className="text-sm text-textGrayDark">
-            Workdate : {getDate(work.startDate)} - {getDate(work.endDate)}
+            Workdate : {getDate(work.startDate)} {work.endDate && "-"}{" "}
+            {getDate(work.endDate)}
           </div>
           <div className="text-sm text-textGrayDark">
             Price : {work.price} Bath

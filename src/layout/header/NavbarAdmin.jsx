@@ -16,7 +16,7 @@ export default function NavbarAdmin() {
       </div>
       <div className="flex gap-8 items-center justify-center ">
         <Link
-          to="/"
+          to="/admin"
           className={`text-4xl  hover:scale-105 cursor-pointer active:scale-90 ${
             pathname === "/"
               ? "underline underline-offset-4 scale-105 text-secondary"
@@ -27,7 +27,7 @@ export default function NavbarAdmin() {
         </Link>
 
         <Link
-          to="/"
+          to="/admin"
           className={`text-3xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
             pathname === "/"
               ? "underline underline-offset-4 scale-105 text-secondary"

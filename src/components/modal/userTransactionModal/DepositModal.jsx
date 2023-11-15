@@ -8,6 +8,7 @@ import InputBorderForm from "../../InputBorderForm";
 import useWallet from "../../../hooks/useWallet";
 import InputErrorMessage from "../../InputErroMessage";
 
+
 export default function DepositModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);

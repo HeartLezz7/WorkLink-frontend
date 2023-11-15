@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
 import BallAnimation from "../../components/BallAnimation";
 import jwtDecode from "jwt-decode";
+import toast from 'react-hot-toast'
 
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -34,9 +35,11 @@ export default function LoginPage() {
       setError({});
       console.log("before");
       await login(result.value);
+      toast.success('Successfully login!')
       navigate("/dashboard");
       // console.log("after");
     } catch (err) {
+      toast.error('Wrong username or password')
       console.log(err);
     }
   };
