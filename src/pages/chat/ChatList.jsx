@@ -1,19 +1,50 @@
 import search from "../../../public/icons/search.png";
 import ChatUser from "./ChatUser";
+import { useState } from "react";
 
 export default function ChatList({ chatRoom }) {
+  const [searchName, setSearchName] = useState("");
+
+  const handleInput = (e) => {
+    setSearchName(e.target.value);
+  };
+
+  let filterName = [...chatRoom];
+
+  console.log(searchName);
+  console.log(chatRoom);
+  console.log(filterName, "FilterName........");
+
+  if (searchName) {
+    filterName = chatRoom.filter((el) => {
+      if (
+        el.dealer.firstName.toLowerCase().includes(searchName.toLowerCase())
+      ) {
+        return true;
+      }
+      return false;
+    });
+  }
+
+  console.log(filterName, "xxxxxxxxxxxx");
+
   return (
     <div className="h-[calc(100vh-60px)]">
       <div className="p-5 border-b h-[100px] flex justify-center items-center">
-        <div className="w-full border flex justify-between items-center px-6 py-3 rounded-xl">
-          <div>Search for...</div>
+        <div className="w-full border flex justify-between items-center px-6 py-3 rounded-xl ">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full  flex justify-between items-center px-6 py-3 rounded-xl"
+            onChange={handleInput}
+          />
           <div>
             <img src={search} alt="search" className="w-[30px]" />
           </div>
         </div>
       </div>
       <div className="overflow-y-scroll h-[calc(100vh-160px)]">
-        {chatRoom.map((chat) => (
+        {filterName.map((chat) => (
           <ChatUser
             key={chat.id}
             chatRoom={chatRoom}
