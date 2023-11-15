@@ -9,42 +9,9 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useRef } from "react";
+import BoxMessage from "./BoxMessage";
+import InputMessage from "./InputMessage";
 
-const BoxMessage = ({ senderId, message, dealerImage }) => {
-  const { user } = useAuth();
-  return (
-    <div
-      className={`w-full flex ${
-        senderId === user.id ? "justify-end" : "justify-start"
-      } items-center gap-[5px]`}
-    >
-      {senderId === user.id ? (
-        ""
-      ) : (
-        <img
-          src={dealerImage}
-          alt="profile img"
-          className="w-10 rounded-full"
-        />
-      )}
-      <div className="border border-textGrayLight w-fit py-2 px-4 rounded-full">
-        {message}
-      </div>
-    </div>
-  );
-};
-
-const InputMessage = ({ value, onChange }) => {
-  return (
-    <input
-      type="text"
-      placeholder="message..."
-      value={value}
-      onChange={onChange}
-      className="w-full rounded-xl py-2 px-4 outline-none bg-backgroundWhiteBlue"
-    />
-  );
-};
 export default function ChatBox() {
   const [input, setInput] = useState("");
   const [file, setFile] = useState(null);
@@ -107,7 +74,7 @@ export default function ChatBox() {
     try {
       e.preventDefault();
       const message = {
-        message: "",
+        data: "",
         senderId: user.id,
         receiverId: checkUser(),
         room: +chatRoomId,
@@ -154,7 +121,14 @@ export default function ChatBox() {
           })}
         </div>
       </div>
-      <div className="row-span-1 p-5 flex items-center justify-center ">
+      <div className="row-span-1 p-5 flex flex-col items-start justify-center gap-2">
+        {file && (
+          <img
+            src={URL.createObjectURL(file)}
+            alt="file"
+            className="h-36 border border-textGrayLight p-2"
+          />
+        )}
         <div className="border flex justify-between items-center px-6 py-3 rounded-full w-full gap-2 relative">
           <form
             className="w-full flex items-center gap-2"
@@ -190,22 +164,15 @@ export default function ChatBox() {
               )}
             </div>
             <div>
-              {file && (
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="file"
-                  className="h-36 border border-textGrayLight p-2"
-                />
-              )}
               <InputMessage
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
             </div>
           </form>
-          <div>
+          <button onClick={handleSubmitChat}>
             <img src={plane} alt="plane" className="w-[40px]" />
-          </div>
+          </button>
         </div>
       </div>
     </div>

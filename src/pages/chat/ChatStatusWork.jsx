@@ -103,7 +103,16 @@ export default function ChatStatusWork() {
             ""
           ) : chatRoom?.dealer?.id && work.statusWork === STATUS_MAKEDEAL ? (
             <>
-              <WorkButton title="Accept" workId={work?.id} />
+              <WorkButton
+                title="Accept"
+                workId={work?.id}
+                workerId={chatRoom?.dealer?.id}
+              />
+              <WorkButton
+                title="Reject"
+                workId={work?.id}
+                workerId={chatRoom?.dealer?.id}
+              />
             </>
           ) : chatRoom?.dealer?.id && work.statusWork === STATUS_ONPROCESS ? (
             <>
