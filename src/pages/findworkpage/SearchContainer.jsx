@@ -10,6 +10,7 @@ export default function SearchContainer() {
   const [isOpen, setIsOpen] = useState(false);
   const { searchName, setSearchName } = useWork();
   console.log(address);
+
   return (
     <>
       <div className="relative w-[60%]">
