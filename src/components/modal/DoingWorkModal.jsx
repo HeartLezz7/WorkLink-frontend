@@ -16,7 +16,7 @@ export default function DoingWorkModal({ work, setIsOpen, isDoing }) {
     axios
       .get(`/chat/checkchatroom/${work.id}`)
       .then((res) => {
-        setChatRoomId(res.data.chatroom);
+        setChatRoomId(res.data.chatroom.id);
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -28,6 +28,7 @@ export default function DoingWorkModal({ work, setIsOpen, isDoing }) {
     await signOut(work.id);
     setIsOpen(false);
   };
+  console.log(chatRoomId);
 
   return (
     <>

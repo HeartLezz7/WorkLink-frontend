@@ -51,7 +51,8 @@ export default function DoingWorkCard({ work, isDoing }) {
           <div>
             <div className="text-textNavy truncate ">{work.title}</div>
             <div className="text-sm text-textGrayDark">
-              Workdate : {getDate(work.startDate)} - {getDate(work.endDate)}
+              Workdate : {getDate(work.startDate)} {work.endDate && "-"}{" "}
+              {getDate(work.endDate)}
             </div>
             <div className="text-sm text-textGrayDark">
               Price : {work.price} Bath
