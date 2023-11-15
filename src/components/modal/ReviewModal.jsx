@@ -1,35 +1,28 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Loading from "../Loading/Loading";
-import useAuth from "../../hooks/useAuth";
 import axios from "../../configs/axios";
-import { LuImagePlus } from "react-icons/lu";
 import { RatingStar } from "../RatingStar";
 
-export default function ReviewModal({ setIsOpen }) {
+export default function ReviewModal({ setOpenModal, workId }) {
   const [loading, setLoading] = useState(false);
-  const fileEl = useRef(null);
+
   const [detail, setDetail] = useState("");
   const [rating, setRating] = useState(0);
-  const handleChangeInput = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-  };
+  console.log(workId, "check");
+
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
 
-      //   const { value, error } = schema.validate(input, {
-      //     abortEarly: false,
-      //   });
-      //   if (error) {
-      //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
-      //   }
+      if (rating == 0) {
+        return;
+      }
       setLoading(true);
-      const data = { rating, detail };
+      const data = { rating, detail, workId };
       console.log(data);
+      await axios.patch("/work/success", data);
 
-      // const res = await axios.patch("user/editprofile", formData);
-
-      setIsOpen(false);
+      setOpenModal(false);
     } catch (err) {
       console.log(err);
     } finally {
@@ -48,7 +41,7 @@ export default function ReviewModal({ setIsOpen }) {
           >
             {loading && <Loading />}
             <div
-              onClick={() => setIsOpen(false)}
+              onClick={() => setOpenModal(false)}
               className="absolute top-3 right-3"
             >
               <img

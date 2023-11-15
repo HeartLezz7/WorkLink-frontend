@@ -1,9 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import UserDropDown from "../UserDropDown";
 import { BsChatTextFill } from "react-icons/bs";
+import { useParams } from "react-router-dom";
 
 export default function UserNavBar() {
   const { pathname } = useLocation();
+  const { chatRoomId } = useParams();
 
   return (
     <nav className="flex items-center justify-end gap-[24px] text-whitetext h-full font-bold text-2xl">
@@ -40,7 +42,7 @@ export default function UserNavBar() {
       <Link
         to="/chatRoom"
         className={`text-3xl font-bold hover:scale-105 cursor-pointer active:scale-90 ${
-          pathname === "/chatRoom"
+          pathname === "/chatRoom" || pathname === `/chatRoom/${chatRoomId}`
             ? "underline underline-offset-4 scale-105 text-secondary"
             : "text-disable"
         }`}

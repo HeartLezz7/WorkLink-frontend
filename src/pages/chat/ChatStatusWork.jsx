@@ -1,14 +1,8 @@
 import {
-  // STATUS_CANCEL,
   STATUS_FINDING,
-  // STATUS_ISSUE,
   STATUS_MAKEDEAL,
   STATUS_ONPROCESS,
-  // STATUS_FINDING,
-  // STATUS_MAKEDEAL,
-  // STATUS_ONPROCESS,
   STATUS_REQUEST,
-  // STATUS_SUCCESS,
 } from "../../configs/constants";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { useState } from "react";
@@ -17,14 +11,19 @@ import ReportItem from "./ReportItem";
 import useChat from "../../hooks/useChat";
 import useWork from "../../hooks/useWork";
 import useAuth from "../../hooks/useAuth";
+import ReviewModal from "../../components/modal/ReviewModal";
+
+const SuccessButton = ({ onClick }) => {
+  return <button onClick={onClick}>Success</button>;
+};
 
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
 
   const { user } = useAuth();
   const { allWorks } = useWork();
   const { chatRoom } = useChat();
-  console.log(chatRoom?.creater, "room");
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
 
@@ -35,7 +34,7 @@ export default function ChatStatusWork() {
           <div className="bg-secondaryLight text-textWhite text-4xl text-center p-3 font-semibold">
             Status
           </div>
-          <div className="flex flex-col items-center gap-10 p-10 relative ">
+          <div className="flex flex-col items-center gap-10 p-10 relative overflow-y-scroll h-[550px]">
             <div className="absolute top-5 right-5  border rounded-full cursor-pointer">
               <BiDotsHorizontalRounded
                 size={20}
@@ -103,16 +102,31 @@ export default function ChatStatusWork() {
             ""
           ) : chatRoom?.dealer?.id && work.statusWork === STATUS_MAKEDEAL ? (
             <>
-              <WorkButton title="Accept" workId={work?.id} />
+              <WorkButton
+                title="Accept"
+                workId={work?.id}
+                workerId={chatRoom?.dealer?.id}
+              />
+              <WorkButton
+                title="Reject"
+                workId={work?.id}
+                workerId={chatRoom?.dealer?.id}
+              />
             </>
           ) : chatRoom?.dealer?.id && work.statusWork === STATUS_ONPROCESS ? (
             <>
-              <WorkButton title="Success" workId={work?.id} />
+              <SuccessButton
+                workId={work?.id}
+                onClick={() => setOpenModal(true)}
+              />
             </>
           ) : (
             ""
           )}
         </div>
+        {openModal && (
+          <ReviewModal setOpenModal={setOpenModal} workId={work?.id} />
+        )}
       </div>
     </>
   );
