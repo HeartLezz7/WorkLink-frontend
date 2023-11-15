@@ -7,6 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import InputBorderForm from "../../InputBorderForm";
 import useWallet from "../../../hooks/useWallet";
 import InputErrorMessage from "../../InputErroMessage";
+import Loading from "../Loading/Loading";
 
 export default function DepositModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
