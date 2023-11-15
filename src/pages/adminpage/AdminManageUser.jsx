@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function AdminManageUser() {
   const [alluser, setAllUser] = useState([]);
   const [notiVerify, setNotiVerify] = useState([]);
+  const [searchUser,setSearchUser] = useState("")
 
   useEffect(() => {
     getuser();
@@ -47,6 +48,19 @@ export default function AdminManageUser() {
     return banned;
   };
 
+  const handleInput = (e) =>{
+    setSearchUser(e.target.value)
+  }
+  let filterUser =[...alluser]
+  if(searchUser){
+    filterUser = alluser.filter((el)=>{
+      if(el.email.toLowerCase().includes(searchUser.toLowerCase())){
+        return true
+      }
+      return false
+    })
+  }
+
   return (
     <div className="flex flex-col w-full ">
       <div className="flex gap-4 items-center justify-start p-6 pb-2">
@@ -55,6 +69,7 @@ export default function AdminManageUser() {
             type="text"
             placeholder="search for..."
             className="p-2 text-primaryDarker rounded-xl w-72 px-5"
+            onChange={handleInput}
           />
         </div>
         <div
@@ -87,7 +102,7 @@ export default function AdminManageUser() {
         count : {alluser.length}
       </p>
       <div className="flex flex-col">
-        {alluser.map((el) => (
+        {filterUser.map((el) => (
           <UserCard key={el.id} userObj={el} />
         ))}
       </div>
