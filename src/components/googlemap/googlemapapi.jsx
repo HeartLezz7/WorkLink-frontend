@@ -40,16 +40,18 @@ const thisPin = redPin[0]
   console.log(thisPin);
 
   //useCallback is function that allow you to retain same value atleast [] change
-  const onMapClick = useCallback((e) => {
-    setRedPin(() => [
-      {
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-        // time: new Date(),
-        // next is show this newState on Map
-      },
-    ]);
+  const onMapClick = useCallback( (e) => {
+    const latAndLog = {
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+      // time: new Date(),
+      // next is show this newState on Map
+    }
+    setRedPin(() => [latAndLog]
+    );
+    return latAndLog
   }, []);
+  
   console.log("State-----RedPin", thisPin);
 
   const geoCoding = async (pin) => {
@@ -142,7 +144,7 @@ console.log(mapAddress,"xxxxx")
                     >
                       <div>
                         <p className="text-2xl">Work Place Work Link</p>
-                        <p>Have Hotel Have room Have.....</p>
+                        <p>{mapAddress}</p>
                       </div>
                     </InfoWindow>
                   ) : null}
