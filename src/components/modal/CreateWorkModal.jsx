@@ -12,13 +12,14 @@ const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
 
+
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const { allWorks, createWork, category } = useWork();
-  const [address, setAddress] = useState([]);
-  console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
+  const [address, setAddress] = useState();
+  console.log(address);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
@@ -248,25 +249,20 @@ export default function CreateWorkModal({ setIsOpen }) {
                 </div>
               </div>
               {input.isOnsite != 0 && (
-                <div className="flex gap-2 w-full">
-                  <div className=" border p-1 border-primary w-3/4 outline-none rounded-md font-semibold text-textNavy text-center">
-                    <p>{address}</p>
-                  </div>
+                <div className="flex gap-2 w-full justify-center">
                   <div
-                    className="p-1 bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight w-1/4 outline-none rounded-md font-semibold text-textNavy text-center cursor-pointer"
+                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center "
                     onClick={() => {
                       setIsOpenMap(true);
                     }}
                   >
-                    <p>Add location</p>
+                    {address ? 
+                    <div className="flex flex-col">
+                    <p className="font-bold">Edit : </p> 
+                    <p>{address}</p> 
+                    </div>
+                    : <p>Add location</p>}
                   </div>
-
-                  <ModalMap
-                    open={isOpen}
-                    onClose={() => setIsOpenMap(false)}
-                    setAddress={setAddress}
-                    address={address}
-                  />
                   {/* <input
                     type="text"
                     placeholder="AddressLat"
@@ -301,6 +297,14 @@ export default function CreateWorkModal({ setIsOpen }) {
               </button>
             </div>
           </form>
+          <ModalMap
+            open={isOpen}
+            onClose={() => {
+              setIsOpenMap(false);
+            }}
+            setAddress={setAddress}
+            address={address}
+          />
         </div>
       </div>
     </>
