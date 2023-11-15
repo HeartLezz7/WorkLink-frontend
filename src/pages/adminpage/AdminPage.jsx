@@ -51,7 +51,7 @@ export default function AdminPage() {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex gap-4 items-center justify-start p-6">
+      <div className="flex gap-4 items-center justify-start p-6 pb-2">
         <div className="flex">
           <input
             type="text"
