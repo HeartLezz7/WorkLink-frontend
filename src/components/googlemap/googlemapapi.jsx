@@ -10,6 +10,7 @@ import { useCallback } from "react";
 import "@reach/combobox/styles.css";
 import Search from "./Search";
 import googleAxios from "../../configs/googleAxios";
+import useWork from "../../hooks/useWork";
 
 const mapContainerStyle = {
   width: "100%",
@@ -22,8 +23,17 @@ const userLocation = {
 const key = 1;
 const libraries = ["places"];
 
-function GoogleMapApi({ open, onClose, setAddress }) {
-  const [mapAddress,setMapAddress] = useState([])
+function GoogleMapApi({
+  open,
+  onClose,
+  setAddress,
+  input,
+  setInput,
+  onWorkModal,
+  onFindingWork,
+}) {
+  const [mapAddress, setMapAddress] = useState([]);
+  const { setLocationName, setSearchLocation } = useWork();
   let libRef = useRef(libraries);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API,
@@ -33,25 +43,35 @@ function GoogleMapApi({ open, onClose, setAddress }) {
   //marker that user wants to see detail for
   const [userSelected, setUserSelected] = useState(null);
   const [redPin, setRedPin] = useState([]);
-  console.log(redPin)
+  console.log(redPin);
 
-
-const thisPin = redPin[0]
+  const thisPin = redPin[0];
   console.log(thisPin);
 
   //useCallback is function that allow you to retain same value atleast [] change
-  const onMapClick = useCallback( (e) => {
+  const onMapClick = useCallback((e) => {
     const latAndLog = {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
       // time: new Date(),
       // next is show this newState on Map
+    };
+    setRedPin(() => [latAndLog]);
+    if (onFindingWork) {
+      setSearchLocation(latAndLog);
     }
-    setRedPin(() => [latAndLog]
-    );
-    return latAndLog
+    if (onWorkModal) {
+      // console.log("---------come");
+      setInput({
+        ...input,
+        isOnsite: 1,
+        addressLat: e.latLng.lat(),
+        addressLong: e.latLng.lng(),
+      });
+    }
+    return latAndLog;
   }, []);
-  
+
   console.log("State-----RedPin", thisPin);
 
   const geoCoding = async (pin) => {
@@ -61,20 +81,21 @@ const thisPin = redPin[0]
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${pin.lat},${pin.lng}&key=${GOOGLE_MAP_API}`
       );
       setMapAddress(result.data.results[0].formatted_address);
-      console.log(result.data.results[0].formatted_address)
+      if (onFindingWork) {
+        setLocationName(result.data.results[0].formatted_address);
+      }
+      console.log(result.data.results[0].formatted_address);
       return result.data.results[0].formatted_address;
     } catch (err) {
       console.log(err);
     }
   };
 
-const getMap = (e) => {
-const pin = onMapClick(e)
-// console.log(pin,"pin addressssssssssssssssssssssssssss")
-geoCoding(pin)
-  }
-
-  
+  const getMap = (e) => {
+    const pin = onMapClick(e);
+    // console.log(pin,"pin addressssssssssssssssssssssssssss")
+    geoCoding(pin);
+  };
 
   //useCallback is function that allow you to retain same value atleast [] change
 
@@ -84,15 +105,15 @@ geoCoding(pin)
     mapRef.current = map;
   }, []);
 
-  const panTo = useCallback(({lat,lng}) => {
-    mapRef.current.panTo({lat,lng})
-    mapRef.current.setZoom(14)
-  },[])
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
+  }, []);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
 
-console.log(mapAddress,"xxxxx")
+  console.log(mapAddress, "xxxxx");
 
   return (
     <>
@@ -102,7 +123,7 @@ console.log(mapAddress,"xxxxx")
             className="flex-col h-screen w-screen fixed inset-0 flex items-center justify-center z-50"
             onSubmit={(e) => {
               e.preventDefault();
-              setAddress(mapAddress)
+              setAddress(mapAddress);
               onClose();
             }}
           >
@@ -112,7 +133,7 @@ console.log(mapAddress,"xxxxx")
                   <h4 className="w-full text-center p-2">
                     Connect with thousands of workers near you
                   </h4>
-                  <Search userLocation={userLocation}  panTo={panTo}/>
+                  <Search userLocation={userLocation} panTo={panTo} />
                 </div>
 
                 <GoogleMap

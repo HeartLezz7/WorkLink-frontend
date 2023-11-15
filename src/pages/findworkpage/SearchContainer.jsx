@@ -8,8 +8,14 @@ export default function SearchContainer() {
   const [orderBy, setOrderBy] = useState("all");
   const [address, setAddress] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const { searchName, setSearchName } = useWork();
-  console.log(address);
+  const {
+    searchName,
+    setSearchName,
+    locationName,
+    setLocationName,
+    setSearchLocation,
+  } = useWork();
+  console.log(locationName);
 
   return (
     <>
@@ -31,7 +37,11 @@ export default function SearchContainer() {
       <div className=" flex items-end justify-start w-[80%] mt-10 gap-5">
         <p className="text-textNavy text-2xl font-bold py-1">Filter :</p>
         <p
-          onClick={() => setOrderBy("all")}
+          onClick={() => {
+            setOrderBy("all");
+            setLocationName("");
+            setSearchLocation();
+          }}
           className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
             orderBy === "all"
               ? "text-textNavy bg-secondaryLight rounded-full"
@@ -40,29 +50,45 @@ export default function SearchContainer() {
         >
           All
         </p>
-        <p
+        <div
           onClick={() => {
             setOrderBy("nearme");
             setIsOpen(true);
           }}
-          className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
+          className={`flex items-center cursor-pointer px-3 font-semibold text-2xl py-1 max-w-[500px] ${
             orderBy === "nearme"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
         >
-          Near Me (10km)
-        </p>
+          {locationName ? (
+            <>
+              <span className="text-sm py-1 text-start truncate max-w-[400px]">
+                {locationName}
+              </span>
+              <span className="text-sm py-1 text-start w-fit line-clamp-1 ">
+                (in 10 km)
+              </span>
+            </>
+          ) : (
+            "Near Me (10km)"
+          )}
+        </div>
 
         <ModalMap
           open={isOpen}
           onClose={() => setIsOpen(false)}
           setAddress={setAddress}
           address={address}
+          onFindingWork={true}
         />
 
         <p
-          onClick={() => setOrderBy("soon")}
+          onClick={() => {
+            setOrderBy("soon");
+            setLocationName("");
+            setSearchLocation();
+          }}
           className={` cursor-pointer px-3 py-1 font-semibold text-2xl ${
             orderBy === "soon"
               ? "text-textNavy bg-secondaryLight rounded-full"

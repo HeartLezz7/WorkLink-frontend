@@ -2,6 +2,7 @@ import axios from "../configs/axios";
 import { createContext, useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import { STATUS_FINDING, STATUS_MAKEDEAL } from "../configs/constants";
+import findDistance from "../utils/findDistance";
 
 export const WorkContext = createContext();
 
@@ -15,6 +16,7 @@ export default function WorkContextProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [searchCatId, setSearchCatId] = useState(0);
+  const [locationName, setLocationName] = useState("");
   const [searchLocation, setSearchLocation] = useState();
 
   const { user } = useAuth();
@@ -68,6 +70,18 @@ export default function WorkContextProvider({ children }) {
     if (searchCatId) {
       baseWork = baseWork.filter((el) => el.categoryId == searchCatId);
     }
+    if (searchLocation) {
+      baseWork = baseWork.filter((el) => {
+        if (el.isOnsite) {
+          let pointA = searchLocation;
+          let pointB = { lat: el.addressLat, lng: el.addressLong };
+          let distace = findDistance(pointA, pointB);
+          if (distace < 10) {
+            return true;
+          }
+        }
+      });
+    }
     setShowWork(baseWork);
   }, [searchName, searchCatId, searchLocation]);
 
@@ -113,6 +127,7 @@ export default function WorkContextProvider({ children }) {
       console.log(error);
     }
   };
+  console.log("address on context", searchLocation, locationName);
 
   return (
     <WorkContext.Provider
@@ -137,6 +152,8 @@ export default function WorkContextProvider({ children }) {
         setMySignWork,
         myDoingWork,
         setMyDoingWork,
+        locationName,
+        setLocationName,
       }}
     >
       {children}

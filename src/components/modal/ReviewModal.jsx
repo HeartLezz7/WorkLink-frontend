@@ -7,7 +7,6 @@ import { RatingStar } from "../RatingStar";
 
 export default function ReviewModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
-  const [isHover, setIsHover] = useState(false);
   const fileEl = useRef(null);
   const [detail, setDetail] = useState("");
   const [rating, setRating] = useState(0);
