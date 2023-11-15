@@ -1,5 +1,8 @@
 import { useState } from "react";
 import WithdrawCheckModal from "../../components/modal/AdminModal/WithdrawCheckModal";
+import ApproveTransaction from "../../components/modal/AdminModal/ApproveTransaction";
+import RejectTransaction from "../../components/modal/AdminModal/RejectTransaction";
+import DepositAdminModal from "../../components/modal/AdminModal/DepositAdminModal";
 
 export default function TransactionCardAdmin({ data }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +22,7 @@ export default function TransactionCardAdmin({ data }) {
     second: "numeric",
   }).format(dateData);
 
+  console.log(data);
   return (
     <div className="flex flex-col w-full p-3">
       <div className="flex justify-between items-center gap-5 border px-8 py-4 border-textGrayLight rounded-2xl bg-background shadow-lg">
@@ -67,18 +71,51 @@ export default function TransactionCardAdmin({ data }) {
                 className="border  w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-primary"
                 onClick={() => setIsOpen(true)}
               >
-                Pending
+                {data.status}
               </button>
-              <WithdrawCheckModal
-                setIsOpen={setIsOpen}
+              {data.type === "deposit" ? (
+                <DepositAdminModal
+                  setIsOpen={setIsOpen}
+                  open={isOpen}
+                  data={data}
+                />
+              ) : (
+                <WithdrawCheckModal
+                  setIsOpen={setIsOpen}
+                  open={isOpen}
+                  data={data}
+                />
+              )}
+            </div>
+          ) : data.status === "reject" ? (
+            <div>
+              <button
+                className="border bg-secondaryDark w-40 h-12 rounded  border-secondaryDark mx-5 text-textWhite"
+                onClick={() => setIsOpen(true)}
+              >
+                {data.status}
+              </button>
+              <RejectTransaction
                 open={isOpen}
+                setIsOpen={setIsOpen}
                 data={data}
               />
             </div>
           ) : (
-            <button className="border bg-primaryDark w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-textWhite">
-              Approve
-            </button>
+            <div>
+              <button
+                className="border bg-primaryDark w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-textWhite"
+                onClick={() => setIsOpen(true)}
+              >
+                {data.status}
+              </button>
+
+              <ApproveTransaction
+                open={isOpen}
+                setIsOpen={setIsOpen}
+                data={data}
+              />
+            </div>
           )}
         </div>
       </div>
