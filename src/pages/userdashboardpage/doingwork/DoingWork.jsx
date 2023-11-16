@@ -3,11 +3,16 @@ import DoingWorkCard from "./DoingWorkCard";
 import axios from "../../../configs/axios";
 import { STATUS_FINDING, STATUS_MAKEDEAL } from "../../../configs/constants";
 import useWork from "../../../hooks/useWork";
+import { Select } from "antd";
 
 export default function DoingWork() {
   const [filter, setFilter] = useState("all");
   const { myDoingWork, mySignWork } = useWork();
   console.log(myDoingWork);
+
+  const handleChangeFilter = (value) => {
+    setFilter(value);
+  };
 
   return (
     <div className="p-1 h-full relative">
@@ -18,6 +23,21 @@ export default function DoingWork() {
         <div className="flex justify-between w-full items-center px-2 pb-2 pt-1">
           <div className="flex gap-3 ">
             <img src="/icons/filter.svg" alt="" className="w-[30px]" />
+            <Select
+              defaultValue="all"
+              style={{
+                width: "150px",
+                border: "2px solid #000",
+                borderRadius: "8px",
+              }}
+              onChange={handleChangeFilter}
+              options={[
+                { value: "all", label: "All" },
+                { value: "onProcess", label: "OnProcess" },
+                { value: "success", label: "Success" },
+                { value: "cancel", label: "Cancel" },
+              ]}
+            />
             <div
               onClick={() => {
                 setFilter("all");

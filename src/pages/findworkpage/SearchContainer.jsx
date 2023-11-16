@@ -5,7 +5,7 @@ import ModalMap from "../../components/modal/ModalMap";
 import useWork from "../../hooks/useWork";
 
 export default function SearchContainer() {
-  const [orderBy, setOrderBy] = useState("all");
+  const [filter, setFilter] = useState("all");
   const [address, setAddress] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const {
@@ -14,6 +14,7 @@ export default function SearchContainer() {
     locationName,
     setLocationName,
     setSearchLocation,
+    setSearchRemote,
   } = useWork();
   console.log(locationName);
 
@@ -38,12 +39,13 @@ export default function SearchContainer() {
         <p className="text-textNavy text-2xl font-bold py-1">Filter :</p>
         <p
           onClick={() => {
-            setOrderBy("all");
+            setFilter("all");
+            setSearchRemote(false);
             setLocationName("");
             setSearchLocation();
           }}
           className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
-            orderBy === "all"
+            filter === "all"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
@@ -52,11 +54,10 @@ export default function SearchContainer() {
         </p>
         <div
           onClick={() => {
-            setOrderBy("nearme");
             setIsOpen(true);
           }}
           className={`flex items-center cursor-pointer px-3 font-semibold text-2xl py-1 max-w-[500px] ${
-            orderBy === "nearme"
+            locationName
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
@@ -80,17 +81,19 @@ export default function SearchContainer() {
           onClose={() => setIsOpen(false)}
           setAddress={setAddress}
           address={address}
+          setFilter={setFilter}
           onFindingWork={true}
         />
 
         <p
           onClick={() => {
-            setOrderBy("soon");
+            setFilter("remote");
+            setSearchRemote(true);
             setLocationName("");
             setSearchLocation();
           }}
           className={` cursor-pointer px-3 py-1 font-semibold text-2xl ${
-            orderBy === "soon"
+            filter === "remote"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
