@@ -5,92 +5,92 @@ import axios from "../../configs/axios";
 import { useEffect } from "react";
 import ShowCaseCard from "./showcasedetail/ShowCaseCard";
 import AddOutstandingModal from "../../components/modal/addShowcaseModal/AddOutstandingModal";
+import useAuth from "../../hooks/useAuth";
+import Loading from "../../components/Loading/Loading";
 
-export default function ShowCase() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [showcase,setShowcase] = useState([])
-  
+export default function ShowCase({ profileData }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showcase, setShowcase] = useState([]);
+  const { user } = useAuth();
 
   const createShowcase = async (data) => {
-  await axios.post("/user/createshowcase", data);
-  getShowcase()
+    try {
+      setIsLoading(true);
+      await axios.post("/user/createshowcase", data);
+      getShowcase();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-
-  const getShowcase = () =>{
+  const getShowcase = () => {
     axios
-    .get('/user/showcase')
-    .then((res) => {
-      setShowcase(res.data.getShowCase);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .get(`/user/showcase/${profileData.id}`)
+      .then((res) => {
+        setShowcase(res.data.getShowCase);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  }
-
-  const deleteShowcase = async (id) =>{
+  const deleteShowcase = async (id) => {
     try {
-      await axios
-      .delete(`/user/showcase/${id}`)
-      setShowcase(showcase.filter((el)=> el.id !== id))
-
+      await axios.delete(`/user/showcase/${id}`);
+      setShowcase(showcase.filter((el) => el.id !== id));
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  }
-  useEffect(()=>{
-    getShowcase()
-  },[])
+  };
+  useEffect(() => {
+    if (profileData) {
+      getShowcase();
+    }
+  }, [profileData]);
 
-  console.log(showcase)
-  
+  console.log(showcase);
+
   return (
     <>
       <div className="flex gap-2 items-center">
+        {isLoading && <Loading />}
         <h6 className="text-textNavy">My outstanding</h6>
-        <button 
-        className="bg-secondary px-3 py-1 rounded-lg text-lg font-bold text-textNavy"
-        onClick={() => setIsOpen(true)}
-        >
-          Add+
-        </button>
-        <div>
 
-
-        {isOpen && <AddOutstandingModal
-        setIsOpen={setIsOpen}
-        showcase={showcase}
-        onSubmit={createShowcase}>
-
-        </AddOutstandingModal>}
-
-        {/* In case AddOutstandingModal not wrking  */}
-        {/* <OutstaindingModal open={isOpen}
-        maxWidth={32} 
-        onClose={() => setIsOpen(false)}>
-
-        <PortfolioModal
-        onSuccess ={()=>{
-          setIsOpen(false)
-        }}
-        open={isOpen}
-        setIsOpen={setIsOpen}
-        onSubmit={createShowcase}
-        
-        ></PortfolioModal>
-        </OutstaindingModal> */}
-
-        
-        </div>
+        {profileData?.id == user.id ? (
+          <>
+            <button
+              className="bg-secondary px-3 py-1 rounded-lg text-lg font-bold text-textNavy"
+              onClick={() => setIsOpen(true)}
+            >
+              Add+
+            </button>
+            <div>
+              {isOpen && (
+                <AddOutstandingModal
+                  setIsOpen={setIsOpen}
+                  showcase={showcase}
+                  onSubmit={createShowcase}
+                ></AddOutstandingModal>
+              )}
+            </div>
+          </>
+        ) : (
+          ""
+        )}
       </div>
       <div className="flex gap-5 items-center justify-start p-3 rounded-lg border-2 border-textGrayDark w-full overflow-x-scroll ">
         <div className="flex gap-3  py-3 ">
-              {showcase.map((el)=>(
-                 <ShowCaseCard key={el.id} showcase={el} deleteShowcase={deleteShowcase}
-                 getShowcase={getShowcase}
-                 />
-              ))}
+          {showcase.map((el) => (
+            <ShowCaseCard
+              key={el.id}
+              showcase={el}
+              deleteShowcase={deleteShowcase}
+              getShowcase={getShowcase}
+            />
+          ))}
         </div>
       </div>
     </>

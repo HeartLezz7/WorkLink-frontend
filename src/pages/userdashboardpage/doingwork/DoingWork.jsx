@@ -9,42 +9,32 @@ export default function DoingWork() {
   const [filter, setFilter] = useState("all");
   const { myDoingWork, mySignWork } = useWork();
   const [filterWork, setFilterWork] = useState(myDoingWork);
-  console.log(myDoingWork);
-  console.log(mySignWork);
-
-  // useEffect(() => {
-  //   if (allWorks.length > 0) {
-  //     const ownerWork = allWorks.filter(
-  //       (work) => work.ownerId === user.id && work.statusWork != "cancel"
-  //     );
-  //     if (filter === "all") {
-  //       setDelegatedWork(ownerWork);
-  //     } else if (filter === "onProcess") {
-  //       const filterWork = ownerWork.filter((work) => {
-  //         if (work.statusWork === "makeDeal") {
-  //           return true;
-  //         }
-  //         if (work.statusWork === "onProcess") {
-  //           return true;
-  //         }
-  //         if (work.statusWork === "reqSuccess") {
-  //           return true;
-  //         }
-  //         return false;
-  //       });
-  //       setDelegatedWork(filterWork);
-  //     } else {
-  //       const filterWork = ownerWork.filter(
-  //         (work) => work.statusWork === filter
-  //       );
-  //       setDelegatedWork(filterWork);
-  //     }
-  //     // console.log(ownerWork);
-  //   }
-  // }, [allWorks, filter]);
 
   const handleChangeFilter = (value) => {
     setFilter(value);
+    if (value === "all") {
+      setFilterWork(myDoingWork);
+    } else if (value === "success") {
+      const newfil = myDoingWork.filter((work) => work.statusWork === value);
+      setFilterWork(newfil);
+    } else if (value === "onProcess") {
+      const newfil = myDoingWork.filter((work) => {
+        if (work.statusWork === "makeDeal") {
+          return true;
+        }
+        if (work.statusWork === "onProcess") {
+          return true;
+        }
+        if (work.statusWork === "requestSuccess") {
+          return true;
+        }
+        return false;
+      });
+      setFilterWork(newfil);
+    } else {
+      const newfil = myDoingWork.filter((work) => work.statusWork === value);
+      setFilterWork(newfil);
+    }
   };
 
   return (
@@ -73,7 +63,7 @@ export default function DoingWork() {
             />
           </div>
         </div>
-        <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[96%] flex flex-col gap-3 pr-2">
+        <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[93%] flex flex-col gap-3 pr-2">
           {filter === "all" ? (
             <>
               {filterWork.length > 0 &&

@@ -54,7 +54,7 @@ export default function OwnerWork() {
         Delegated Works
       </div>
       <div className="border-2 border-textNavy w-full  rounded-xl  pt-5 pb-3 px-1 h-full overflow-hidden">
-        <div className="flex justify-between items-center pb-2 pr-3">
+        <div className="flex justify-between items-center px-2 pb-2 pt-1">
           <div className="flex gap-3 ">
             <img src="/icons/filter.svg" alt="" className="w-[30px]" />
             <Select
@@ -87,7 +87,7 @@ export default function OwnerWork() {
             {isOpen && <CreateWorkModal setIsOpen={setIsOpen} />}
           </div>
         </div>
-        <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[96%] flex flex-col gap-3 pr-2">
+        <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[91%] flex flex-col gap-3 pr-2">
           {delegatedWork.map((work) => (
             <OwnerWorkCard key={work.id} work={work} />
           ))}

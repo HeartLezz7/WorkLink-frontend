@@ -10,7 +10,7 @@ import getDateFormat from "../../utils/getDateFormat";
 const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
-import ConfirmCancleWork from "./ConfirmCancleWorkModal";
+import ConfirmCancelWork from "./ConfirmCancelWorkModal";
 
 export default function EditWorkModal({ setIsOpen, work }) {
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ export default function EditWorkModal({ setIsOpen, work }) {
   const [address, setAddress] = useState([]);
   // console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
-  const [isCancleOpen, setIsCancleOpen] = useState(false);
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     id: work.id,
@@ -222,14 +222,14 @@ export default function EditWorkModal({ setIsOpen, work }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setIsCancleOpen(true)}
+                  onClick={() => setIsCancelOpen(true)}
                   className="flex-[3] text-whitetext font-semibold bg-textGrayLight  focus:outline-none  shadow-md  font-md rounded-lg py-1.5 text-center place-content-center-center whiteDivShadow"
                 >
-                  Cancle work
+                  Cancel work
                 </button>
-                {isCancleOpen && (
-                  <ConfirmCancleWork
-                    setIsCancleOpen={setIsCancleOpen}
+                {isCancelOpen && (
+                  <ConfirmCancelWork
+                    setIsCancelOpen={setIsCancelOpen}
                     workId={work.id}
                     setIsEditOpen={setIsOpen}
                   />

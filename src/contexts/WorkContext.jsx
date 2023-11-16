@@ -105,14 +105,14 @@ export default function WorkContextProvider({ children }) {
     setAllWorks(newAllWorks);
   };
 
-  const cancleWork = async (workId) => {
+  const cancelWork = async (workId) => {
     try {
-      console.log("first");
-      const res = await axios.patch(`work/cancle/${workId}`);
-      const cancleWork = res.data.cancleWork;
-      const cancleIndex = allWorks.findIndex((el) => el.id === cancleWork.id);
+      console.log(workId);
+      const res = await axios.patch(`work/cancel/${workId}`);
+      const cancelWork = res.data.cancelWork;
+      const cancelIndex = allWorks.findIndex((el) => el.id === cancelWork.id);
       const newAllWorks = [...allWorks];
-      newAllWorks.splice(cancleIndex, 1, cancleWork);
+      newAllWorks.splice(cancelIndex, 1, cancelWork);
       setAllWorks(newAllWorks);
     } catch (error) {
       console.log(error);
@@ -140,7 +140,7 @@ export default function WorkContextProvider({ children }) {
       value={{
         createWork,
         editWork,
-        cancleWork,
+        cancelWork,
         signOut,
         allWorks,
         setAllWorks,
