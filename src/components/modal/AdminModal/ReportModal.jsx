@@ -4,8 +4,6 @@ import { useState } from "react";
 export default function ReportModal({ setIsOpen, open, reportObj }) {
   const [input, setInput] = useState({});
 
-  console.log(input);
-
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
@@ -16,7 +14,6 @@ export default function ReportModal({ setIsOpen, open, reportObj }) {
     }
   };
 
-  console.log(reportObj);
   const updateStatus = async () => {
     try {
       console.log(input, "9999999");

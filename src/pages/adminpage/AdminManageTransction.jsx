@@ -6,7 +6,7 @@ export default function AdminManageTransction() {
   const [allTransaction, setAllTransaction] = useState([]);
   const [pending, setPending] = useState([]);
   const [statusPending, setStatusPending] = useState([]);
-
+  const [search, setSearch] = useState("");
   useEffect(() => {
     getTransaction();
   }, []);
@@ -15,7 +15,21 @@ export default function AdminManageTransction() {
     countPending();
   }, []);
 
-  console.log(statusPending);
+  const handleInput = (e) => {
+    setSearch(e.target.value);
+  };
+  let filter = [...pending];
+  if (search) {
+    filter = pending.filter((el) => {
+      if (
+        el.user.authUser[0].email.toLowerCase().includes(search.toLowerCase())
+      ) {
+        return true;
+      }
+      return false;
+    });
+  }
+
   const getTransaction = async () => {
     const res = await axios
       .get("/transaction/alltransaction")
@@ -39,11 +53,11 @@ export default function AdminManageTransction() {
   };
 
   const countPending = async () => {
-    const count = await axios
-      .get("/transaction/verifyuser")
+    const noti = await axios
+      .get("/transaction/pendingStatus")
       .then((res) => setStatusPending(res.data.getpendding))
       .catch((error) => console.log(error));
-    return count;
+    return noti;
   };
 
   return (
@@ -54,6 +68,7 @@ export default function AdminManageTransction() {
             type="text"
             placeholder="search for..."
             className="p-2 text-primaryDarker rounded-xl w-72 px-5"
+            onChange={handleInput}
           />
         </div>
         <div
@@ -92,7 +107,7 @@ export default function AdminManageTransction() {
         count : {pending.length}
       </p>
       <div>
-        {pending.map((el) => (
+        {filter.map((el) => (
           <TransctionCardAdmin key={el.id} data={el} />
         ))}
       </div>
