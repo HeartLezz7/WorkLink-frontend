@@ -17,11 +17,31 @@ export default function OwnerWork() {
       const ownerWork = allWorks.filter(
         (work) => work.ownerId === user.id && work.statusWork != "cancel"
       );
-
+      if (filter === "all") {
+        setDelegatedWork(ownerWork);
+      } else if (filter === "onProcess") {
+        const filterWork = ownerWork.filter((work) => {
+          if (work.statusWork === "makeDeal") {
+            return true;
+          }
+          if (work.statusWork === "onProcess") {
+            return true;
+          }
+          if (work.statusWork === "reqSuccess") {
+            return true;
+          }
+          return false;
+        });
+        setDelegatedWork(filterWork);
+      } else {
+        const filterWork = ownerWork.filter(
+          (work) => work.statusWork === filter
+        );
+        setDelegatedWork(filterWork);
+      }
       // console.log(ownerWork);
-      setDelegatedWork(ownerWork);
     }
-  }, [allWorks]);
+  }, [allWorks, filter]);
   // console.log(delegatedWork);
 
   const handleChangeFilter = (value) => {
@@ -34,7 +54,7 @@ export default function OwnerWork() {
         Delegated Works
       </div>
       <div className="border-2 border-textNavy w-full  rounded-xl  pt-5 pb-3 px-1 h-full overflow-hidden">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center pb-2 pr-3">
           <div className="flex gap-3 ">
             <img src="/icons/filter.svg" alt="" className="w-[30px]" />
             <Select
@@ -45,10 +65,12 @@ export default function OwnerWork() {
               onChange={handleChangeFilter}
               options={[
                 { value: "all", label: "All" },
-                { value: "signUp", label: "SignUp" },
+                { value: "adminReview", label: "AdminReview" },
+                { value: "finding", label: "Finding" },
                 { value: "onProcess", label: "OnProcess" },
                 { value: "success", label: "Success" },
                 { value: "cancel", label: "Cancel" },
+                { value: "onIssue", label: "OnIssue" },
               ]}
             />
           </div>
