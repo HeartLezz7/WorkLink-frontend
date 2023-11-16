@@ -61,7 +61,11 @@ export default function DoingWorkModal({ work, setIsOpen, isDoing }) {
                     />
                     <div>Status : {work.statusWork}</div>
                     <div>Work type : {work.isOnsite ? "Onsite" : "Remote"}</div>
-                    {work.isOnsite ? <div>address : </div> : ""}
+                    {work.isOnsite ? (
+                      <div>address : {work.addressName}</div>
+                    ) : (
+                      ""
+                    )}
                     <div>Price : {work.price}</div>
                     <div>
                       Start-End Date: {getDate(work.startDate)}
