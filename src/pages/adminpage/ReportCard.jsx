@@ -7,25 +7,11 @@ export default function ReportCard({ reportObj }) {
 
   const clearReport = async () => {
     try {
-      await axios.delete(`/report/delete/${reportObj.id}`);
+      await axios.patch(`/report/isclear/${reportObj.id}`);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // const handleReport = async (e) => {
-  //   try {
-  //     if (e.target.name === "approve") {
-  //       axios.patch("/report/submitReport", { message: e.target.name });
-  //       console.log("approve");
-  //     } else if (e.target.name === "reject") {
-  //       axios.patch("/report/submitReport", { message: e.target.name });
-  //       console.log("reject");
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   return (
     <div className="flex justify-between gap-20 h-32 border p-4 border-textGrayLight rounded-2xl shadow-lg bg-background">
@@ -78,13 +64,22 @@ export default function ReportCard({ reportObj }) {
             open={isOpen}
             reportObj={reportObj}
           />
-          <button
-            className="border  w-40 h-12 rounded-xl  bg-backgroundWhiteGray border-x-textGrayDark"
-            name="reject"
-            onClick={() => clearReport()}
-          >
-            Clear
-          </button>
+          {reportObj.isClear == false ? (
+            <button
+              className="border  w-40 h-12 rounded-xl  bg-secondaryLight border-x-textGrayDark"
+              name="reject"
+              onClick={() => clearReport()}
+            >
+              Pending
+            </button>
+          ) : (
+            <button
+              className="border  w-40 h-12 rounded-xl  bg-backgroundWhiteGray border-x-textGrayDark"
+              name="reject"
+            >
+              Clear
+            </button>
+          )}
         </div>
       </div>
     </div>

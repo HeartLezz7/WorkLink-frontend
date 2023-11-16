@@ -2,7 +2,6 @@ import { useState } from "react";
 
 export default function ApproveTransaction({ setIsOpen, open, data }) {
   const [isHover, setIsHover] = useState(false);
-  console.log(isHover);
   return (
     <>
       {open && (
