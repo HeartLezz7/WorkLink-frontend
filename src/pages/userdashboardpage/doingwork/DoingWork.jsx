@@ -27,18 +27,17 @@ export default function DoingWork() {
               defaultValue="all"
               style={{
                 width: "150px",
-                border: "2px solid #000",
-                borderRadius: "8px",
               }}
               onChange={handleChangeFilter}
               options={[
                 { value: "all", label: "All" },
+                { value: "signUp", label: "SignUp" },
                 { value: "onProcess", label: "OnProcess" },
                 { value: "success", label: "Success" },
                 { value: "cancel", label: "Cancel" },
               ]}
             />
-            <div
+            {/* <div
               onClick={() => {
                 setFilter("all");
               }}
@@ -69,7 +68,7 @@ export default function DoingWork() {
               }  px-2 rounded-full`}
             >
               SignUp
-            </div>
+            </div> */}
           </div>
         </div>
         <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[96%] flex flex-col gap-3 pr-2">
