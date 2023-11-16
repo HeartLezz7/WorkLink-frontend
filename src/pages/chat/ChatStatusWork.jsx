@@ -14,17 +14,6 @@ import useAuth from "../../hooks/useAuth";
 import ReviewModal from "../../components/modal/ReviewModal";
 import EditWorkModal from "../../components/modal/EditWorkModal";
 
-// const SuccessButton = ({ onClick }) => {
-//   return (
-//     <button
-//       className="w-[20rem]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
-//       onClick={onClick}
-//     >
-//       Success
-//     </button>
-//   );
-// };
-
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -33,7 +22,6 @@ export default function ChatStatusWork() {
   const { user } = useAuth();
   const { allWorks } = useWork();
   const { chatRoom } = useChat();
-  console.log(chatRoom);
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
 

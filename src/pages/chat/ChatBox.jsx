@@ -24,9 +24,9 @@ export default function ChatBox() {
     setChatMessage,
     chatMessage,
     getChatroomMessage,
-    Refresh,
   } = useChat();
 
+  const chatEl = useRef();
   const chatImage = useRef();
   const { chatRoomId } = useParams();
 
@@ -41,14 +41,17 @@ export default function ChatBox() {
 
   useEffect(() => {
     getChatroomMessage(chatRoomId);
-  }, [allChatRoom, chatRoomId, Refresh]);
+    scrollToElement();
+  }, [allChatRoom, chatRoomId]);
 
   useEffect(() => {
     socket.on("receive_message", (obj) => {
-      console.log(obj);
+      console.log(obj.chatRoomId == chatRoomId, "check boolean");
       if (obj.chatRoomId == chatRoomId) {
+        console.log("first");
         setChatMessage([...chatMessage, obj]);
       }
+      scrollToElement();
     });
     return () => {
       socket.off("receive_message");
@@ -70,6 +73,16 @@ export default function ChatBox() {
     setEmojiOpen(false);
   };
 
+  const scrollToElement = () => {
+    // Access the current property of the ref to get the DOM element
+    const element = chatEl?.current.lastElementChild;
+
+    // Check if the element exists before trying to scroll into view
+    if (element) {
+      element?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  };
+
   const handleSubmitChat = async (e) => {
     try {
       e.preventDefault();
@@ -80,39 +93,42 @@ export default function ChatBox() {
         room: +chatRoomId,
       };
       if (file) {
-        const data = new FormData();
-        data.append("chatImage", file);
-        data.append("message", input);
-        console.log("image");
-        message.message = data;
+        message.message = file;
+        message.type = "file";
       } else if (input) {
-        console.log("text");
         message.message = input;
+        message.type = "message";
       } else {
-        return console.log("message required");
+        console.log("message required");
+        return;
       }
 
       socket.emit("sent_message", message);
       setInput("");
-      setChatMessage([...chatMessage, message]);
+      setFile(null);
     } catch (err) {
       console.log(err);
     }
   };
+  console.log(chatMessage, "chat");
 
   return (
     <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-2">
-      <div className="row-span-5 flex flex-col overflow-hidden  ">
+      <div className="row-span-5 flex flex-col overflow-hidden">
         <div className="bg-primary text-textWhite text-4xl text-center p-3 font-semibold ">
           {chatRoom?.createrId === user.id
             ? `${chatRoom?.dealer?.firstName} ${chatRoom?.dealer?.lastName}`
             : `${chatRoom?.creater?.firstName} ${chatRoom?.creater?.lastName}`}
         </div>
-        <div className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full">
+        <div
+          ref={chatEl}
+          className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full"
+        >
           {chatMessage.map((chat) => {
             return (
               <BoxMessage
                 key={chat.id}
+                id={chat.id}
                 message={chat.message}
                 senderId={chat.senderId}
                 dealerImage={chat.sender?.profileImage}
