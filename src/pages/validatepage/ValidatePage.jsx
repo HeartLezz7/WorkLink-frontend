@@ -75,7 +75,7 @@ export default function ValidatePage() {
       const data = handleFormData();
       if(!data){
         console.log(error)
-        toast.error("Please add Id card")
+        toast.error("Please add photo of id card")
         return
       }
       console.log(data ,"dataa");

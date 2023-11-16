@@ -7,6 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import InputBorderForm from "../../InputBorderForm";
 import useWallet from "../../../hooks/useWallet";
 import InputErrorMessage from "../../InputErroMessage";
+import toast from "react-hot-toast";
 
 export default function WithdrawModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
@@ -49,6 +50,7 @@ export default function WithdrawModal({ setIsOpen }) {
       }
 
       await createTransaction(input);
+      toast.success("Successfully !");
       setIsOpen(false);
     } catch (error) {
       console.log(error);
