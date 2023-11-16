@@ -31,16 +31,15 @@ export default function WorkButton({ title, workId, workerId }) {
           workerId,
         });
         return;
-      } else if (status === "Reject") {
+      } else if (status === "Reject" || status === "Cancel") {
         workStatus = STATUS_FINDING;
         await axios("/work/rejectDeal", { workStatus, workId, workerId });
         return;
-      } else if (status === "Success") {
+      } else if (status === "Request Success") {
         workStatus = STATUS_REQUEST;
-      } else if (status === "Cancel") {
-        workStatus = STATUS_CANCEL;
+        await axios.patch("/work/updateStatus", { workStatus, workId });
       }
-      await axios.patch("/work/updateStatus", { workStatus, workId });
+
       setRefresh(!Refresh);
     } catch (err) {
       console.log(err);

@@ -66,7 +66,7 @@ export default function WorkCard({
           <img src={workImage} className=" min-h-full w-full object-cover" />
         </div>
         <div className=" flex flex-col justify-between h-[40%] pt-3">
-          <p className="text-2xl line-clamp-2">{title}</p>
+          <p className="text-xl line-clamp-2">{title}</p>
           <div className="flex w-full justify-between">
             <p>
               {getDate(startDate)}-{getDate(endDate)}
