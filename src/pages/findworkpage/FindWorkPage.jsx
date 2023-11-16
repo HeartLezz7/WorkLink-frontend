@@ -33,6 +33,7 @@ export default function FindWorkPage() {
             <WorkCard
               key={work.id}
               id={work.id}
+              addressName={work.addressName}
               workImage={work.workImage}
               title={work.title}
               createdAt={work.createdAt}

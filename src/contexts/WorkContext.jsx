@@ -18,6 +18,7 @@ export default function WorkContextProvider({ children }) {
   const [searchCatId, setSearchCatId] = useState(0);
   const [locationName, setLocationName] = useState("");
   const [searchLocation, setSearchLocation] = useState();
+  const [searchRemote, setSearchRemote] = useState(false);
 
   const { user } = useAuth();
 
@@ -57,7 +58,7 @@ export default function WorkContextProvider({ children }) {
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     let baseWork = [...findingWork];
@@ -84,8 +85,11 @@ export default function WorkContextProvider({ children }) {
         }
       });
     }
+    if (searchRemote) {
+      baseWork = baseWork.filter((el) => !el.isOnsite);
+    }
     setShowWork(baseWork);
-  }, [searchName, searchCatId, searchLocation]);
+  }, [searchName, searchCatId, searchLocation, searchRemote]);
 
   const createWork = async (data) => {
     const res = await axios.post("work/creatework", data);
@@ -156,6 +160,7 @@ export default function WorkContextProvider({ children }) {
         setMyDoingWork,
         locationName,
         setLocationName,
+        setSearchRemote,
       }}
     >
       {children}

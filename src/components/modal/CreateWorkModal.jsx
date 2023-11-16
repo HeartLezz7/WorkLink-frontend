@@ -20,7 +20,7 @@ export default function CreateWorkModal({ setIsOpen }) {
   const [long, setLong] = useState("");
   const [isOpen, setIsOpenMap] = useState(false);
   const [address, setAddress] = useState();
-  console.log(address);
+  // console.log(address);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
@@ -29,6 +29,7 @@ export default function CreateWorkModal({ setIsOpen }) {
     workImage: "",
     description: "",
     price: "",
+    addressName: "",
     addressLat: "",
     addressLong: "",
     startDate: "",
@@ -69,13 +70,15 @@ export default function CreateWorkModal({ setIsOpen }) {
       //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
       //   }
       setLoading(true);
-      console.log(input);
+      // console.log(input);
       if (input.isOnsite) {
-        if (!lat || !long) {
+        if (!input.addressName && !input.addressLong && !input.addressLat) {
           return console.log("select your addriss");
         }
-        input.addressLat = lat;
-        input.addressLong = long;
+      } else {
+        input.addressName = null;
+        input.addressLat = null;
+        input.addressLong = null;
       }
       for (let key in input) {
         if (input[key]) {
@@ -258,17 +261,17 @@ export default function CreateWorkModal({ setIsOpen }) {
               </div>
               {input.isOnsite != 0 && (
                 <div
-                  className=" border w-full p-1 border-primary outline-none rounded-md text-sm text-textGrayLight text-center cursor-pointer "
+                  className=" border w-full p-1 border-primary outline-none rounded-md text-sm text-center cursor-pointer "
                   onClick={() => {
                     setIsOpenMap(true);
                   }}
                 >
                   {address ? (
                     <div className="flex flex-col">
-                      <p className="truncate">{address}</p>
+                      <p className="truncate">{input.addressName}</p>
                     </div>
                   ) : (
-                    <p>Add location</p>
+                    <p>Click to add location</p>
                   )}
                 </div>
               )}

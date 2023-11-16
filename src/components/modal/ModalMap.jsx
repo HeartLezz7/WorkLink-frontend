@@ -9,6 +9,7 @@ export default function ModalMap({
   input,
   setInput,
   onWorkModal,
+  setFilter,
   onFindingWork,
 }) {
   return (
@@ -19,6 +20,7 @@ export default function ModalMap({
         open={open}
         onClose={onClose}
         setAddress={setAddress}
+        setFilter={setFilter}
         address={address}
         onWorkModal={onWorkModal}
         onFindingWork={onFindingWork}

@@ -31,9 +31,10 @@ function GoogleMapApi({
   setInput,
   onWorkModal,
   onFindingWork,
+  setFilter,
 }) {
   const [mapAddress, setMapAddress] = useState([]);
-  const { setLocationName, setSearchLocation } = useWork();
+  const { setLocationName, setSearchLocation, setSearchRemote } = useWork();
   const cloneInput = { ...input };
   let libRef = useRef(libraries);
   const { isLoaded, loadError } = useLoadScript({
@@ -62,16 +63,13 @@ function GoogleMapApi({
     if (onFindingWork) {
       setSearchLocation(latAndLog);
     }
-    if (onWorkModal) {
-      // console.log("---------come");
-      // console.log(input, "----input here");
-      setInput({
-        ...cloneInput,
-        isOnsite: 1,
-        addressLat: e.latLng.lat(),
-        addressLong: e.latLng.lng(),
-      });
-    }
+    // if (onWorkModal) {
+    //   setInput({
+    //     ...cloneInput,
+    //     addressLat: e.latLng.lat(),
+    //     addressLong: e.latLng.lng(),
+    //   });
+    // }
     return latAndLog;
   }, []);
 
@@ -86,6 +84,14 @@ function GoogleMapApi({
       setMapAddress(result.data.results[0].formatted_address);
       if (onFindingWork) {
         setLocationName(result.data.results[0].formatted_address);
+      }
+      if (onWorkModal) {
+        setInput({
+          ...cloneInput,
+          addressName: result.data.results[0].formatted_address,
+          addressLat: pin.lat,
+          addressLong: pin.lng,
+        });
       }
       console.log(result.data.results[0].formatted_address);
       return result.data.results[0].formatted_address;
@@ -127,16 +133,18 @@ function GoogleMapApi({
             onSubmit={(e) => {
               e.preventDefault();
               setAddress(mapAddress);
+              setSearchRemote(false);
+              setFilter("address");
               onClose();
             }}
           >
             <div className="w-screen h-screen bg-textGrayLight bg-opacity-70 flex flex-col justify-center items-center">
               <div className="w-3/4 h-3/4 bg-background p-5 rounded-3xl flex flex-col gap-5">
                 <div className=" relative ">
-                  <h4 className="w-full text-center p-2">
+                  <div className="w-full text-center p-2 text-xl font-bold">
                     Connect with thousands of workers near you
-                  </h4>
-                  <Search userLocation={userLocation} panTo={panTo} />
+                  </div>
+                  <Search userLocation={userLocation} panTo={panTo} st />
                 </div>
 
                 <GoogleMap
@@ -167,18 +175,18 @@ function GoogleMapApi({
                       onCloseClick={() => setUserSelected(null)}
                     >
                       <div>
-                        <p className="text-2xl">Work Place Work Link</p>
+                        <p className="font-bold ">Your select place</p>
                         <p>{mapAddress}</p>
                       </div>
                     </InfoWindow>
                   ) : null}
                 </GoogleMap>
                 <div className="flex justify-end items-center gap-2">
-                  <button className="bg-primaryDarker rounded-2xl p-2 w-32 text-lg font-bold cursor-pointer text-textWhite">
+                  <button className="bg-primaryDarker rounded-2xl px-5 py-1 text-lg font-bold cursor-pointer text-textWhite">
                     Submit
                   </button>
                   <button
-                    className="bg-secondaryDark rounded-2xl p-2 w-32 text-textWhite text-lg font-bold cursor-pointer"
+                    className="bg-secondaryDark rounded-2xl px-5 py-1  text-textWhite text-lg font-bold cursor-pointer"
                     onClick={() => {
                       onClose();
                       setAddress("");
