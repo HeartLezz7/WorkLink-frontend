@@ -5,7 +5,6 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
-  MarkerClusterer
 } from "@react-google-maps/api";
 import { useCallback } from "react";
 import "@reach/combobox/styles.css";
@@ -14,6 +13,8 @@ import googleAxios from "../../configs/googleAxios";
 import useWork from "../../hooks/useWork";
 import useMap from "../../hooks/useMap";
 
+import { MarkerClustererF } from "@react-google-maps/api";
+import { MarkerF } from "@react-google-maps/api";
 
 
 const mapContainerStyle = {
@@ -47,26 +48,32 @@ function GoogleMapApi({
 
   //marker that user wants to see detail for
   const [userSelected, setUserSelected] = useState(null);
-  const {latlng} = useMap()
-  const [test,setTest] = useState([])
 
-  console.log(latlng)
-  // const clondlatlng = [...latlng]
 
-  // console.log(clondlatlng)
-  // const adddresslatlng = latlng.map((el)=>{
-  //   el.addressLat,
-  //   el.addressLong
-  //   console.log(el.addressLat)
-  //   console.log(el.addressLong)
-  // })
-  // console.log(adddresslatlng.addressLat)
+    const { latlng } = useMap();
+  
+    console.log(latlng,"bbbbbbbbbbbbbbbbbbbbbbb")
 
-  // const getlatlng = latlng((el)=>{
-  //   el.addressLat
-  // })
+
+  const [test, setTest] = useState([{
+    addressLat:13.733695224699972,
+    addressLong:100.59390441488792,
+  },{
+    addressLat:13.747368614564877,
+    addressLong:100.61175719809104,
+  },
+  {addressLat:13.73792835543486,
+  addressLong:100.6018026705034}
+]);
+
+console.log(test)
+
+  console.log(latlng);
+
+
+
   const [redPin, setRedPin] = useState([]);
-  console.log(redPin);
+  // console.log(redPin);
 
   const thisPin = redPin[0];
   console.log(thisPin);
@@ -97,7 +104,7 @@ function GoogleMapApi({
     return latAndLog;
   }, []);
 
-  console.log("State-----RedPin", thisPin);
+  // console.log("State-----RedPin", thisPin);
 
   const geoCoding = async (pin) => {
     try {
@@ -109,7 +116,7 @@ function GoogleMapApi({
       if (onFindingWork) {
         setLocationName(result.data.results[0].formatted_address);
       }
-      console.log(result.data.results[0].formatted_address);
+      // console.log(result.data.results[0].formatted_address);
       return result.data.results[0].formatted_address;
     } catch (err) {
       console.log(err);
@@ -128,6 +135,7 @@ function GoogleMapApi({
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
+    
   }, []);
 
   const panTo = useCallback(({ lat, lng }) => {
@@ -138,7 +146,7 @@ function GoogleMapApi({
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
 
-  console.log(mapAddress, "xxxxx");
+  // console.log(mapAddress, "xxxxx");
 
   return (
     <>
@@ -168,11 +176,13 @@ function GoogleMapApi({
                   zoom={12}
                   onClick={getMap}
                   onLoad={onMapLoad}
+                  
                 >
                   {redPin.map((marker) => (
                     <Marker
                       key={marker.time}
-                      position={{ lat: marker.lat, lng: marker.lng }}
+                      position={{ lat: marker.lat, lng: marker.lng,
+                      }}
                       //Show Marker when click
                       onClick={() => {
                         setUserSelected(marker);
@@ -180,13 +190,30 @@ function GoogleMapApi({
                     />
                   ))}
 
-                  {latlng.map((marker)=>{
-                    <Marker 
-                    position={{ lat:marker.addressLat , lng:marker.addressLong}}
-                    />
-                    console.log(marker.addressLat)
-                  })}
-                  
+               
+
+<MarkerClustererF
+// minimumClusterSize: The minimum number of markers needed to form a cluster.
+minimumClusterSize={2}
+>
+    {(cluster) => (
+      <>
+        {latlng.map((position, index) => {
+
+          return (
+            <MarkerF position={{ lat: +position.addressLat, lng: +position.addressLong,
+            }} key={index} 
+            clusterer={cluster}
+            />
+            
+          );
+        })}
+      </>
+    )} 
+ 
+</MarkerClustererF>
+
+
                   {userSelected ? (
                     <InfoWindow
                       position={{
@@ -201,6 +228,9 @@ function GoogleMapApi({
                       </div>
                     </InfoWindow>
                   ) : null}
+
+
+                
                 </GoogleMap>
                 <div className="flex justify-end items-center gap-2">
                   <button className="bg-primaryDarker rounded-2xl p-2 w-32 text-lg font-bold cursor-pointer text-textWhite">
