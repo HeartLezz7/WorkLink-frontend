@@ -74,7 +74,7 @@ export default function ChatBox() {
     try {
       e.preventDefault();
       const message = {
-        data: "",
+        message: "",
         senderId: user.id,
         receiverId: checkUser(),
         room: +chatRoomId,

@@ -33,7 +33,7 @@ export default function WorkContextProvider({ children }) {
         setFindingWork(works);
         setShowWork(works);
         const doingWork = res.data.allWork.filter(
-          (work) => work.workerId == user.id
+          (work) => work.workerId == user?.id
         );
         setMyDoingWork(doingWork);
       })
@@ -43,18 +43,20 @@ export default function WorkContextProvider({ children }) {
       .get("/work/allCategories")
       .then((res) => setCategory(res.data.allCategories))
       .catch((err) => console.log(err));
-    axios
-      .get("/work/mysignwork")
-      .then((res) => {
-        const mySignWork = res.data.mySignWork.filter((el) => {
-          if (el.work.statusWork === STATUS_FINDING && !el.work.workerId) {
-            return true;
-          }
-          return false;
-        });
-        setMySignWork(mySignWork);
-      })
-      .catch((err) => console.log(err));
+    if (user) {
+      axios
+        .get("/work/mysignwork")
+        .then((res) => {
+          const signWork = res.data.mySignWork.filter((el) => {
+            if (el.work.statusWork === STATUS_FINDING && !el.work.workerId) {
+              return true;
+            }
+            return false;
+          });
+          setMySignWork(signWork);
+        })
+        .catch((err) => console.log(err));
+    }
   }, []);
 
   useEffect(() => {
@@ -127,7 +129,7 @@ export default function WorkContextProvider({ children }) {
       console.log(error);
     }
   };
-  console.log("address on context", searchLocation, locationName);
+  // console.log("address on context", searchLocation, locationName);
 
   return (
     <WorkContext.Provider

@@ -35,20 +35,20 @@ export default function DoingWorkModal({ work, setIsOpen, isDoing }) {
       <div className="fixed inset-0 bg-black/70 z-[30]"></div>
       <div className="fixed z-[30] min-h-full inset-0 flex justify-center items-center">
         <div className="">
-          <div className="overflow-hidden px-2 pt-2 pb-5 rounded-xl bg-background border-2 border-textGrayDark relative">
+          <div className="overflow-hidden px-2 pt-2 pb-2 rounded-xl bg-background border-2 border-textGrayDark relative">
             <div
               onClick={() => setIsOpen(false)}
               className="absolute top-0 right-0  w-[40px] h-[40px] bg-textGrayDark flex items-center justify-center rounded-bl-2xl cursor-pointer"
             >
               <IoMdClose size={25} color="fff" />
             </div>
-            <div className="text-textNavy text-3xl font-semibold w-full text-center py-2">
+            <div className="text-textNavy text-3xl font-semibold w-full text-center pt-2">
               Work infomation
             </div>
             {isLoading ? (
               <Loading />
             ) : (
-              <main className="flex items-center h-[450pxpx] w-[400px]">
+              <main className="flex items-center h-[450px] w-[400px]">
                 <div className="h-full flex flex-col p-3">
                   <div className="text-lg font-semibold first-letter:uppercase p-2">
                     {work.title}
@@ -74,11 +74,11 @@ export default function DoingWorkModal({ work, setIsOpen, isDoing }) {
                     </div>
                     <div>Description : {work.description}</div>
                   </div>
-                  <div className="flex gap-3 justify-center items-center">
+                  <div className="flex gap-3 justify-center items-center pt-2">
                     {chatRoomId && (
                       <Link
                         to={`/chatRoom/${chatRoomId}`}
-                        className="px-3 py-1 bg-textGrayLight rounded-md cursor-pointer"
+                        className="px-3 py-1 bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl rounded-md cursor-pointer"
                       >
                         Chat
                       </Link>

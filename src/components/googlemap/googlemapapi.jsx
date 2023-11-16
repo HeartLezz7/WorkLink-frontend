@@ -34,6 +34,7 @@ function GoogleMapApi({
 }) {
   const [mapAddress, setMapAddress] = useState([]);
   const { setLocationName, setSearchLocation } = useWork();
+  const cloneInput = { ...input };
   let libRef = useRef(libraries);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API,
@@ -50,6 +51,7 @@ function GoogleMapApi({
 
   //useCallback is function that allow you to retain same value atleast [] change
   const onMapClick = useCallback((e) => {
+    // e.preventDefault();
     const latAndLog = {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
@@ -62,8 +64,9 @@ function GoogleMapApi({
     }
     if (onWorkModal) {
       // console.log("---------come");
+      // console.log(input, "----input here");
       setInput({
-        ...input,
+        ...cloneInput,
         isOnsite: 1,
         addressLat: e.latLng.lat(),
         addressLong: e.latLng.lng(),

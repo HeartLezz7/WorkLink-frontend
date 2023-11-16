@@ -12,6 +12,7 @@ import useChat from "../../hooks/useChat";
 import useWork from "../../hooks/useWork";
 import useAuth from "../../hooks/useAuth";
 import ReviewModal from "../../components/modal/ReviewModal";
+import EditWorkModal from "../../components/modal/EditWorkModal";
 
 // const SuccessButton = ({ onClick }) => {
 //   return (
@@ -27,10 +28,12 @@ import ReviewModal from "../../components/modal/ReviewModal";
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
 
   const { user } = useAuth();
   const { allWorks } = useWork();
   const { chatRoom } = useChat();
+  console.log(chatRoom);
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
 
@@ -86,7 +89,15 @@ export default function ChatStatusWork() {
           {user.id === chatRoom?.creater?.id ? (
             chatRoom?.creater?.id && work.statusWork === STATUS_FINDING ? (
               <>
-                <WorkButton title="Edit" workId={work?.id} />
+                <button
+                  className="w-[20rem]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
+                  onClick={() => setOpenEditModal(true)}
+                >
+                  Edit
+                </button>
+                {openEditModal && (
+                  <EditWorkModal setIsOpen={setOpenEditModal} work={work} />
+                )}
                 <WorkButton
                   title="Submit"
                   workId={work?.id}
