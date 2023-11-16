@@ -113,9 +113,9 @@ export default function ChatBox() {
   console.log(chatMessage, "chat");
 
   return (
-    <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-2">
+    <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-5">
       <div className="row-span-5 flex flex-col overflow-hidden">
-        <div className="bg-primary text-textWhite text-4xl text-center p-3 font-semibold ">
+        <div className="bg-primary text-textWhite text-3xl text-center py-2 font-bold ">
           {chatRoom?.createrId === user.id
             ? `${chatRoom?.dealer?.firstName} ${chatRoom?.dealer?.lastName}`
             : `${chatRoom?.creater?.firstName} ${chatRoom?.creater?.lastName}`}
@@ -137,7 +137,7 @@ export default function ChatBox() {
           })}
         </div>
       </div>
-      <div className="row-span-1 p-5 flex flex-col items-start justify-center gap-2">
+      <div className="row-span-1 px-5 py-2 flex flex-col items-start justify-center gap-2">
         {file && (
           <img
             src={URL.createObjectURL(file)}
@@ -145,13 +145,13 @@ export default function ChatBox() {
             className="h-36 border border-textGrayLight p-2"
           />
         )}
-        <div className="border flex justify-between items-center px-6 py-3 rounded-full w-full gap-2 relative">
+        <div className="border flex justify-between items-center px-6 py-1 rounded-full w-full gap-2 relative">
           <form
             className="w-full flex items-center gap-2"
             onSubmit={handleSubmitChat}
           >
             <div onClick={() => chatImage.current.click()}>
-              <img src={plus} alt="plus" className="w-[40px]" />
+              <img src={plus} alt="plus" className="w-[30px]" />
               <input
                 type="file"
                 className="hidden"
@@ -186,8 +186,8 @@ export default function ChatBox() {
               />
             </div>
           </form>
-          <button onClick={handleSubmitChat}>
-            <img src={plane} alt="plane" className="w-[40px]" />
+          <button className="cursor-pointer" onClick={handleSubmitChat}>
+            <img src={plane} alt="plane" className="w-[30px]" />
           </button>
         </div>
       </div>

@@ -27,7 +27,7 @@ export default function ChatStatusWork() {
 
   return (
     <>
-      <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-2 ">
+      <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-4 ">
         <div className="row-span-5 ">
           <div className="bg-secondaryLight text-textWhite text-4xl text-center p-3 font-semibold">
             Status
