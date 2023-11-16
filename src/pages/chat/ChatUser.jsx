@@ -3,7 +3,6 @@ import useAuth from "../../hooks/useAuth";
 
 export default function ChatUser({ roomId, creater, dealer, workId }) {
   const { user } = useAuth();
-  console.log(dealer, "dedaedwdwd");
   return (
     <Link to={`/chatRoom/${roomId}`}>
       <div className="flex flex-col w-full">

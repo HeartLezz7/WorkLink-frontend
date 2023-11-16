@@ -1,6 +1,5 @@
 import axios from "../../configs/axios";
 import {
-  STATUS_CANCEL,
   STATUS_FINDING,
   STATUS_MAKEDEAL,
   STATUS_ONPROCESS,
