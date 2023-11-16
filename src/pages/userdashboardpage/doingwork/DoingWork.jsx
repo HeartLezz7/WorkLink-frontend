@@ -10,14 +10,13 @@ export default function DoingWork() {
   const { myDoingWork, mySignWork } = useWork();
   const [filterWork, setFilterWork] = useState(myDoingWork);
 
-  const handleChangeFilter = (value) => {
-    setFilter(value);
-    if (value === "all") {
+  useEffect(() => {
+    if (filter === "all") {
       setFilterWork(myDoingWork);
-    } else if (value === "success") {
-      const newfil = myDoingWork.filter((work) => work.statusWork === value);
+    } else if (filter === "success") {
+      const newfil = myDoingWork.filter((work) => work.statusWork === filter);
       setFilterWork(newfil);
-    } else if (value === "onProcess") {
+    } else if (filter === "onProcess") {
       const newfil = myDoingWork.filter((work) => {
         if (work.statusWork === "makeDeal") {
           return true;
@@ -32,9 +31,13 @@ export default function DoingWork() {
       });
       setFilterWork(newfil);
     } else {
-      const newfil = myDoingWork.filter((work) => work.statusWork === value);
+      const newfil = myDoingWork.filter((work) => work.statusWork === filter);
       setFilterWork(newfil);
     }
+  }, [myDoingWork, filter]);
+
+  const handleChangeFilter = (value) => {
+    setFilter(value);
   };
 
   return (

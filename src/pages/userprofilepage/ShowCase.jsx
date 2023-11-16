@@ -82,15 +82,21 @@ export default function ShowCase({ profileData }) {
         )}
       </div>
       <div className="flex gap-5 items-center justify-start p-3 rounded-lg border-2 border-textGrayDark w-full overflow-x-scroll ">
-        <div className="flex gap-3  py-3 ">
-          {showcase.map((el) => (
-            <ShowCaseCard
-              key={el.id}
-              showcase={el}
-              deleteShowcase={deleteShowcase}
-              getShowcase={getShowcase}
-            />
-          ))}
+        <div className="flex gap-3  py-3 w-full ">
+          {showcase.length == 0 ? (
+            <div className="w-full text-center text-xl font-bold">
+              No outstanding post now
+            </div>
+          ) : (
+            showcase.map((el) => (
+              <ShowCaseCard
+                key={el.id}
+                showcase={el}
+                deleteShowcase={deleteShowcase}
+                getShowcase={getShowcase}
+              />
+            ))
+          )}
         </div>
       </div>
     </>

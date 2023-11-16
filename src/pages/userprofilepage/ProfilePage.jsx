@@ -7,9 +7,11 @@ import { useEffect } from "react";
 import axios from "../../configs/axios";
 import calculateAge from "../../utils/calculateAge";
 import Loading from "../../components/Loading/Loading";
+import { FaChessKing } from "react-icons/fa";
 
 export default function UserProfilePage() {
   const [profileData, setProfileData] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const { userId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,7 +26,13 @@ export default function UserProfilePage() {
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
-  }, []);
+    axios
+      .get(`/user/userprofilereview/${userId}`)
+      .then((res) => {
+        setReviews(res.data.userReviews);
+      })
+      .catch((err) => console.log(err));
+  }, [userId]);
 
   console.log(profileData);
 
@@ -48,9 +56,14 @@ export default function UserProfilePage() {
                 <h5 className="w-fit mx-auto text-textNavy">Review</h5>
                 <div className="bg-textGrayDark h-[2px] w-full"></div>
               </div>
-              <div className="flex flex-col gap-5">
-                <ReviewCard />
-                <ReviewCard />
+              <div className="flex flex-col gap-5 w-full">
+                {reviews?.length == 0 ? (
+                  <div className="w-full text-center text-xl font-bold">
+                    No history work
+                  </div>
+                ) : (
+                  reviews?.map((review) => <ReviewCard data={review} />)
+                )}
                 {/* <ReviewCard /> */}
               </div>
             </div>
