@@ -5,12 +5,16 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
+  MarkerClusterer
 } from "@react-google-maps/api";
 import { useCallback } from "react";
 import "@reach/combobox/styles.css";
 import Search from "./Search";
 import googleAxios from "../../configs/googleAxios";
 import useWork from "../../hooks/useWork";
+import useMap from "../../hooks/useMap";
+
+
 
 const mapContainerStyle = {
   width: "100%",
@@ -43,6 +47,24 @@ function GoogleMapApi({
 
   //marker that user wants to see detail for
   const [userSelected, setUserSelected] = useState(null);
+  const {latlng} = useMap()
+  const [test,setTest] = useState([])
+
+  console.log(latlng)
+  // const clondlatlng = [...latlng]
+
+  // console.log(clondlatlng)
+  // const adddresslatlng = latlng.map((el)=>{
+  //   el.addressLat,
+  //   el.addressLong
+  //   console.log(el.addressLat)
+  //   console.log(el.addressLong)
+  // })
+  // console.log(adddresslatlng.addressLat)
+
+  // const getlatlng = latlng((el)=>{
+  //   el.addressLat
+  // })
   const [redPin, setRedPin] = useState([]);
   console.log(redPin);
 
@@ -158,6 +180,13 @@ function GoogleMapApi({
                     />
                   ))}
 
+                  {latlng.map((marker)=>{
+                    <Marker 
+                    position={{ lat:marker.addressLat , lng:marker.addressLong}}
+                    />
+                    console.log(marker.addressLat)
+                  })}
+                  
                   {userSelected ? (
                     <InfoWindow
                       position={{
