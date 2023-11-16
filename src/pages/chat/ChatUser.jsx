@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import formatTimeAgo from "../../utils/time-ago";
 
-export default function ChatUser({ roomId, creater, dealer, workId }) {
+export default function ChatUser({
+  roomId,
+  creater,
+  dealer,
+  workId,
+  chatTime,
+}) {
   const { user } = useAuth();
+
   return (
     <Link to={`/chatRoom/${roomId}`}>
       <div className="flex flex-col w-full">
@@ -30,7 +38,7 @@ export default function ChatUser({ roomId, creater, dealer, workId }) {
             <div>Work id : {workId}</div>
             <div className="w-full flex justify-between">
               <div>{dealer.createdAt.slice(0, 10)}</div>
-              <div>Now...</div>
+              <div>{formatTimeAgo(chatTime)}</div>
             </div>
           </div>
         </div>

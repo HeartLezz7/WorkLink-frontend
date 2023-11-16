@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useChat from "../../hooks/useChat";
+import useWork from "../../hooks/useWork";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useRef } from "react";
 import BoxMessage from "./BoxMessage";
 import InputMessage from "./InputMessage";
+import { STATUS_CANCEL, STATUS_SUCCESS } from "../../configs/constants";
 
 export default function ChatBox() {
   const [input, setInput] = useState("");
@@ -25,6 +27,9 @@ export default function ChatBox() {
     chatMessage,
     getChatroomMessage,
   } = useChat();
+  const { allWorks } = useWork();
+
+  const work = allWorks.find((item) => item.id === chatRoom?.workId);
 
   const chatEl = useRef();
   const chatImage = useRef();
@@ -48,7 +53,6 @@ export default function ChatBox() {
     socket.on("receive_message", (obj) => {
       console.log(obj.chatRoomId == chatRoomId, "check boolean");
       if (obj.chatRoomId == chatRoomId) {
-        console.log("first");
         setChatMessage([...chatMessage, obj]);
       }
       scrollToElement();
@@ -110,7 +114,6 @@ export default function ChatBox() {
       console.log(err);
     }
   };
-  console.log(chatMessage, "chat");
 
   return (
     <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-2">
@@ -145,51 +148,57 @@ export default function ChatBox() {
             className="h-36 border border-textGrayLight p-2"
           />
         )}
-        <div className="border flex justify-between items-center px-6 py-3 rounded-full w-full gap-2 relative">
-          <form
-            className="w-full flex items-center gap-2"
-            onSubmit={handleSubmitChat}
-          >
-            <div onClick={() => chatImage.current.click()}>
-              <img src={plus} alt="plus" className="w-[40px]" />
-              <input
-                type="file"
-                className="hidden"
-                ref={chatImage}
-                onChange={(e) => {
-                  if (e.target.files[0]) {
-                    setFile(e.target.files[0]);
-                  }
-                }}
-              />
-            </div>
-            <div
-              onClick={() => setEmojiOpen(!emojiOpen)}
-              className="cursor-pointer"
+
+        {work?.statusWork === STATUS_SUCCESS ||
+        work?.statusWork === STATUS_CANCEL ? (
+          ""
+        ) : (
+          <div className="border flex justify-between items-center px-6 py-3 rounded-full w-full gap-2 relative">
+            <form
+              className="w-full flex items-center gap-2"
+              onSubmit={handleSubmitChat}
             >
-              <BsEmojiSmile size={30} />
-            </div>
-            <div className="absolute bottom-[70px]">
-              {emojiOpen && (
-                <Picker
-                  data={data}
-                  value={data}
-                  maxFrequentRows={2}
-                  onEmojiSelect={addEmoji}
+              <div onClick={() => chatImage.current.click()}>
+                <img src={plus} alt="plus" className="w-[40px]" />
+                <input
+                  type="file"
+                  className="hidden"
+                  ref={chatImage}
+                  onChange={(e) => {
+                    if (e.target.files[0]) {
+                      setFile(e.target.files[0]);
+                    }
+                  }}
                 />
-              )}
-            </div>
-            <div>
-              <InputMessage
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-            </div>
-          </form>
-          <button onClick={handleSubmitChat}>
-            <img src={plane} alt="plane" className="w-[40px]" />
-          </button>
-        </div>
+              </div>
+              <div
+                onClick={() => setEmojiOpen(!emojiOpen)}
+                className="cursor-pointer"
+              >
+                <BsEmojiSmile size={30} />
+              </div>
+              <div className="absolute bottom-[70px]">
+                {emojiOpen && (
+                  <Picker
+                    data={data}
+                    value={data}
+                    maxFrequentRows={2}
+                    onEmojiSelect={addEmoji}
+                  />
+                )}
+              </div>
+              <div>
+                <InputMessage
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+              </div>
+            </form>
+            <button onClick={handleSubmitChat}>
+              <img src={plane} alt="plane" className="w-[40px]" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

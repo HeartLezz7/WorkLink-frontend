@@ -13,8 +13,6 @@ export default function ChallengerItem({ challenger, work }) {
     try {
       const getRoom = await axios.get("/chat/get");
       const allChatRoom = [...getRoom.data.allChatRoom];
-      console.log(allChatRoom, "get");
-      console.log(owner.id, "owner", user.id, "user");
       const foundRoom = allChatRoom.find(
         (item) =>
           item.createrId == owner.id &&
@@ -30,7 +28,6 @@ export default function ChallengerItem({ challenger, work }) {
           workId: work.id,
           dealerId: user.id,
         });
-        console.log(response, "chat");
         navigate(`/chatRoom/${response.data.chatRoom.id}`);
       }
     } catch (err) {

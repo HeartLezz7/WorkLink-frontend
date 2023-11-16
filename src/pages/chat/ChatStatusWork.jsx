@@ -61,7 +61,10 @@ export default function ChatStatusWork() {
                 <span className="text-black">{work?.createdAt}</span>
               </p>
               <p className="text-secondary">
-                Price : <span className="text-black">{work?.price}</span>
+                Price :{" "}
+                <span className="text-black">
+                  {work?.price} (this price no 5% fee reduction applied.)
+                </span>
               </p>
               <p className="text-secondary">
                 Status : <span className="text-black">{work?.statusWork}</span>

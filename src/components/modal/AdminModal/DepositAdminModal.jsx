@@ -8,8 +8,7 @@ export default function DepositAdminModal({ setIsOpen, data, open }) {
     comment: data.comment,
     slipImage: "",
   });
-
-  console.log(isHover);
+  console.log(input, "comment");
 
   const walletupdate = { wallet: +data.user.wallet + +data.amount };
 
