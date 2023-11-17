@@ -24,6 +24,7 @@ export default function WithdrawCheckModal({ setIsOpen, open, data }) {
   };
   const adminConfirm = async () => {
     try {
+      setLoading(true);
       const formData = new FormData();
 
       for (let key in input) {
@@ -38,13 +39,18 @@ export default function WithdrawCheckModal({ setIsOpen, open, data }) {
       );
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   const adminReject = async () => {
     try {
+      setLoading(true);
       await axios.patch(`/transaction/reject/${data.id}`, input);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   const handleSubmitForm = async (e) => {

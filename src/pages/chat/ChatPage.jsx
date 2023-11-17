@@ -27,7 +27,7 @@ export default function ChatPage() {
   console.log(allChatRoom, "chat ROOM");
 
   return (
-    <div className="w-full h-[calc(100vh-60px)]  grid grid-cols-5">
+    <div className="w-full h-[calc(100vh-60px)]  grid grid-cols-12">
       <ChatList chatRoom={allChatRoom} />
       <Outlet />
     </div>

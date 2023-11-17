@@ -1,8 +1,10 @@
 import { useState } from "react";
 
 import axios from "../../../configs/axios";
+import Loading from "../../Loading/Loading";
 
 export default function DepositAdminModal({ setIsOpen, data, open }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [input, setInput] = useState({
     comment: data.comment,
@@ -27,6 +29,7 @@ export default function DepositAdminModal({ setIsOpen, data, open }) {
 
   const adminConfirm = async () => {
     try {
+      setIsLoading(true);
       await axios.patch(`/transaction/deposit/${data.id}`);
       await axios.patch(
         `/transaction/walletupdate/${data.user.id}`,
@@ -34,6 +37,8 @@ export default function DepositAdminModal({ setIsOpen, data, open }) {
       );
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -41,9 +46,12 @@ export default function DepositAdminModal({ setIsOpen, data, open }) {
 
   const adminReject = async () => {
     try {
+      setIsLoading(true);
       await axios.patch(`/transaction/reject/${data.id}`, input);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -57,6 +65,7 @@ export default function DepositAdminModal({ setIsOpen, data, open }) {
               className="px-16 py-5 rounded-3xl bg-background relative w-[800px] flex flex-col justify-center items-center gap-5"
               onSubmit={handleSubmitForm}
             >
+              {isLoading && <Loading />}
               <div
                 onClick={() => setIsOpen(false)}
                 className="absolute top-3 right-3"

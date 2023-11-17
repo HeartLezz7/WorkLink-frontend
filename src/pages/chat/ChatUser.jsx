@@ -13,8 +13,8 @@ export default function ChatUser({
 
   return (
     <Link to={`/chatRoom/${roomId}`}>
-      <div className="flex flex-col w-full">
-        <div className="w-full border border-t-0 flex gap-5 items-center px-2 py-5 ">
+      <div className="flex flex-col w-full bg-background rounded-lg">
+        <div className="w-full shadow-md flex gap-5 items-center px-3 py-2">
           <img
             src={
               creater.id === user.id
@@ -22,20 +22,20 @@ export default function ChatUser({
                 : creater?.profileImage
             }
             alt="search"
-            className="w-[100px] rounded-full border aspect-square object-cover "
+            className="w-[80px] rounded-full aspect-square object-cover whiteDivShadow "
           />
 
           <div className="w-full flex flex-col gap-1">
             {creater.id === user.id ? (
-              <div>
+              <div className="font-bold">
                 {dealer.firstName} {dealer.lastName}
               </div>
             ) : (
-              <div>
+              <div className="font-bold">
                 {creater.firstName} {creater.lastName}
               </div>
             )}
-            <div>Work id : {workId}</div>
+            <div className="font-semibold">Work id : {workId}</div>
             <div className="w-full flex justify-between">
               <div>{dealer.createdAt.slice(0, 10)}</div>
               <div>{formatTimeAgo(chatTime)}</div>
