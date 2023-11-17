@@ -16,7 +16,6 @@ import useMap from "../../hooks/useMap";
 import { MarkerClustererF } from "@react-google-maps/api";
 import { MarkerF } from "@react-google-maps/api";
 
-
 const mapContainerStyle = {
   width: "100%",
   height: "100%",
@@ -49,28 +48,20 @@ function GoogleMapApi({
   //marker that user wants to see detail for
   const [userSelected, setUserSelected] = useState(null);
 
-
-    const { latlng } = useMap();
-  
-    console.log(latlng,"bbbbbbbbbbbbbbbbbbbbbbb")
-
-
-  const [test, setTest] = useState([{
-    addressLat:13.733695224699972,
-    addressLong:100.59390441488792,
-  },{
-    addressLat:13.747368614564877,
-    addressLong:100.61175719809104,
-  },
-  {addressLat:13.73792835543486,
-  addressLong:100.6018026705034}
-]);
-
-console.log(test)
-
-  console.log(latlng);
-
-
+  // Clusterer
+  const { latlng } = useMap();
+  // console.log(latlng,"bbbbbbbbbbbbbbbbbbbbbbb")
+  const [test, setTest] = useState([
+    {
+      addressLat: 13.733695224699972,
+      addressLong: 100.59390441488792,
+    },
+    {
+      addressLat: 13.747368614564877,
+      addressLong: 100.61175719809104,
+    },
+    { addressLat: 13.73792835543486, addressLong: 100.6018026705034 },
+  ]);
 
   const [redPin, setRedPin] = useState([]);
   // console.log(redPin);
@@ -135,7 +126,6 @@ console.log(test)
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
-    
   }, []);
 
   const panTo = useCallback(({ lat, lng }) => {
@@ -176,44 +166,39 @@ console.log(test)
                   zoom={12}
                   onClick={getMap}
                   onLoad={onMapLoad}
-                  
                 >
                   {redPin.map((marker) => (
                     <Marker
                       key={marker.time}
-                      position={{ lat: marker.lat, lng: marker.lng,
-                      }}
+                      position={{ lat: marker.lat, lng: marker.lng }}
                       //Show Marker when click
                       onClick={() => {
                         setUserSelected(marker);
                       }}
                     />
                   ))}
-
-               
-
-<MarkerClustererF
-// minimumClusterSize: The minimum number of markers needed to form a cluster.
-minimumClusterSize={2}
->
-    {(cluster) => (
-      <>
-        {latlng.map((position, index) => {
-
-          return (
-            <MarkerF position={{ lat: +position.addressLat, lng: +position.addressLong,
-            }} key={index} 
-            clusterer={cluster}
-            />
-            
-          );
-        })}
-      </>
-    )} 
- 
-</MarkerClustererF>
-
-
+                  {/* Clusterer */}
+                  <MarkerClustererF
+                    // minimumClusterSize: The minimum number of markers needed to form a cluster.
+                    minimumClusterSize={2}
+                  >
+                    {(cluster) => (
+                      <>
+                        {latlng.map((position, index) => {
+                          return (
+                            <MarkerF
+                              position={{
+                                lat: +position.addressLat,
+                                lng: +position.addressLong,
+                              }}
+                              key={index}
+                              clusterer={cluster}
+                            />
+                          );
+                        })}
+                      </>
+                    )}
+                  </MarkerClustererF>
                   {userSelected ? (
                     <InfoWindow
                       position={{
@@ -228,9 +213,6 @@ minimumClusterSize={2}
                       </div>
                     </InfoWindow>
                   ) : null}
-
-
-                
                 </GoogleMap>
                 <div className="flex justify-end items-center gap-2">
                   <button className="bg-primaryDarker rounded-2xl p-2 w-32 text-lg font-bold cursor-pointer text-textWhite">
