@@ -8,7 +8,7 @@ export default function BoxMessage({ id, senderId, message, dealerImage }) {
       id={id}
       className={`w-full flex ${
         senderId === user.id ? "justify-end" : "justify-start"
-      } items-center gap-[5px]`}
+      } items-center gap-3`}
     >
       {senderId === user.id ? (
         ""
@@ -16,16 +16,14 @@ export default function BoxMessage({ id, senderId, message, dealerImage }) {
         <img
           src={dealerImage}
           alt="profile img"
-          className="w-10 rounded-full aspect-square object-cover"
+          className="w-10 rounded-full aspect-square object-cover whiteDivShadow"
         />
       )}
 
       {message.includes("http") ? (
-        <div className="w-[100px] border flex justify-center items-center">
-          <img src={message} alt="image" className="w-full" />
-        </div>
+        <img src={message} alt="image" className="max-w-[150px] object-cover" />
       ) : (
-        <div className="border border-textGrayLight w-fit py-2 px-4 rounded-full">
+        <div className=" bg-backgroundWhiteGray w-fit py-1 px-4 rounded-full">
           {message}
         </div>
       )}

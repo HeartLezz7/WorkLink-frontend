@@ -113,7 +113,7 @@ export default function ChatBox() {
   console.log(chatMessage, "chat");
 
   return (
-    <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-5">
+    <div className="grid grid-rows-5 bg-background border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-5">
       <div className="row-span-5 flex flex-col overflow-hidden">
         <div className="bg-primary text-textWhite text-3xl text-center py-2 font-bold ">
           {chatRoom?.createrId === user.id
@@ -179,7 +179,7 @@ export default function ChatBox() {
                 />
               )}
             </div>
-            <div>
+            <div className="w-full">
               <InputMessage
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
