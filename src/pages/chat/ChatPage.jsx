@@ -11,10 +11,20 @@ export default function ChatPage() {
   useEffect(() => {
     if (getAccessToken()) {
       axios.get("/chat/get").then((res) => {
-        setAllChatRoom(res.data.allChatRoom);
+        console.log(res.data.allChatRoom, "raw data");
+        const array = res.data.allChatRoom;
+        const allChatRoom = array.reduce((acc, item, index) => {
+          acc.push(item.chatRoom);
+          acc[index].createdAt = item.createdAt;
+          return acc;
+        }, []);
+
+        setAllChatRoom(allChatRoom);
       });
     }
   }, []);
+
+  console.log(allChatRoom, "chat ROOM");
 
   return (
     <div className="w-full h-[calc(100vh-60px)]  grid grid-cols-5">

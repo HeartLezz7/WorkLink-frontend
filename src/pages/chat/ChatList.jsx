@@ -48,6 +48,7 @@ export default function ChatList({ chatRoom }) {
             creater={chat.creater}
             dealer={chat.dealer}
             workId={chat.workId}
+            chatTime={chat.createdAt}
           />
         ))}
       </div>

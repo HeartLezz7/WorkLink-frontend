@@ -21,10 +21,12 @@ export default function ChatStatusWork() {
 
   const { user } = useAuth();
   const { allWorks } = useWork();
+
   const { chatRoom } = useChat();
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
-
+  console.log(work?.price, "price");
+  console.log(user?.wallet, "wallet");
   return (
     <>
       <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-2 ">
@@ -61,7 +63,10 @@ export default function ChatStatusWork() {
                 <span className="text-black">{work?.createdAt}</span>
               </p>
               <p className="text-secondary">
-                Price : <span className="text-black">{work?.price}</span>
+                Price :{" "}
+                <span className="text-black">
+                  {work?.price} (this price no 5% fee reduction applied.)
+                </span>
               </p>
               <p className="text-secondary">
                 Status : <span className="text-black">{work?.statusWork}</span>
@@ -90,6 +95,8 @@ export default function ChatStatusWork() {
                   title="Submit"
                   workId={work?.id}
                   workerId={chatRoom?.dealer?.id}
+                  price={work?.price}
+                  wallet={user?.wallet}
                 />
               </>
             ) : chatRoom?.creater?.id &&
