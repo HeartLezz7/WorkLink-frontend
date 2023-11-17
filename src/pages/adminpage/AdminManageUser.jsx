@@ -61,19 +61,6 @@ export default function AdminManageUser() {
     return banned;
   };
 
-  const handleInput = (e) =>{
-    setSearchUser(e.target.value)
-  }
-  let filterUser =[...alluser]
-  if(searchUser){
-    filterUser = alluser.filter((el)=>{
-      if(el.email.toLowerCase().includes(searchUser.toLowerCase())){
-        return true
-      }
-      return false
-    })
-  }
-
   return (
     <div className="flex flex-col w-full ">
       <div className="flex gap-4 items-center justify-start p-6 pb-2">
