@@ -26,10 +26,8 @@ export default function AdminLoginPage() {
         return setError(result.error);
       }
       setError({});
-      // console.log("before");
       await adminlogin(result.value);
       navigate(`/admin`);
-      // console.log("after");
     } catch (err) {
       console.log(err);
     }

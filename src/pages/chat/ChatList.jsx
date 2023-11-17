@@ -1,6 +1,7 @@
 import search from "../../../public/icons/search.png";
 import ChatUser from "./ChatUser";
 import { useState } from "react";
+import { BiSearchAlt } from "react-icons/bi";
 
 export default function ChatList({ chatRoom }) {
   const [searchName, setSearchName] = useState("");
@@ -23,23 +24,22 @@ export default function ChatList({ chatRoom }) {
     });
   }
   return (
-    <div className="h-[calc(100vh-60px)]">
-      <div className="p-5 border-b h-[100px] flex justify-center items-center">
-        <div className="w-full border flex justify-between items-center px-3 py-3 rounded-xl gap-2">
-          <div className="w-full flex justify-between items-center px-1  rounded-xl">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full flex justify-between items-center px-3 py-2 rounded-xl"
-              onChange={handleInput}
-            />
+    <div className="h-[calc(100vh-60px)] col-span-3">
+      <div className="px-5 py-3 shadow-md  flex justify-center items-center">
+        <div className="relative w-[100%]">
+          <div className="w-[30px] absolute top-[10px] left-4">
+            <BiSearchAlt color="FF7127" size={25} />
           </div>
-          <div>
-            <img src={search} alt="search" className="w-[30px]" />
-          </div>
+          <input
+            type="text"
+            onChange={handleInput}
+            value={searchName}
+            placeholder="Search..."
+            className="rounded-full pl-12 py-2 w-full text-xl shadow-md shadow-primaryDark/50 outline-none text-secondary focus:ring placeholder:text-secondary"
+          />
         </div>
       </div>
-      <div className="overflow-y-scroll h-[calc(100vh-160px)]">
+      <div className="overflow-y-scroll h-[calc(100vh-135px)] flex flex-col gap-2 px-2 py-2">
         {filterName.map((chat) => (
           <ChatUser
             key={chat.id}
@@ -48,6 +48,7 @@ export default function ChatList({ chatRoom }) {
             creater={chat.creater}
             dealer={chat.dealer}
             workId={chat.workId}
+            chatTime={chat.createdAt}
           />
         ))}
       </div>

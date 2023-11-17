@@ -22,7 +22,7 @@ export default function UserWallet() {
     <div className="flex flex-col space-y-6 overflow-x-hidden pr-2 max-h-[100%]">
       <div className="flex items-center justify-start gap-5 pl-2">
         <img
-          src="/defaultImage.jpg"
+          src={user.profileImage}
           className="w-[80px] aspect-square rounded-full object-cover whiteDivShadow"
         />
         <div className="">

@@ -3,16 +3,16 @@ import Loading from "../Loading/Loading";
 import { IoMdClose } from "react-icons/io";
 import useWork from "../../hooks/useWork";
 
-export default function ConfirmCancleWork({
-  setIsCancleOpen,
+export default function ConfirmCancelWork({
+  setIsCancelOpen,
   workId,
   setIsEditOpen,
 }) {
   const [loading, setLoading] = useState(false);
-  const { cancleWork } = useWork();
+  const { cancelWork } = useWork();
 
   const handleCancleWork = async () => {
-    await cancleWork(workId);
+    await cancelWork(workId);
     setIsEditOpen(false);
   };
 
@@ -24,7 +24,7 @@ export default function ConfirmCancleWork({
           <div className=" overflow-hidden px-2 pt-2 pb-5 rounded-3xl bg-background relative">
             {loading && <Loading />}
             <div
-              onClick={() => setIsCancleOpen(false)}
+              onClick={() => setIsCancelOpen(false)}
               className="absolute top-0 right-0  w-[40px] h-[40px] bg-textGrayDark flex items-center justify-center rounded-bl-2xl cursor-pointer"
             >
               <IoMdClose size={25} color="fff" />

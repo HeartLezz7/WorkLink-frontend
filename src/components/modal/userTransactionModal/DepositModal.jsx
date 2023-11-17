@@ -8,7 +8,6 @@ import InputBorderForm from "../../InputBorderForm";
 import useWallet from "../../../hooks/useWallet";
 import InputErrorMessage from "../../InputErroMessage";
 
-
 export default function DepositModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
@@ -28,6 +27,7 @@ export default function DepositModal({ setIsOpen }) {
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
+      setLoading(true);
       if (!input.amount && !input.slipImage) {
         setError({
           ...error,
@@ -46,6 +46,8 @@ export default function DepositModal({ setIsOpen }) {
       setIsOpen(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,6 +56,7 @@ export default function DepositModal({ setIsOpen }) {
       <div className="fixed inset-0 bg-black/70 z-[30]"></div>
       <div className="fixed z-[30] min-h-full inset-0 flex justify-center items-center">
         <div className="w-[650px]   ">
+          {loading && <Loading />}
           <form
             className=" overflow-hidden px-2 pt-2 pb-5 rounded-3xl bg-background relative"
             onSubmit={handleSubmitForm}

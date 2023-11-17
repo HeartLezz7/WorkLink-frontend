@@ -63,7 +63,11 @@ export default function OwnerWorkModal({ work, setIsOpen }) {
                     <div>
                       Work type : {thisWork.isOnsite ? "Onsite" : "Remote"}
                     </div>
-                    {thisWork.isOnsite ? <div>address : </div> : ""}
+                    {thisWork.isOnsite ? (
+                      <div>address : {thisWork.addressName}</div>
+                    ) : (
+                      ""
+                    )}
                     <div>Price : {thisWork.price}</div>
                     <div>
                       Start-End Date: {getDate(thisWork.startDate)}

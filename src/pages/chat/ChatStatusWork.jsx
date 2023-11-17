@@ -14,17 +14,6 @@ import useAuth from "../../hooks/useAuth";
 import ReviewModal from "../../components/modal/ReviewModal";
 import EditWorkModal from "../../components/modal/EditWorkModal";
 
-// const SuccessButton = ({ onClick }) => {
-//   return (
-//     <button
-//       className="w-[20rem]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
-//       onClick={onClick}
-//     >
-//       Success
-//     </button>
-//   );
-// };
-
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -32,14 +21,15 @@ export default function ChatStatusWork() {
 
   const { user } = useAuth();
   const { allWorks } = useWork();
+
   const { chatRoom } = useChat();
-  console.log(chatRoom);
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
-
+  console.log(work?.price, "price");
+  console.log(user?.wallet, "wallet");
   return (
     <>
-      <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-2 ">
+      <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-4 ">
         <div className="row-span-5 ">
           <div className="bg-secondaryLight text-textWhite text-4xl text-center p-3 font-semibold">
             Status
@@ -73,7 +63,10 @@ export default function ChatStatusWork() {
                 <span className="text-black">{work?.createdAt}</span>
               </p>
               <p className="text-secondary">
-                Price : <span className="text-black">{work?.price}</span>
+                Price :{" "}
+                <span className="text-black">
+                  {work?.price} (this price no 5% fee reduction applied.)
+                </span>
               </p>
               <p className="text-secondary">
                 Status : <span className="text-black">{work?.statusWork}</span>
@@ -102,6 +95,8 @@ export default function ChatStatusWork() {
                   title="Submit"
                   workId={work?.id}
                   workerId={chatRoom?.dealer?.id}
+                  price={work?.price}
+                  wallet={user?.wallet}
                 />
               </>
             ) : chatRoom?.creater?.id &&

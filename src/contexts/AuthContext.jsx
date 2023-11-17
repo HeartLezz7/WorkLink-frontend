@@ -47,7 +47,7 @@ export default function AuthContextProvider({ children }) {
   const adminlogin = async (adminloginInput) => {
     const user = await axios.post("/admin/login", adminloginInput);
     createAccessToken(user.data.accessToken);
-    setUser(user.data.user);
+    setUser(user.data.admin);
   };
 
   const loginGoogle = async (logingoogleInput) => {

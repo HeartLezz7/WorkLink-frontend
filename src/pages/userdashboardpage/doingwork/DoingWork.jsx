@@ -3,11 +3,42 @@ import DoingWorkCard from "./DoingWorkCard";
 import axios from "../../../configs/axios";
 import { STATUS_FINDING, STATUS_MAKEDEAL } from "../../../configs/constants";
 import useWork from "../../../hooks/useWork";
+import { Select } from "antd";
 
 export default function DoingWork() {
   const [filter, setFilter] = useState("all");
   const { myDoingWork, mySignWork } = useWork();
-  console.log(myDoingWork);
+  const [filterWork, setFilterWork] = useState(myDoingWork);
+
+  useEffect(() => {
+    if (filter === "all") {
+      setFilterWork(myDoingWork);
+    } else if (filter === "success") {
+      const newfil = myDoingWork.filter((work) => work.statusWork === filter);
+      setFilterWork(newfil);
+    } else if (filter === "onProcess") {
+      const newfil = myDoingWork.filter((work) => {
+        if (work.statusWork === "makeDeal") {
+          return true;
+        }
+        if (work.statusWork === "onProcess") {
+          return true;
+        }
+        if (work.statusWork === "requestSuccess") {
+          return true;
+        }
+        return false;
+      });
+      setFilterWork(newfil);
+    } else {
+      const newfil = myDoingWork.filter((work) => work.statusWork === filter);
+      setFilterWork(newfil);
+    }
+  }, [myDoingWork, filter]);
+
+  const handleChangeFilter = (value) => {
+    setFilter(value);
+  };
 
   return (
     <div className="p-1 h-full relative">
@@ -18,49 +49,51 @@ export default function DoingWork() {
         <div className="flex justify-between w-full items-center px-2 pb-2 pt-1">
           <div className="flex gap-3 ">
             <img src="/icons/filter.svg" alt="" className="w-[30px]" />
-            <div
-              onClick={() => {
-                setFilter("all");
+            <Select
+              defaultValue="all"
+              style={{
+                width: "150px",
               }}
-              className={`cursor-pointer py-0.5 font-semibold text-textGrayDark ${
-                filter === "all" ? "bg-secondaryLight" : "bg-textGrayLight"
-              }  px-2 rounded-full`}
-            >
-              all
-            </div>
-            <div
-              onClick={() => {
-                setFilter("onprocess");
-              }}
-              className={`cursor-pointer py-0.5 font-semibold text-textGrayDark ${
-                filter === "onprocess"
-                  ? "bg-secondaryLight"
-                  : "bg-textGrayLight"
-              }  px-2 rounded-full`}
-            >
-              OnProcess
-            </div>
-            <div
-              onClick={() => {
-                setFilter("signup");
-              }}
-              className={`cursor-pointer py-0.5 font-semibold text-textGrayDark ${
-                filter === "signup" ? "bg-secondaryLight" : "bg-textGrayLight"
-              }  px-2 rounded-full`}
-            >
-              SignUp
-            </div>
+              onChange={handleChangeFilter}
+              options={[
+                { value: "all", label: "All" },
+                { value: "signUp", label: "SignUp" },
+                { value: "onProcess", label: "OnProcess" },
+                { value: "success", label: "Success" },
+                { value: "cancel", label: "Cancel" },
+                { value: "onIssue", label: "OnIssue" },
+              ]}
+            />
           </div>
         </div>
-        <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[96%] flex flex-col gap-3 pr-2">
-          {myDoingWork.length > 0 &&
-            myDoingWork.map((el) => (
-              <DoingWorkCard key={el.id} work={el} isDoing={true} />
-            ))}
-          {mySignWork.length > 0 &&
-            mySignWork.map((el) => (
-              <DoingWorkCard key={el.id} work={el.work} isDoing={false} />
-            ))}
+        <div className=" w-full overflow-y-scroll pb-2 rounded-lg h-[93%] flex flex-col gap-3 pr-2">
+          {filter === "all" ? (
+            <>
+              {filterWork.length > 0 &&
+                filterWork.map((el) => (
+                  <DoingWorkCard key={el.id} work={el} isDoing={true} />
+                ))}
+              {mySignWork.length > 0 &&
+                mySignWork.map((el) => (
+                  <DoingWorkCard key={el.id} work={el.work} isDoing={false} />
+                ))}
+            </>
+          ) : filter === "signUp" ? (
+            <>
+              {" "}
+              {mySignWork.length > 0 &&
+                mySignWork.map((el) => (
+                  <DoingWorkCard key={el.id} work={el.work} isDoing={false} />
+                ))}
+            </>
+          ) : (
+            <>
+              {filterWork.length > 0 &&
+                filterWork.map((el) => (
+                  <DoingWorkCard key={el.id} work={el} isDoing={true} />
+                ))}
+            </>
+          )}
         </div>
       </div>
     </div>

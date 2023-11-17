@@ -1,6 +1,6 @@
+import { toast } from "react-hot-toast";
 import axios from "../../configs/axios";
 import {
-  STATUS_CANCEL,
   STATUS_FINDING,
   STATUS_MAKEDEAL,
   STATUS_ONPROCESS,
@@ -8,7 +8,7 @@ import {
 } from "../../configs/constants";
 import useChat from "../../hooks/useChat";
 
-export default function WorkButton({ title, workId, workerId }) {
+export default function WorkButton({ title, workId, workerId, price, wallet }) {
   const { Refresh, setRefresh } = useChat();
 
   const handleStatusWork = async (status) => {
@@ -17,6 +17,9 @@ export default function WorkButton({ title, workId, workerId }) {
       let workStatus = "";
       if (status === "Submit") {
         workStatus = STATUS_MAKEDEAL;
+        if (price > wallet) {
+          toast.error("Please add money");
+        }
         await axios.patch("/work/makeDeal", {
           workStatus,
           workId,

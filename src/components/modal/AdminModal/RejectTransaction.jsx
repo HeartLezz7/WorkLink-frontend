@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function RejectTransaction({ open, setIsOpen, data }) {
   const [isHover, setIsHover] = useState(false);
-  console.log(isHover);
+
   return (
     <>
       {open && (

@@ -11,6 +11,20 @@ export default function AdminPage() {
   const [noti, setNoti] = useState([]);
   const { isOpen, setIsOpen, dropDownEl } = useDropdown();
 
+  const [searchUser, setSearchUser] = useState("");
+  const handleInput = (e) => {
+    setSearchUser(e.target.value);
+  };
+  let filterWork = [...filterWorks];
+  if (searchUser) {
+    filterWork = filterWorks.filter((el) => {
+      if (el.title.toLowerCase().includes(searchUser.toLowerCase())) {
+        return true;
+      }
+      return false;
+    });
+  }
+
   useEffect(() => {
     getwork();
   }, []);
@@ -47,8 +61,6 @@ export default function AdminPage() {
     }
   };
 
-  console.log(filterWorks);
-
   return (
     <div className="flex flex-col w-full">
       <div className="flex gap-4 items-center justify-start p-6 pb-2">
@@ -57,6 +69,7 @@ export default function AdminPage() {
             type="text"
             placeholder="search for..."
             className="p-2 text-primaryDarker rounded-xl w-72 px-5"
+            onChange={handleInput}
           />
         </div>
         <div
@@ -98,7 +111,7 @@ export default function AdminPage() {
         <p className="text-xs px-5 w-full flex justify-end">
           count : {filterWorks.length}
         </p>
-        {filterWorks.map((el) => (
+        {filterWork.map((el) => (
           <AdminWorkCard key={el.id} workObj={el} />
         ))}
       </div>
