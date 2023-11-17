@@ -10,28 +10,29 @@ import getDateFormat from "../../utils/getDateFormat";
 const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
-import ConfirmCancleWork from "./ConfirmCancleWorkModal";
+import ConfirmCancelWork from "./ConfirmCancelWorkModal";
 
 export default function EditWorkModal({ setIsOpen, work }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const { allWorks, editWork, category } = useWork();
   const [address, setAddress] = useState([]);
-  console.log(address);
+  // console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
-  const [isCancleOpen, setIsCancleOpen] = useState(false);
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     id: work.id,
     isOnsite: work.isOnsite,
     description: work.description,
     price: work.price,
+    addressName: work.addressName,
     addressLat: work.addressLat,
     addressLong: work.addressLong,
     startDate: work.startDate,
     endDate: work.endDate,
   });
-  console.log(work, category);
+  // console.log(work, category);
 
   const handleChangeInput = (e) => {
     // console.log(e.target.name, e.target.checked, e.target.value);
@@ -52,7 +53,16 @@ export default function EditWorkModal({ setIsOpen, work }) {
       //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
       //   }
       setLoading(true);
-      console.log(input);
+      // console.log(input);
+      if (input.isOnsite) {
+        if (!input.addressName && !input.addressLong && !input.addressLat) {
+          return console.log("select your addriss");
+        }
+      } else {
+        input.addressName = null;
+        input.addressLat = null;
+        input.addressLong = null;
+      }
       await editWork(input);
       setIsOpen(false);
     } catch (err) {
@@ -182,40 +192,19 @@ export default function EditWorkModal({ setIsOpen, work }) {
                 </div>
               </div>
               {input.isOnsite != 0 && (
-                <div className="flex gap-2 w-full">
-                  <div
-                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center"
-                    onClick={() => {
-                      setIsOpenMap(true);
-                    }}
-                  >
-                    <p>Add location</p>
-                  </div>
-                  <div className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center">
-                    <p>{address}</p>
-                  </div>
-                  <ModalMap
-                    open={isOpen}
-                    onClose={() => setIsOpenMap(false)}
-                    setAddress={setAddress}
-                    address={address}
-                  />
-                  {/* <input
-                    type="text"
-                    placeholder="AddressLat"
-                    name="addressLat"
-                    value={input.addressLat}
-                    onChange={handleChangeInput}
-                    className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
-                  />
-                  <input
-                    type="text"
-                    placeholder="AddressLong"
-                    name="addressLong"
-                    value={input.addressLong}
-                    onChange={handleChangeInput}
-                    className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
-                  /> */}
+                <div
+                  className=" border w-full p-1 border-primary outline-none rounded-md text-sm text-center cursor-pointer "
+                  onClick={() => {
+                    setIsOpenMap(true);
+                  }}
+                >
+                  {address ? (
+                    <div className="flex flex-col">
+                      <p className="truncate">{input.addressName}</p>
+                    </div>
+                  ) : (
+                    <p>Click to add location</p>
+                  )}
                 </div>
               )}
 
@@ -233,14 +222,14 @@ export default function EditWorkModal({ setIsOpen, work }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setIsCancleOpen(true)}
+                  onClick={() => setIsCancelOpen(true)}
                   className="flex-[3] text-whitetext font-semibold bg-textGrayLight  focus:outline-none  shadow-md  font-md rounded-lg py-1.5 text-center place-content-center-center whiteDivShadow"
                 >
-                  Cancle work
+                  Cancel work
                 </button>
-                {isCancleOpen && (
-                  <ConfirmCancleWork
-                    setIsCancleOpen={setIsCancleOpen}
+                {isCancelOpen && (
+                  <ConfirmCancelWork
+                    setIsCancelOpen={setIsCancelOpen}
                     workId={work.id}
                     setIsEditOpen={setIsOpen}
                   />

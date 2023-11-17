@@ -11,6 +11,7 @@ export default function WorkCard({
   workImage,
   title,
   createdAt,
+  addressName,
   startDate,
   endDate,
   price,
@@ -62,16 +63,18 @@ export default function WorkCard({
           transform,
         }}
       >
-        <div className="h-[60%]  overflow-hidden rounded-xl">
+        <div className="h-[70%]  overflow-hidden rounded-xl">
           <img src={workImage} className=" min-h-full w-full object-cover" />
         </div>
-        <div className=" flex flex-col justify-between h-[40%] pt-3">
-          <p className="text-2xl line-clamp-2">{title}</p>
-          <div className="flex w-full justify-between">
+        <div className=" flex flex-col justify-between h-[30%] pt-3">
+          <p className="text-xl text-textNavy line-clamp-2">{title}</p>
+          <div className="flex w-full justify-between items-end">
             <p>
-              {getDate(startDate)}-{getDate(endDate)}
+              {getDate(startDate)}
+              {endDate && "-"}
+              {getDate(endDate)}
             </p>
-            <p>{price}</p>
+            <p>Price : {price}</p>
           </div>
         </div>
       </a.div>
@@ -83,35 +86,48 @@ export default function WorkCard({
           rotateY: "-180deg",
         }}
       >
-        <div className="bg-textWhite flex flex-col justify-between h-full p-3 w-full overflow-hidden">
-          <div className="flex flex-col justify-start flex-[8] overflow-y-scroll w-full overflow-hidden">
-            <p className=" text-xl font-semibold pt-1 pb-2 text-textNavy">
-              {title}
-            </p>
-            <hr className="w-[95%] mx-auto py-1" />
+        <div className="bg-textWhite flex flex-col  justify-between h-full p-3 w-full overflow-hidden">
+          <div className="flex flex-col justify-start flex-[8] overflow-x-hidden overflow-y-hidden hover:overflow-y-scroll w-[330px] pr-1.5 ">
+            <div>
+              <p className="text-lg font-semibold pt-1 pb-2 text-textNavy">
+                {title}
+              </p>
+              <hr className="w-[95%] mx-auto py-1" />
 
-            <div className="flex gap-2 pb-1">
-              <p className=" font-semibold whitespace-nowrap text-lg text-secondary">
-                Price :
+              <div className="flex gap-2 pb-1">
+                <p className=" font-semibold whitespace-nowrap text-secondary">
+                  Price :
+                </p>
+                <p className="">{price}</p>
+              </div>
+              <div className="flex gap-2 pb-1">
+                <p className=" font-semibold whitespace-nowrap text-secondary">
+                  Duration :
+                </p>
+                <p className="">
+                  {getDate(startDate)}
+                  {endDate && "-"}
+                  {getDate(endDate)}
+                </p>
+              </div>
+              {addressName && (
+                <>
+                  <p className=" font-semibold whitespace-nowrap text-secondary">
+                    Work Address :
+                  </p>
+                  <p className="">{addressName}</p>
+                </>
+              )}
+
+              <p className="w-[full] overflow-clip text-clip ">
+                <span className="font-semibold whitespace-nowrap text-secondary inline">
+                  Description
+                </span>{" "}
+                : {description}
               </p>
-              <p className=" text-lg">{price}</p>
             </div>
-            <div className="flex gap-2 pb-1">
-              <p className=" font-semibold whitespace-nowrap text-lg text-secondary">
-                Duration :
-              </p>
-              <p className=" text-lg">
-                {getDate(startDate)}-{getDate(endDate)}
-              </p>
-            </div>
-            <p className=" font-semibold whitespace-nowrap text-secondary text-lg inline">
-              Description :
-            </p>
-            <p className="w-[full] overflow-clip text-clip inline">
-              {description}
-            </p>
           </div>
-          <div className="flex flex-col items-center justify-center gap-2 flex-[2] pt-2">
+          <div className="flex flex-col items-center justify-center gap-2 flex-[1.5] pt-2">
             {!user ? (
               <button className="bg-disable px-5 py-2 text-sm font-semibold rounded-full text-textGrayDark">
                 Need login and verify to sign-up this work

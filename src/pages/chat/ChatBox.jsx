@@ -5,46 +5,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useChat from "../../hooks/useChat";
+import useWork from "../../hooks/useWork";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useRef } from "react";
+import BoxMessage from "./BoxMessage";
+import InputMessage from "./InputMessage";
+import { STATUS_CANCEL, STATUS_SUCCESS } from "../../configs/constants";
 
-const BoxMessage = ({ senderId, message, dealerImage }) => {
-  const { user } = useAuth();
-  return (
-    <div
-      className={`w-full flex ${
-        senderId === user.id ? "justify-end" : "justify-start"
-      } items-center gap-[5px]`}
-    >
-      {senderId === user.id ? (
-        ""
-      ) : (
-        <img
-          src={dealerImage}
-          alt="profile img"
-          className="w-10 rounded-full"
-        />
-      )}
-      <div className="border border-textGrayLight w-fit py-2 px-4 rounded-full">
-        {message}
-      </div>
-    </div>
-  );
-};
-
-const InputMessage = ({ value, onChange }) => {
-  return (
-    <input
-      type="text"
-      placeholder="message..."
-      value={value}
-      onChange={onChange}
-      className="w-full rounded-xl py-2 px-4 outline-none bg-backgroundWhiteBlue"
-    />
-  );
-};
 export default function ChatBox() {
   const [input, setInput] = useState("");
   const [file, setFile] = useState(null);
@@ -57,9 +26,12 @@ export default function ChatBox() {
     setChatMessage,
     chatMessage,
     getChatroomMessage,
-    Refresh,
   } = useChat();
+  const { allWorks } = useWork();
 
+  const work = allWorks.find((item) => item.id === chatRoom?.workId);
+
+  const chatEl = useRef();
   const chatImage = useRef();
   const { chatRoomId } = useParams();
 
@@ -74,14 +46,16 @@ export default function ChatBox() {
 
   useEffect(() => {
     getChatroomMessage(chatRoomId);
-  }, [allChatRoom, chatRoomId, Refresh]);
+    scrollToElement();
+  }, [allChatRoom, chatRoomId]);
 
   useEffect(() => {
     socket.on("receive_message", (obj) => {
-      console.log(obj);
+      console.log(obj.chatRoomId == chatRoomId, "check boolean");
       if (obj.chatRoomId == chatRoomId) {
         setChatMessage([...chatMessage, obj]);
       }
+      scrollToElement();
     });
     return () => {
       socket.off("receive_message");
@@ -103,6 +77,16 @@ export default function ChatBox() {
     setEmojiOpen(false);
   };
 
+  const scrollToElement = () => {
+    // Access the current property of the ref to get the DOM element
+    const element = chatEl?.current.lastElementChild;
+
+    // Check if the element exists before trying to scroll into view
+    if (element) {
+      element?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  };
+
   const handleSubmitChat = async (e) => {
     try {
       e.preventDefault();
@@ -113,39 +97,41 @@ export default function ChatBox() {
         room: +chatRoomId,
       };
       if (file) {
-        const data = new FormData();
-        data.append("chatImage", file);
-        data.append("message", input);
-        console.log("image");
-        message.message = data;
+        message.message = file;
+        message.type = "file";
       } else if (input) {
-        console.log("text");
         message.message = input;
+        message.type = "message";
       } else {
-        return console.log("message required");
+        console.log("message required");
+        return;
       }
 
       socket.emit("sent_message", message);
       setInput("");
-      setChatMessage([...chatMessage, message]);
+      setFile(null);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="grid grid-rows-5 border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-2">
-      <div className="row-span-5 flex flex-col overflow-hidden  ">
-        <div className="bg-primary text-textWhite text-4xl text-center p-3 font-semibold ">
+    <div className="grid grid-rows-5 bg-background border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-5">
+      <div className="row-span-5 flex flex-col overflow-hidden">
+        <div className="bg-primary text-textWhite text-3xl text-center py-2 font-bold ">
           {chatRoom?.createrId === user.id
             ? `${chatRoom?.dealer?.firstName} ${chatRoom?.dealer?.lastName}`
             : `${chatRoom?.creater?.firstName} ${chatRoom?.creater?.lastName}`}
         </div>
-        <div className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full">
+        <div
+          ref={chatEl}
+          className=" overflow-y-scroll flex flex-col p-2 gap-2 h-full"
+        >
           {chatMessage.map((chat) => {
             return (
               <BoxMessage
                 key={chat.id}
+                id={chat.id}
                 message={chat.message}
                 senderId={chat.senderId}
                 dealerImage={chat.sender?.profileImage}
@@ -154,59 +140,65 @@ export default function ChatBox() {
           })}
         </div>
       </div>
-      <div className="row-span-1 p-5 flex items-center justify-center ">
-        <div className="border flex justify-between items-center px-6 py-3 rounded-full w-full gap-2 relative">
-          <form
-            className="w-full flex items-center gap-2"
-            onSubmit={handleSubmitChat}
-          >
-            <div onClick={() => chatImage.current.click()}>
-              <img src={plus} alt="plus" className="w-[40px]" />
-              <input
-                type="file"
-                className="hidden"
-                ref={chatImage}
-                onChange={(e) => {
-                  if (e.target.files[0]) {
-                    setFile(e.target.files[0]);
-                  }
-                }}
-              />
-            </div>
-            <div
-              onClick={() => setEmojiOpen(!emojiOpen)}
-              className="cursor-pointer"
+      <div className="row-span-1 px-5 py-2 flex flex-col items-start justify-center gap-2">
+        {file && (
+          <img
+            src={URL.createObjectURL(file)}
+            alt="file"
+            className="h-36 border border-textGrayLight p-2"
+          />
+        )}
+
+        {work?.statusWork === STATUS_SUCCESS ||
+        work?.statusWork === STATUS_CANCEL ? (
+          ""
+        ) : (
+          <div className="border flex justify-between items-center px-6 py-1 rounded-full w-full gap-2 relative">
+            <form
+              className="w-full flex items-center gap-2"
+              onSubmit={handleSubmitChat}
             >
-              <BsEmojiSmile size={30} />
-            </div>
-            <div className="absolute bottom-[70px]">
-              {emojiOpen && (
-                <Picker
-                  data={data}
-                  value={data}
-                  maxFrequentRows={2}
-                  onEmojiSelect={addEmoji}
+              <div onClick={() => chatImage.current.click()}>
+                <img src={plus} alt="plus" className="w-[30px]" />
+                <input
+                  type="file"
+                  className="hidden"
+                  ref={chatImage}
+                  onChange={(e) => {
+                    if (e.target.files[0]) {
+                      setFile(e.target.files[0]);
+                    }
+                  }}
                 />
-              )}
-            </div>
-            <div>
-              {file && (
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="file"
-                  className="h-36 border border-textGrayLight p-2"
+              </div>
+              <div
+                onClick={() => setEmojiOpen(!emojiOpen)}
+                className="cursor-pointer"
+              >
+                <BsEmojiSmile size={30} />
+              </div>
+              <div className="absolute bottom-[70px]">
+                {emojiOpen && (
+                  <Picker
+                    data={data}
+                    value={data}
+                    maxFrequentRows={2}
+                    onEmojiSelect={addEmoji}
+                  />
+                )}
+              </div>
+              <div className="w-full">
+                <InputMessage
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
                 />
-              )}
-              <InputMessage
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-            </div>
-          </form>
-          <div>
-            <img src={plane} alt="plane" className="w-[40px]" />
+              </div>
+            </form>
+            <button className="cursor-pointer" onClick={handleSubmitChat}>
+              <img src={plane} alt="plane" className="w-[30px]" />
+            </button>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

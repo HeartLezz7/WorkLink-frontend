@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function AdminManageUser() {
   const [alluser, setAllUser] = useState([]);
   const [notiVerify, setNotiVerify] = useState([]);
-  const [searchUser,setSearchUser] = useState("")
+  const [searchUser, setSearchUser] = useState("");
 
   useEffect(() => {
     getuser();
@@ -15,6 +15,19 @@ export default function AdminManageUser() {
   useEffect(() => {
     notiverify();
   }, []);
+
+  const handleInput = (e) => {
+    setSearchUser(e.target.value);
+  };
+  let filterUser = [...alluser];
+  if (searchUser) {
+    filterUser = alluser.filter((el) => {
+      if (el.email.toLowerCase().includes(searchUser.toLowerCase())) {
+        return true;
+      }
+      return false;
+    });
+  }
 
   const getuser = async () => {
     const res = await axios

@@ -8,24 +8,10 @@ import useAuth from "../../hooks/useAuth";
 import calculateAge from "../../utils/calculateAge";
 import EditProfileModal from "../../components/modal/EditProfileModal";
 
-export default function UserDetail() {
-  const [profileData, setProfileData] = useState(null);
+export default function UserDetail({ profileData, setProfileData }) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
-  const { userId } = useParams();
-  console.log(profileData);
-  useEffect(() => {
-    axios
-      .get(`/user/getuserprofile/${userId}`)
-      .then((res) => {
-        let profileAge = calculateAge(res.data.profileData.birthDate);
-        console.log(profileAge);
-        res.data.profileData.age = profileAge;
-        setProfileData(res.data.profileData);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-  console.log(profileData);
+
   return (
     <div className="p-5 w-[90%] shadow-lg shadow-primaryDark/70 bg-background/80 rounded-xl h-fit">
       <div className="flex gap-5 items-center">
@@ -69,7 +55,7 @@ export default function UserDetail() {
               : "Not specified"}
           </p>
         </div>
-        {userId == user.id ? (
+        {profileData?.id == user.id ? (
           <div className="w-full flex justify-center">
             <button
               onClick={() => {

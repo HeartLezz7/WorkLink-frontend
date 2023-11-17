@@ -13,14 +13,15 @@ const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
 
-
 export default function CreateWorkModal({ setIsOpen }) {
   const [loading, setLoading] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const { allWorks, createWork, category } = useWork();
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
   const [isOpen, setIsOpenMap] = useState(false);
   const [address, setAddress] = useState();
-  console.log(address);
+  // console.log(address);
   const fileEl = useRef(null);
   const [input, setInput] = useState({
     title: "",
@@ -29,6 +30,7 @@ export default function CreateWorkModal({ setIsOpen }) {
     workImage: "",
     description: "",
     price: "",
+    addressName: "",
     addressLat: "",
     addressLong: "",
     startDate: "",
@@ -69,7 +71,16 @@ export default function CreateWorkModal({ setIsOpen }) {
       //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
       //   }
       setLoading(true);
-      console.log(input);
+      // console.log(input);
+      if (input.isOnsite) {
+        if (!input.addressName && !input.addressLong && !input.addressLat) {
+          return console.log("select your addriss");
+        }
+      } else {
+        input.addressName = null;
+        input.addressLat = null;
+        input.addressLong = null;
+      }
       for (let key in input) {
         if (input[key]) {
           formData.append(`${key}`, input[key]);
@@ -252,36 +263,19 @@ export default function CreateWorkModal({ setIsOpen }) {
                 </div>
               </div>
               {input.isOnsite != 0 && (
-                <div className="flex gap-2 w-full justify-center">
-                  <div
-                    className=" border p-1 border-primary w-1/2 outline-none rounded-md text-sm text-textGrayLight text-center "
-                    onClick={() => {
-                      setIsOpenMap(true);
-                    }}
-                  >
-                    {address ? 
+                <div
+                  className=" border w-full p-1 border-primary outline-none rounded-md text-sm text-center cursor-pointer "
+                  onClick={() => {
+                    setIsOpenMap(true);
+                  }}
+                >
+                  {address ? (
                     <div className="flex flex-col">
-                    <p className="font-bold">Edit : </p> 
-                    <p>{address}</p> 
+                      <p className="truncate">{input.addressName}</p>
                     </div>
-                    : <p>Add location</p>}
-                  </div>
-                  {/* <input
-                    type="text"
-                    placeholder="AddressLat"
-                    name="addressLat"
-                    value={input.addressLat}
-                    onChange={handleChangeInput}
-                    className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
-                  />
-                  <input
-                    type="text"
-                    placeholder="AddressLong"
-                    name="addressLong"
-                    value={input.addressLong}
-                    onChange={handleChangeInput}
-                    className=" border p-1 border-primary w-full outline-none rounded-md text-sm text-textNavy"
-                  /> */}
+                  ) : (
+                    <p>Click to add location</p>
+                  )}
                 </div>
               )}
 
@@ -305,8 +299,11 @@ export default function CreateWorkModal({ setIsOpen }) {
             onClose={() => {
               setIsOpenMap(false);
             }}
+            input={input}
+            setInput={setInput}
             setAddress={setAddress}
             address={address}
+            onWorkModal={true}
           />
         </div>
       </div>

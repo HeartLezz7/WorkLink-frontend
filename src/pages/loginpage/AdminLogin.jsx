@@ -27,11 +27,9 @@ export default function AdminLoginPage() {
         return setError(result.error);
       }
       setError({});
-      // console.log("before");
       await adminlogin(result.value);
       toast.success('Successfully login!')
       navigate(`/admin`);
-      // console.log("after");
     } catch (err) {
       toast.error('Wrong username or password')
       console.log(err);

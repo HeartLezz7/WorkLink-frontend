@@ -5,11 +5,18 @@ import ModalMap from "../../components/modal/ModalMap";
 import useWork from "../../hooks/useWork";
 
 export default function SearchContainer() {
-  const [orderBy, setOrderBy] = useState("all");
+  const [filter, setFilter] = useState("all");
   const [address, setAddress] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const { searchName, setSearchName } = useWork();
-  console.log(address);
+  const {
+    searchName,
+    setSearchName,
+    locationName,
+    setLocationName,
+    setSearchLocation,
+    setSearchRemote,
+  } = useWork();
+  console.log(locationName);
 
   return (
     <>
@@ -31,40 +38,62 @@ export default function SearchContainer() {
       <div className=" flex items-end justify-start w-[80%] mt-10 gap-5">
         <p className="text-textNavy text-2xl font-bold py-1">Filter :</p>
         <p
-          onClick={() => setOrderBy("all")}
+          onClick={() => {
+            setFilter("all");
+            setSearchRemote(false);
+            setLocationName("");
+            setSearchLocation();
+          }}
           className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
-            orderBy === "all"
+            filter === "all"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
         >
           All
         </p>
-        <p
+        <div
           onClick={() => {
-            setOrderBy("nearme");
             setIsOpen(true);
           }}
-          className={` cursor-pointer px-3 font-semibold text-2xl py-1 ${
-            orderBy === "nearme"
+          className={`flex items-center cursor-pointer px-3 font-semibold text-2xl py-1 max-w-[500px] ${
+            locationName
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}
         >
-          Near Me (10km)
-        </p>
+          {locationName ? (
+            <>
+              <span className="text-sm py-1 text-start truncate max-w-[400px]">
+                {locationName}
+              </span>
+              <span className="text-sm py-1 text-start w-fit line-clamp-1 ">
+                (in 10 km)
+              </span>
+            </>
+          ) : (
+            "Near Me (10km)"
+          )}
+        </div>
 
         <ModalMap
           open={isOpen}
           onClose={() => setIsOpen(false)}
           setAddress={setAddress}
           address={address}
+          setFilter={setFilter}
+          onFindingWork={true}
         />
 
         <p
-          onClick={() => setOrderBy("soon")}
+          onClick={() => {
+            setFilter("remote");
+            setSearchRemote(true);
+            setLocationName("");
+            setSearchLocation();
+          }}
           className={` cursor-pointer px-3 py-1 font-semibold text-2xl ${
-            orderBy === "soon"
+            filter === "remote"
               ? "text-textNavy bg-secondaryLight rounded-full"
               : "text-textGrayLight "
           }`}

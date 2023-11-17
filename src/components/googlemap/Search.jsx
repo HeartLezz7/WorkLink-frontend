@@ -31,22 +31,22 @@ export default function Search({ userLocation, panTo }) {
     },
   });
 
-// console.log(value)
-// console.log(data)
- // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
+  // console.log(value)
+  // console.log(data)
+  // console.log(suggestions) // {laoding :false , status :'Ok' , data:Array[5]}
 
   const handdleSelect = async (address) => {
     setValue(address, false);
     clearSuggestions();
     try {
       const resultfromGeocode = await getGeocode({ address });
-      console.log("Search and Select location",resultfromGeocode[0]);
+      console.log("Search and Select location", resultfromGeocode[0]);
       const { lat, lng } = await getLatLng(resultfromGeocode[0]);
       panTo({ lat, lng });
-      const area = data
+      const area = data;
       // console.log(area)
-      setKeepLocation(area,...keepLocation)
-      clearSuggestions()
+      setKeepLocation(area, ...keepLocation);
+      clearSuggestions();
     } catch (error) {
       console.log(error);
     }
@@ -56,13 +56,13 @@ export default function Search({ userLocation, panTo }) {
   return (
     <div>
       <div className="flex items-center justify-center gap-2">
-        <p className="font-bold text-xl">Search :</p>
+        <p className="font-bold text-lg">Search :</p>
         <Combobox
           className="  border-solid rounded-xl flex flex-1 border-3 bg-primary"
           onSelect={handdleSelect}
         >
           <ComboboxInput
-            className="bg-backgroundWhiteGray p-2 border-2 border-solid rounded-xl flex flex-1"
+            className="bg-backgroundWhiteGray px-2 py-1 border-2 border-solid rounded-xl flex flex-1"
             value={value}
             onChange={(e) => {
               setValue(e.target.value);
