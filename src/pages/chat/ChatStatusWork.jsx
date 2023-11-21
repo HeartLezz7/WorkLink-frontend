@@ -13,6 +13,7 @@ import useWork from "../../hooks/useWork";
 import useAuth from "../../hooks/useAuth";
 import ReviewModal from "../../components/modal/ReviewModal";
 import EditWorkModal from "../../components/modal/EditWorkModal";
+import getDate from "../../utils/getDate";
 
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,52 +30,51 @@ export default function ChatStatusWork() {
   console.log(user?.wallet, "wallet");
   return (
     <>
-      <div className="h-[calc(100vh-60px)] grid grid-rows-6 col-span-4 ">
-        <div className="row-span-5 ">
-          <div className="bg-secondaryLight text-textWhite text-4xl text-center p-3 font-semibold">
-            Status
-          </div>
-          <div className="flex flex-col items-center gap-10 p-10 relative overflow-y-scroll ">
-            <div className="absolute top-5 right-5  border rounded-full cursor-pointer">
-              <BiDotsHorizontalRounded
-                size={20}
-                onClick={() => setIsOpen(!isOpen)}
+      <div className="h-[calc(100vh-60px)] col-span-4 flex flex-col">
+        <div className="bg-secondaryLight text-textWhite text-3xl text-center px-3 py-2 font-bold relative">
+          Work detail
+          <div className="absolute top-2.5 right-5  border rounded-full cursor-pointer">
+            <BiDotsHorizontalRounded
+              size={30}
+              onClick={() => setIsOpen(!isOpen)}
+            />
+            {isOpen && (
+              <ReportItem
+                workId={chatRoom?.workId}
+                workerId={chatRoom?.dealer?.id}
+                setIsOpen={setIsOpen}
               />
-              {isOpen && (
-                <ReportItem
-                  workId={chatRoom?.workId}
-                  workerId={chatRoom?.dealer?.id}
-                  setIsOpen={setIsOpen}
-                />
-              )}
+            )}
+          </div>
+        </div>
+        <div className="h-full py-2 pl-3 pr-1">
+          <div className="flex flex-col items-center relative">
+            <div className="text-lg font-semibold first-letter:uppercase p-2">
+              {work.title}
+              <div className="w-full text-center text-xl text-secondary font-bold">
+                Status work : {work.statusWork}
+              </div>
             </div>
-            <div className=" text-secondaryLight font-semibold text-lg">
-              Work Detail
-            </div>
-            <div className="flex flex-col">
-              <p className="text-secondary">
-                Work id : <span className="text-black">{work?.id}</span>
-              </p>
-              <p className="text-secondary">
-                Work name :<span className="text-black">{work?.title}</span>
-              </p>
-              <p className="text-secondary">
-                Start work :{" "}
-                <span className="text-black">{work?.createdAt}</span>
-              </p>
-              <p className="text-secondary">
-                Price :{" "}
-                <span className="text-black">
-                  {work?.price} (this price no 5% fee reduction applied.)
-                </span>
-              </p>
-              <p className="text-secondary">
-                Status : <span className="text-black">{work?.statusWork}</span>
-              </p>
-              <p className="text-secondary">
-                Description :{" "}
-                <span className="text-black">{work?.description}</span>
-              </p>
+            <div className="overflow-y-scroll">
+              <img
+                src={work.workImage}
+                alt=""
+                className="w-[90%] aspect-video object-cover mx-auto rounded-md mb-2"
+              />
+
+              <div>Work type : {work.isOnsite ? "Onsite" : "Remote"}</div>
+              {work.isOnsite ? <div>address : {work.addressName}</div> : ""}
+              <div>Price : {work.price}</div>
+              <div>
+                Start-End Date: {getDate(work.startDate)}
+                {"-"}
+                {work.endDate ? (
+                  getDate(work.endDate)
+                ) : (
+                  <span className="text-disable">- NotSpecified</span>
+                )}{" "}
+              </div>
+              <div>Description : {work.description}</div>
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@ export default function ChatStatusWork() {
             chatRoom?.creater?.id && work.statusWork === STATUS_FINDING ? (
               <>
                 <button
-                  className="w-[20rem]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
+                  className="w-[90%]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
                   onClick={() => setOpenEditModal(true)}
                 >
                   Edit
@@ -107,7 +107,7 @@ export default function ChatStatusWork() {
             ) : chatRoom?.creater?.id && work.statusWork === STATUS_REQUEST ? (
               <>
                 <button
-                  className="w-[20rem]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
+                  className="w-[90%]  bg-secondaryLight text-textWhite p-2 rounded-xl text-center cursor-pointer"
                   onClick={() => setOpenModal(true)}
                 >
                   Success

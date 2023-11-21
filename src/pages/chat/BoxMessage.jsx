@@ -21,9 +21,9 @@ export default function BoxMessage({ id, senderId, message, dealerImage }) {
       )}
 
       {message.includes("http") ? (
-        <img src={message} alt="image" className="max-w-[150px] object-cover" />
+        <img src={message} alt="image" className="max-w-[200px] object-cover" />
       ) : (
-        <div className=" bg-backgroundWhiteGray w-fit py-1 px-4 rounded-full">
+        <div className=" bg-backgroundWhiteGray w-fit py-1 px-4 rounded-[24px] max-w-[50%] whitespace-wrap overflow-x-hidden">
           {message}
         </div>
       )}

@@ -8,7 +8,12 @@ import useAuth from "../../hooks/useAuth";
 import calculateAge from "../../utils/calculateAge";
 import EditProfileModal from "../../components/modal/EditProfileModal";
 
-export default function UserDetail({ profileData, setProfileData }) {
+export default function UserDetail({
+  profileData,
+  setProfileData,
+  reviewScore,
+  reviews,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
 
@@ -29,10 +34,16 @@ export default function UserDetail({ profileData, setProfileData }) {
               {profileData?.lastName}
             </p>
           </div>
-          <div className="flex items-start gap-1">
-            <FaStar color="#FFC911" size={25} />
-            <p className="text-xl font-semibold text-textGrayDark">รอข้อมูล</p>
-          </div>
+          {reviews?.length == 0 ? (
+            <div className="text-textGrayLight">No history review</div>
+          ) : (
+            <div className="flex items-start gap-1">
+              <FaStar color="#FFC911" size={25} />
+              <p className="text-xl font-semibold text-textGrayDark">
+                {reviewScore?.toFixed(1)}
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <div className=" flex flex-col gap-3 mt-4">
