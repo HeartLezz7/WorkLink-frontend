@@ -45,8 +45,11 @@ export default function ChatBox() {
   }, []);
 
   useEffect(() => {
+    console.log("onEffect");
     getChatroomMessage(chatRoomId);
-    scrollToElement();
+    console.log("onEffect3");
+    // scrollToElement();
+    console.log("onEffect5");
   }, [allChatRoom, chatRoomId]);
 
   useEffect(() => {
@@ -55,8 +58,9 @@ export default function ChatBox() {
       if (obj.chatRoomId == chatRoomId) {
         setChatMessage([...chatMessage, obj]);
       }
-      scrollToElement();
+      // scrollToElement();
     });
+    scrollToElement();
     return () => {
       socket.off("receive_message");
     };
@@ -118,7 +122,7 @@ export default function ChatBox() {
   return (
     <div className="grid grid-rows-5 bg-background border-x-2 border-x-textGrayLight h-[calc(100vh-60px)] col-span-5">
       <div className="row-span-5 flex flex-col overflow-hidden">
-        <div className="bg-primary text-textWhite text-3xl text-center py-2 font-bold ">
+        <div className="bg-primary text-textWhite text-3xl text-center py-2 font-bold whiteDivShadow z-10">
           {chatRoom?.createrId === user.id
             ? `${chatRoom?.dealer?.firstName} ${chatRoom?.dealer?.lastName}`
             : `${chatRoom?.creater?.firstName} ${chatRoom?.creater?.lastName}`}
@@ -140,7 +144,7 @@ export default function ChatBox() {
           })}
         </div>
       </div>
-      <div className="row-span-1 px-5 py-2 flex flex-col items-start justify-center gap-2">
+      <div className="row-span-1 px-5 py-3 flex flex-col items-start justify-center gap-2">
         {file && (
           <img
             src={URL.createObjectURL(file)}
@@ -153,13 +157,17 @@ export default function ChatBox() {
         work?.statusWork === STATUS_CANCEL ? (
           ""
         ) : (
-          <div className="border flex justify-between items-center px-6 py-1 rounded-full w-full gap-2 relative">
+          <div className="  py-2 w-full gap-2 relative">
             <form
               className="w-full flex items-center gap-2"
               onSubmit={handleSubmitChat}
             >
               <div onClick={() => chatImage.current.click()}>
-                <img src={plus} alt="plus" className="w-[30px]" />
+                <img
+                  src={plus}
+                  alt="plus"
+                  className="w-[45px] cursor-pointer "
+                />
                 <input
                   type="file"
                   className="hidden"
@@ -177,7 +185,7 @@ export default function ChatBox() {
               >
                 <BsEmojiSmile size={30} />
               </div>
-              <div className="absolute bottom-[70px]">
+              <div className="absolute bottom-[50px] left-[40px]">
                 {emojiOpen && (
                   <Picker
                     data={data}
@@ -187,16 +195,16 @@ export default function ChatBox() {
                   />
                 )}
               </div>
-              <div className="w-full">
+              <div className="w-full relative">
                 <InputMessage
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                 />
               </div>
+              <button className="cursor-pointer" onClick={handleSubmitChat}>
+                <img src={plane} alt="plane" className="w-[45px]" />
+              </button>
             </form>
-            <button className="cursor-pointer" onClick={handleSubmitChat}>
-              <img src={plane} alt="plane" className="w-[30px]" />
-            </button>
           </div>
         )}
       </div>

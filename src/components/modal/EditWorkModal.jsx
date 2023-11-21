@@ -200,10 +200,14 @@ export default function EditWorkModal({ setIsOpen, work }) {
                 >
                   {address ? (
                     <div className="flex flex-col">
-                      <p className="truncate">{input.addressName}</p>
+                      <p className="truncate text-textGrayDark">
+                        {input.addressName}
+                      </p>
                     </div>
                   ) : (
-                    <p>Click to add location</p>
+                    <p className="truncate text-textGrayDark">
+                      Click to add location
+                    </p>
                   )}
                 </div>
               )}
@@ -237,6 +241,19 @@ export default function EditWorkModal({ setIsOpen, work }) {
               </div>
             </main>
           </form>
+          {isOpen && (
+            <ModalMap
+              open={isOpen}
+              onClose={() => {
+                setIsOpenMap(false);
+              }}
+              input={input}
+              setInput={setInput}
+              setAddress={setAddress}
+              address={address}
+              onWorkModal={true}
+            />
+          )}
         </div>
       </div>
     </>

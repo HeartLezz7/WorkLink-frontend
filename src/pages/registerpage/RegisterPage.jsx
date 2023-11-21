@@ -5,6 +5,7 @@ import { registerSchema } from "../../utils/auth-validator";
 import validateSchema from "../../utils/validate-schema";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import BallBackGround from "../../components/BallBackGround";
 
 export default function RegisterPage() {
   const [input, setInput] = useState({
@@ -50,6 +51,7 @@ export default function RegisterPage() {
       className="w-screen flex justify-center items-center"
       style={{ height: "calc(100vh - 60px)" }}
     >
+      <BallBackGround />
       <form
         className="border bg-background/80 border-textGrayLight min-w-min max-w-sm rounded-xl flex flex-col justify-center items-center p-5 gap-[17px] whiteDivShadow"
         onSubmit={handleRegister}
