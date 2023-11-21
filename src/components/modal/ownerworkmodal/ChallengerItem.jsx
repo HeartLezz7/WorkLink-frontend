@@ -8,20 +8,22 @@ export default function ChallengerItem({ challenger, work }) {
   const { user: owner } = useAuth();
 
   const navigate = useNavigate();
+  console.log(user, owner, "check1");
 
   const createchatRoom = async () => {
     try {
       const getRoom = await axios.get("/chat/get");
       const allChatRoom = [...getRoom.data.allChatRoom];
+      console.log(allChatRoom);
       const foundRoom = allChatRoom.find(
         (item) =>
-          item.createrId == owner.id &&
-          item.dealerId == user.id &&
-          item.workId == work.id
+          item.chatRoom.createrId == owner.id &&
+          item.chatRoom.dealerId == user.id &&
+          item.chatRoom.workId == work.id
       );
       console.log(foundRoom);
       if (foundRoom) {
-        navigate(`/chatRoom/${foundRoom.id}`);
+        navigate(`/chatRoom/${foundRoom.chatRoom.id}`);
         return;
       } else {
         const response = await axios.post("/chat/createRoom", {

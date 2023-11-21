@@ -14,13 +14,14 @@ export default function UserProfilePage() {
   const [reviews, setReviews] = useState([]);
   const { userId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [reviewScore, setReviewScore] = useState();
 
   useEffect(() => {
     axios
       .get(`/user/getuserprofile/${userId}`)
       .then((res) => {
         let profileAge = calculateAge(res.data.profileData.birthDate);
-        console.log(profileAge);
+        // console.log(profileAge);
         res.data.profileData.age = profileAge;
         setProfileData(res.data.profileData);
         setIsLoading(false);
@@ -30,11 +31,17 @@ export default function UserProfilePage() {
       .get(`/user/userprofilereview/${userId}`)
       .then((res) => {
         setReviews(res.data.userReviews);
+        const sumReview = res.data.userReviews.reduce((acc, el) => {
+          acc = acc + Number(el.rating);
+          return acc;
+        }, 0);
+        const avgReview = sumReview / res.data.userReviews.length;
+        setReviewScore(avgReview);
       })
       .catch((err) => console.log(err));
   }, [userId]);
 
-  console.log(profileData);
+  console.log(reviewScore);
 
   return (
     <div className="">
@@ -46,6 +53,8 @@ export default function UserProfilePage() {
             <UserDetail
               profileData={profileData}
               setProfileData={setProfileData}
+              reviewScore={reviewScore}
+              reviews={reviews}
             />
           </div>
           <div className=" flex-[5] flex flex-col items-start gap-2 p-5 rounded-2xl z-[10] min-w-[350px]">
@@ -59,10 +68,12 @@ export default function UserProfilePage() {
               <div className="flex flex-col gap-5 w-full">
                 {reviews?.length == 0 ? (
                   <div className="w-full text-center text-xl font-bold">
-                    No history work
+                    No history review
                   </div>
                 ) : (
-                  reviews?.map((review) => <ReviewCard data={review} />)
+                  reviews?.map((review) => (
+                    <ReviewCard key={review.id} data={review} />
+                  ))
                 )}
                 {/* <ReviewCard /> */}
               </div>

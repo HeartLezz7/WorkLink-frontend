@@ -71,26 +71,27 @@ export default function OwnerWorkModal({ work, setIsOpen }) {
                     <div>Price : {thisWork.price}</div>
                     <div>
                       Start-End Date: {getDate(thisWork.startDate)}
-                      {"-"}
                       {thisWork.endDate ? (
-                        getDate(thisWork.endDate)
+                        " - " + getDate(thisWork.endDate)
                       ) : (
-                        <span className="text-disable">- NotSpecified</span>
+                        <span className="text-disable"> - NotSpecified</span>
                       )}{" "}
                     </div>
                     <div>Description : {thisWork.description}</div>
                   </div>
-                  <div className="flex justify-center items-center p-2">
-                    <div
-                      onClick={() => setIsEditOpen(true)}
-                      className="text-lg py-1 px-3 bg-textGrayLight rounded-lg font-semibold cursor-pointer"
-                    >
-                      Edit
+                  {thisWork.statusWork == "finding" && (
+                    <div className="flex justify-center items-center p-2">
+                      <div
+                        onClick={() => setIsEditOpen(true)}
+                        className="text-lg py-1 px-3 bg-textGrayLight rounded-lg font-semibold cursor-pointer"
+                      >
+                        Edit
+                      </div>
+                      {isEditOpen && (
+                        <EditWorkModal work={work} setIsOpen={setIsEditOpen} />
+                      )}
                     </div>
-                    {isEditOpen && (
-                      <EditWorkModal work={work} setIsOpen={setIsEditOpen} />
-                    )}
-                  </div>
+                  )}
                 </div>
                 <div className="h-full w-[50%] flex flex-col p-3 border border-textGrayDark rounded-xl">
                   <div className="text-xl font-bold text-center text-textNavy mb-3">

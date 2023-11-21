@@ -23,7 +23,7 @@ export default function ReportItem({ workId, workerId, setIsOpen }) {
   return (
     <>
       {/* <div className="fixed inset-0 bg-backgroundWhiteGray opacity-80 z-30"></div> */}
-      <div className="border border-textGrayDark rounded-xl  z-50 absolute  right-0 top-7 bg-textWhite">
+      <div className=" rounded-xl  z-50 absolute  right-0 top-11 bg-textWhite whiteDivShadow">
         <form
           className="flex flex-col items-center gap-3 p-2 "
           onSubmit={handleSumbit}
@@ -33,11 +33,12 @@ export default function ReportItem({ workId, workerId, setIsOpen }) {
             cols="40"
             rows="5"
             onChange={handleInput}
-            className="rounded-lg p-2 border"
-          ></textarea>
+            placeholder="Enter report detail..."
+            className="rounded-xl p-2 text-black bg-backgroundWhiteBlue resize-none"
+          />
           <div className="w-full flex">
             <button
-              className="bg-error text-textWhite py-2  px-3 rounded-2xl w-full"
+              className="bg-error text-textWhite py-1  px-3 rounded-2xl w-full"
               type="submit"
             >
               Report
