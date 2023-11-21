@@ -49,9 +49,9 @@ export default function WorkButton({ title, workId, workerId, price, wallet }) {
     }
   };
   return (
-    <div className="flex flex-col items-center gap-2 relative">
+    <div className="flex flex-col items-center gap-2 relative w-full">
       <button
-        className={`w-[20rem] ${
+        className={`w-[90%] ${
           title === "Reject"
             ? "bg-textWhite text-secondaryLight border border-secondaryLight"
             : title === "Report"

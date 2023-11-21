@@ -38,6 +38,9 @@ dependencies:
   emoji-mart:
     specifier: ^5.5.2
     version: 5.5.2
+  javascript-time-ago:
+    specifier: ^2.5.9
+    version: 2.5.9
   joi:
     specifier: ^17.11.0
     version: 17.11.0
@@ -62,6 +65,9 @@ dependencies:
   react-simple-star-rating:
     specifier: ^5.1.7
     version: 5.1.7(react-dom@18.2.0)(react@18.2.0)
+  react-textarea-autosize:
+    specifier: ^8.5.3
+    version: 8.5.3(@types/react@18.2.33)(react@18.2.0)
   react-type-animation:
     specifier: ^3.2.0
     version: 3.2.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
@@ -1101,7 +1107,6 @@ packages:
 
   /@types/prop-types@15.7.9:
     resolution: {integrity: sha512-n1yyPsugYNSmHgxDFjicaI2+gCNjsBck8UX9kuofAKlc0h1bL+20oSF72KeNaW2DUlesbEVCFgyV2dPGTiY42g==}
-    dev: true
 
   /@types/react-dom@18.2.14:
     resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==}
@@ -1115,11 +1120,9 @@ packages:
       '@types/prop-types': 15.7.9
       '@types/scheduler': 0.16.5
       csstype: 3.1.2
-    dev: true
 
   /@types/scheduler@0.16.5:
     resolution: {integrity: sha512-s/FPdYRmZR8SjLWGMCuax7r3qCWQw9QKHzXVukAuuIJkXkDRwp+Pu5LMIVFi0Fxbav35WURicYr8u1QsoybnQw==}
-    dev: true
 
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
@@ -2379,6 +2382,12 @@ packages:
       set-function-name: 2.0.1
     dev: true
 
+  /javascript-time-ago@2.5.9:
+    resolution: {integrity: sha512-pQ8mNco/9g9TqWXWWjP0EWl6i/lAQScOyEeXy5AB+f7MfLSdgyV9BJhiOD1zrIac/lrxPYOWNbyl/IW8CW5n0A==}
+    dependencies:
+      relative-time-format: 1.1.6
+    dev: false
+
   /jiti@1.20.0:
     resolution: {integrity: sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==}
     hasBin: true
@@ -3394,6 +3403,20 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /react-textarea-autosize@8.5.3(@types/react@18.2.33)(react@18.2.0):
+    resolution: {integrity: sha512-XT1024o2pqCuZSuBt9FwHlaDeNtVrtCXu0Rnz88t1jUGheCLa3PhjE1GH8Ctm2axEtvdCl5SUHYschyQ0L5QHQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.23.2
+      react: 18.2.0
+      use-composed-ref: 1.3.0(react@18.2.0)
+      use-latest: 1.2.1(@types/react@18.2.33)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
   /react-type-animation@3.2.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-WXTe0i3rRNKjmggPvT5ntye1QBt0ATGbijeW6V3cQe2W0jaMABXXlPPEdtofnS9tM7wSRHchEvI9SUw+0kUohw==}
     peerDependencies:
@@ -3450,6 +3473,10 @@ packages:
       define-properties: 1.2.1
       set-function-name: 2.0.1
     dev: true
+
+  /relative-time-format@1.1.6:
+    resolution: {integrity: sha512-aCv3juQw4hT1/P/OrVltKWLlp15eW1GRcwP1XdxHrPdZE9MtgqFpegjnTjLhi2m2WI9MT/hQQtE+tjEWG1hgkQ==}
+    dev: false
 
   /resize-observer-polyfill@1.5.1:
     resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
@@ -3857,6 +3884,41 @@ packages:
     dependencies:
       punycode: 2.3.0
     dev: true
+
+  /use-composed-ref@1.3.0(react@18.2.0):
+    resolution: {integrity: sha512-GLMG0Jc/jiKov/3Ulid1wbv3r54K9HlMW29IWcDFPEqFkSO2nS0MuefWgMJpeHQ9YJeXDL3ZUF+P3jdXlZX/cQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /use-isomorphic-layout-effect@1.1.2(@types/react@18.2.33)(react@18.2.0):
+    resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.2.33
+      react: 18.2.0
+    dev: false
+
+  /use-latest@1.2.1(@types/react@18.2.33)(react@18.2.0):
+    resolution: {integrity: sha512-xA+AVm/Wlg3e2P/JiItTziwS7FK92LWrDB0p+hgXloIMuVCeJJ8v6f0eeHyPZaJrM+usM1FkFfbNCrJGs8A/zw==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.2.33
+      react: 18.2.0
+      use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.33)(react@18.2.0)
+    dev: false
 
   /use-places-autocomplete@4.0.1(react@18.2.0):
     resolution: {integrity: sha512-AybOR/qzXcdaMCGSFveycfL3kztwseAOdagbYoJD8c3amll+gEiPmUkSNhYNUEBqbR+JmJG6/oBTRgihNbE+1A==}

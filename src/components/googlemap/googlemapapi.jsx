@@ -154,7 +154,9 @@ function GoogleMapApi({
               e.preventDefault();
               setAddress(mapAddress);
               setSearchRemote(false);
-              setFilter("address");
+              if (onFindingWork) {
+                setFilter("address");
+              }
               onClose();
             }}
           >
