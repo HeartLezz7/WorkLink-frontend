@@ -11,6 +11,10 @@ import "@reach/combobox/styles.css";
 import Search from "./Search";
 import googleAxios from "../../configs/googleAxios";
 import useWork from "../../hooks/useWork";
+import useMap from "../../hooks/useMap";
+
+import { MarkerClustererF } from "@react-google-maps/api";
+import { MarkerF } from "@react-google-maps/api";
 
 const mapContainerStyle = {
   width: "100%",
@@ -44,8 +48,24 @@ function GoogleMapApi({
 
   //marker that user wants to see detail for
   const [userSelected, setUserSelected] = useState(null);
+
+  // Clusterer
+  const { latlng } = useMap();
+  // console.log(latlng,"bbbbbbbbbbbbbbbbbbbbbbb")
+  const [test, setTest] = useState([
+    {
+      addressLat: 13.733695224699972,
+      addressLong: 100.59390441488792,
+    },
+    {
+      addressLat: 13.747368614564877,
+      addressLong: 100.61175719809104,
+    },
+    { addressLat: 13.73792835543486, addressLong: 100.6018026705034 },
+  ]);
+
   const [redPin, setRedPin] = useState([]);
-  console.log(redPin);
+  // console.log(redPin);
 
   const thisPin = redPin[0];
   console.log(thisPin);
@@ -73,7 +93,7 @@ function GoogleMapApi({
     return latAndLog;
   }, []);
 
-  console.log("State-----RedPin", thisPin);
+  // console.log("State-----RedPin", thisPin);
 
   const geoCoding = async (pin) => {
     try {
@@ -122,7 +142,7 @@ function GoogleMapApi({
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading Maps";
 
-  console.log(mapAddress, "xxxxx");
+  // console.log(mapAddress, "xxxxx");
 
   return (
     <>
@@ -167,7 +187,28 @@ function GoogleMapApi({
                       }}
                     />
                   ))}
-
+                  {/* Clusterer */}
+                  <MarkerClustererF
+                    // minimumClusterSize: The minimum number of markers needed to form a cluster.
+                    minimumClusterSize={2}
+                  >
+                    {(cluster) => (
+                      <>
+                        {latlng.map((position, index) => {
+                          return (
+                            <MarkerF
+                              position={{
+                                lat: +position.addressLat,
+                                lng: +position.addressLong,
+                              }}
+                              key={index}
+                              clusterer={cluster}
+                            />
+                          );
+                        })}
+                      </>
+                    )}
+                  </MarkerClustererF>
                   {userSelected ? (
                     <InfoWindow
                       position={{

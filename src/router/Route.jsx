@@ -21,6 +21,7 @@ import RedirectIsAdmin from "./redirect/RedirectIsAdmin";
 import AdminLoginPage from "../pages/loginpage/AdminLogin";
 import AdminRegisterPage from "../pages/registerpage/AdminRegister";
 import WalletContextProvider from "../contexts/WalletContext";
+import MapContextProvider from "../contexts/MapContext";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,13 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <HomePage /> },
-      { path: "findwork", element: <FindWorkPage /> },
+      { path: "findwork", element: 
+      (
+        <MapContextProvider>
+        <FindWorkPage />
+        </MapContextProvider>
+      )
+     },
       {
         path: "userprofile/:userId",
         element: (
