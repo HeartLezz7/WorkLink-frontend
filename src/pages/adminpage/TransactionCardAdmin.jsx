@@ -22,52 +22,54 @@ export default function TransactionCardAdmin({ data }) {
     second: "numeric",
   }).format(dateData);
 
+  console.log(data);
   return (
     <div className="flex flex-col w-full p-3">
       <div className="flex justify-between items-center gap-5 border px-8 py-4 border-textGrayLight rounded-2xl bg-background shadow-lg">
-        <div className="flex gap-10 items-center">
-          <img
-            src="/defaultImage.jpg"
-            alt=""
-            className=" bg-secondaryDark h-24 rounded-full"
-          />
-          <div className=" flex flex-col ">
-            <div className=" flex ">
-              <div className="w-20">Name : </div>
-              <div>
-                {data.user.firstName} {data.user.lastName}
+        <div className=" flex justify-between flex-1">
+          <div className="flex gap-10 items-center">
+            <img
+              src={data.user.profileImage}
+              alt=""
+              className=" bg-secondaryDark h-24 w-24 rounded-full"
+            />
+            <div className=" flex flex-col ">
+              <div className=" flex ">
+                <div className="w-20">Name : </div>
+                <div>
+                  {data.user.firstName} {data.user.lastName}
+                </div>
+              </div>
+              <div className=" flex ">
+                <div className="w-20">Email : </div>
+                <div>{data.user.authUser[0].email}</div>
+              </div>
+              <div className=" flex">
+                <div className="w-20">Phone : </div>
+                <div>{data.user.authUser[0].phoneNumber}</div>
               </div>
             </div>
+          </div>
+          <div>
             <div className=" flex ">
-              <div className="w-20">Email : </div>
-              <div>{data.user.authUser[0].email}</div>
+              <div className="w-24">Date : </div> <div>{date}</div>
             </div>
             <div className=" flex">
-              <div className="w-20">Phone : </div>
-              <div>{data.user.authUser[0].phoneNumber}</div>
+              <div className="w-24">Time : </div> <div>{time}</div>
+            </div>
+            <div className=" flex">
+              <div className="w-24">Type : </div> <div>{data.type}</div>
+            </div>
+            <div className=" flex ">
+              <div className="w-24">Amount : </div> <div>{data.amount} THB</div>
             </div>
           </div>
         </div>
-        <div>
-          <div className=" flex ">
-            <div className="w-24">Date : </div> <div>{date}</div>
-          </div>
-          <div className=" flex">
-            <div className="w-24">Time : </div> <div>{time}</div>
-          </div>
-          <div className=" flex">
-            <div className="w-24">Type : </div> <div>{data.type}</div>
-          </div>
-          <div className=" flex">
-            <div className="w-24">Amount : </div> <div>{data.amount} THB</div>
-          </div>
-        </div>
-
-        <div>
+        <div className="w-80">
           {data.status === "pending" ? (
-            <div>
+            <div className="flex justify-end gap-5">
               <button
-                className="border  w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-primary"
+                className="border w-40 h-12 rounded border-gradiantPrimaryLight mx-5 text-primary hover:bg-opacity-75"
                 onClick={() => setIsOpen(true)}
               >
                 {data.status}
@@ -87,9 +89,9 @@ export default function TransactionCardAdmin({ data }) {
               )}
             </div>
           ) : data.status === "reject" ? (
-            <div>
+            <div className="flex justify-end">
               <button
-                className="border bg-secondaryDark w-40 h-12 rounded  border-secondaryDark mx-5 text-textWhite"
+                className="border w-40 h-12 rounded mx-5 bg-secondaryLight border-secondary hover:bg-secondaryDark hover:text-textWhite "
                 onClick={() => setIsOpen(true)}
               >
                 {data.status}
@@ -101,9 +103,9 @@ export default function TransactionCardAdmin({ data }) {
               />
             </div>
           ) : (
-            <div>
+            <div className="flex justify-end">
               <button
-                className="border bg-primaryDark w-40 h-12 rounded  border-gradiantPrimaryLight mx-5 text-textWhite"
+                className="border bg-primaryDark w-40 h-12 rounded border-gradiantPrimaryLight mx-5 text-textWhite hover:bg-gradiantPrimaryDark hover:text-black"
                 onClick={() => setIsOpen(true)}
               >
                 {data.status}

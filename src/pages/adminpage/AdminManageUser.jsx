@@ -73,19 +73,19 @@ export default function AdminManageUser() {
           />
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl"
+          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => getuser()}
         >
           All
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => getverify()}
         >
           Pending
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => getbanned()}
         >
           Banned

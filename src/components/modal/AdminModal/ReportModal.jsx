@@ -24,7 +24,7 @@ export default function ReportModal({ setIsOpen, open, reportObj }) {
       console.log(error);
     }
   };
-
+  console.log(reportObj);
   return (
     <>
       {open && (
@@ -96,56 +96,64 @@ export default function ReportModal({ setIsOpen, open, reportObj }) {
                   </div>
                 </div>
               </main>
-
-              <div className="flex justify-between items-center w-full">
-                <div className="flex flex-col gap-4 flex-1 justify-center items-center">
-                  <button
-                    className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
-                    value="finding"
-                    onClick={(e) => setInput(e.target.value)}
-                  >
-                    Finding
-                  </button>
-                  <button
-                    className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
-                    value="makeDeal"
-                    onClick={(e) => setInput(e.target.value)}
-                  >
-                    MakeDeal
-                  </button>
-                  <button
-                    className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
-                    value="onProcess"
-                    onClick={(e) => setInput(e.target.value)}
-                  >
-                    OnProcess
-                  </button>
+              {reportObj.isClear === true ? (
+                <div
+                  className="bg-textGrayLight w-full flex justify-center p-2 rounded-xl hover:bg-textGrayDark hover:text-textWhite cursor-pointer"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Close
                 </div>
-                <div className="flex flex-col gap-4 flex-1 justify-center items-center">
-                  <button
-                    className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
-                    value="requestSuccess"
-                    onClick={(e) => setInput(e.target.value)}
-                  >
-                    RequestSuccess
-                  </button>
-                  <button
-                    className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
-                    value="success"
-                    onClick={(e) => setInput(e.target.value)}
-                  >
-                    Success
-                  </button>
-                  <button
-                    className="text-primary font-semibold border-color-primary bg-white  focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
-                    name="statusWork"
-                    value="cancel"
-                    onClick={(e) => setInput(e.target.value)}
-                  >
-                    Cancel
-                  </button>
+              ) : (
+                <div className="flex justify-between items-center w-full">
+                  <div className="flex flex-col gap-4 flex-1 justify-center items-center">
+                    <button
+                      className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
+                      value="finding"
+                      onClick={(e) => setInput(e.target.value)}
+                    >
+                      Finding
+                    </button>
+                    <button
+                      className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
+                      value="makeDeal"
+                      onClick={(e) => setInput(e.target.value)}
+                    >
+                      MakeDeal
+                    </button>
+                    <button
+                      className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
+                      value="onProcess"
+                      onClick={(e) => setInput(e.target.value)}
+                    >
+                      OnProcess
+                    </button>
+                  </div>
+                  <div className="flex flex-col gap-4 flex-1 justify-center items-center">
+                    <button
+                      className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
+                      value="requestSuccess"
+                      onClick={(e) => setInput(e.target.value)}
+                    >
+                      RequestSuccess
+                    </button>
+                    <button
+                      className="text-textWhite font-semibold bg-gradient-to-r from-gradiantPrimaryDark  to-gradiantPrimaryLight hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
+                      value="success"
+                      onClick={(e) => setInput(e.target.value)}
+                    >
+                      Success
+                    </button>
+                    <button
+                      className="text-primary font-semibold border-color-primary bg-white  focus:ring-2 focus:outline-none focus:ring-gradiantPrimaryLight shadow-md shadow-primaryDark font-md rounded-lg text-xl w-[80%] py-1.5 text-center place-content-center-center"
+                      name="statusWork"
+                      value="cancel"
+                      onClick={(e) => setInput(e.target.value)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </form>
           </div>
         </>

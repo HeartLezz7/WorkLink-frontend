@@ -22,6 +22,7 @@ export default function UserCard({ userObj }) {
   };
 
   const navigate = useNavigate();
+
   return (
     <div className=" p-3">
       <div className="flex justify-between gap-20 h-32 border p-4 border-textGrayLight rounded-2xl shadow-lg bg-background">
@@ -48,14 +49,14 @@ export default function UserCard({ userObj }) {
 
         <div className=" flex items-center gap-3">
           <button
-            className="border  w-24 h-12 rounded-xl  bg-primaryLight border-spacing-2"
+            className="  w-24 h-12 rounded-xl  bg-primary border-spacing-2 hover:bg-gradiantPrimaryDark hover:text-textWhite"
             onClick={() => setIsOpen(true)}
           >
             {userObj.verifyStatus}
           </button>
           {userObj.isBanned === false ? (
             <button
-              className="border  w-24 h-12 rounded-xl  bg-secondaryLight border-secondary"
+              className=" w-24 h-12 rounded-xl  bg-secondaryLight border-secondary hover:bg-secondaryDark hover:text-textWhite"
               onClick={() => banuser()}
             >
               Permit

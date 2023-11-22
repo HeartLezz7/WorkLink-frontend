@@ -72,36 +72,36 @@ export default function AdminManageTransction() {
           />
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl"
+          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => statusTransaction("all")}
         >
           All
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          className="cursor-pointer relative p-2 bg-primaryLight w-32 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => statusTransaction("pending")}
         >
           Waiting
+          {statusPending.length === 0 ? (
+            ""
+          ) : (
+            <p className=" absolute flex justify-center items-center bg-secondary left-[110px] bottom-[20px] rounded-full font-serif w-7 h-7 text-textWhite">
+              {statusPending.length}
+            </p>
+          )}
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => statusTransaction("approve")}
         >
           Success
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+          className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => statusTransaction("reject")}
         >
           Reject
         </div>
-        {statusPending.length === 0 ? (
-          ""
-        ) : (
-          <p className=" relative flex justify-center items-center bg-secondary rounded-full font-serif right-[178px] bottom-3.5 w-7 h-7 text-textWhite">
-            {statusPending.length}
-          </p>
-        )}
       </div>
       <p className="text-xs px-5 w-full flex justify-end">
         count : {pending.length}

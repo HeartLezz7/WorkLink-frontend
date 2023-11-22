@@ -5,7 +5,7 @@ export default function AdminSelectWorkModal({ open, onClose, status }) {
         <>
           <div className="absolute top-[-20px] right-3.5 z-50">
             <div
-              className="cursor-pointer p-2 flex justify-center items-center bg-primaryLight w-48 rounded-t-xl"
+              className="cursor-pointer p-2 flex justify-center items-center bg-primaryLight w-48 rounded-t-xl hover:bg-primaryDarker hover:text-textWhite"
               onClick={() => {
                 onClose;
                 status("finding");
@@ -14,7 +14,7 @@ export default function AdminSelectWorkModal({ open, onClose, status }) {
               finding
             </div>
             <div
-              className="cursor-pointer p-2 flex justify-center items-center bg-textWhite w-48"
+              className="cursor-pointer p-2 flex justify-center items-center bg-textWhite w-48 hover:bg-primaryDarker hover:text-textWhite"
               onClick={() => {
                 onClose;
                 status("makeDeal");
@@ -23,7 +23,7 @@ export default function AdminSelectWorkModal({ open, onClose, status }) {
               makeDeal
             </div>
             <div
-              className="cursor-pointer p-2 flex justify-center items-center bg-primaryLight w-48"
+              className="cursor-pointer p-2 flex justify-center items-center bg-primaryLight w-48 hover:bg-primaryDarker hover:text-textWhite"
               onClick={() => {
                 onClose;
                 status("requestSuccess");
@@ -32,7 +32,7 @@ export default function AdminSelectWorkModal({ open, onClose, status }) {
               requestSuccess
             </div>
             <div
-              className="cursor-pointer p-2 flex justify-center items-center bg-textWhite w-48"
+              className="cursor-pointer p-2 flex justify-center items-center bg-textWhite w-48 hover:bg-primaryDarker hover:text-textWhite"
               onClick={() => {
                 onClose;
                 status("success");
@@ -41,7 +41,7 @@ export default function AdminSelectWorkModal({ open, onClose, status }) {
               success
             </div>
             <div
-              className="cursor-pointer p-2 flex justify-center items-center bg-primaryLight w-48 "
+              className="cursor-pointer p-2 flex justify-center items-center bg-primaryLight w-48 hover:bg-primaryDarker hover:text-textWhite"
               onClick={() => {
                 onClose;
                 status("cancel");
@@ -50,7 +50,7 @@ export default function AdminSelectWorkModal({ open, onClose, status }) {
               cancel
             </div>
             <div
-              className="cursor-pointer p-2 flex justify-center items-center bg-textWhite w-48 rounded-b-xl"
+              className="cursor-pointer p-2 flex justify-center items-center bg-textWhite w-48 rounded-b-xl hover:bg-primaryDarker hover:text-textWhite"
               onClick={() => {
                 onClose;
                 status("onIssue");

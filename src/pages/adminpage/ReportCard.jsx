@@ -13,6 +13,7 @@ export default function ReportCard({ reportObj }) {
     }
   };
 
+  console.log(reportObj);
   return (
     <div className="flex justify-between gap-20 h-32 border p-4 border-textGrayLight rounded-2xl shadow-lg bg-background">
       <div className=" flex gap-10 items-center ">
@@ -51,9 +52,9 @@ export default function ReportCard({ reportObj }) {
           <div className="text-xl">Status work :</div>{" "}
           <div className="text-xl">{reportObj.work.statusWork}</div>
         </div>
-        <div className="flex  h-full items-end">
+        <div className="flex  h-full justify-end items-end">
           <button
-            className=" border  w-40 h-12 rounded-xl bg-primaryDark text-textWhite border-gradiantPrimaryLight mx-5"
+            className=" border w-40 h-12 rounded-xl bg-primaryDark text-textWhite border-gradiantPrimaryLight mx-5 hover:bg-gradiantPrimaryDark"
             name="approve"
             onClick={() => setIsOpen(true)}
           >
@@ -66,19 +67,14 @@ export default function ReportCard({ reportObj }) {
           />
           {reportObj.isClear == false ? (
             <button
-              className="border  w-40 h-12 rounded-xl  bg-secondaryLight border-x-textGrayDark"
+              className="border w-40 h-12 rounded-xl  bg-secondaryLight border-x-textGrayDark hover:bg-textGrayLight"
               name="reject"
               onClick={() => clearReport()}
             >
               Pending
             </button>
           ) : (
-            <button
-              className="border  w-40 h-12 rounded-xl  bg-backgroundWhiteGray border-x-textGrayDark"
-              name="reject"
-            >
-              Clear
-            </button>
+            ""
           )}
         </div>
       </div>
