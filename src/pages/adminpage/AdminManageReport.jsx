@@ -68,19 +68,19 @@ export default function AdminManageReport() {
             onChange={handleInput}
           />
           <div
-            className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl"
+            className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
             onClick={() => statusReport("all")}
           >
             All
           </div>
           <div
-            className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+            className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
             onClick={() => statusReport(false)}
           >
             Pending
           </div>
           <div
-            className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl"
+            className="cursor-pointer p-2 bg-primaryLight w-32 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
             onClick={() => statusReport(true)}
           >
             Clear

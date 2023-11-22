@@ -1,5 +1,4 @@
 import AdminWorkCard from "./AdminWorkCard";
-
 import axios from "../../configs/axios";
 import { useEffect, useState } from "react";
 import useDropdown from "../../hooks/useDropdown";
@@ -73,20 +72,20 @@ export default function AdminPage() {
           />
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl"
+          className="cursor-pointer p-2 bg-primaryLight w-20 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => status("all")}
         >
           All
         </div>
         <div
-          className="cursor-pointer p-2 bg-primaryLight w-44 flex justify-center rounded-xl"
+          className="cursor-pointer p-2 bg-primaryLight w-44 flex justify-center rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => status("adminReview")}
         >
           Waiting Review
         </div>
 
         <div
-          className="cursor-pointer p-2 flex justify-center items-center bg-primaryLight w-48 rounded-xl"
+          className="cursor-pointer p-2 flex justify-center items-center bg-primaryLight w-48 rounded-xl hover:bg-primaryDarker hover:text-textWhite"
           onClick={() => setIsOpen(true)}
           ref={dropDownEl}
         >

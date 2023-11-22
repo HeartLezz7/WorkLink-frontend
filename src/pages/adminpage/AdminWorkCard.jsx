@@ -21,11 +21,11 @@ export default function AdminWorkCard({ workObj }) {
       <div className="px-10 py-4 flex items-center shadow-lg justify-between bg-background rounded-2xl">
         <div className="p-2 flex flex-col gap-2 w-full">
           <div className="flex">
-            <p className="w-28">Tittle :</p>
+            <p className="w-28 mr-1">Tittle :</p>
             <p className="font-bold">{workObj.title}</p>
           </div>
           <div className="flex ">
-            <p className="w-32 ">Work :</p>
+            <p className="w-32">Work :</p>
             <p className="max-h-20 w-full overflow-auto hiddenScrollStyle">
               {workObj.description}
             </p>
@@ -34,7 +34,7 @@ export default function AdminWorkCard({ workObj }) {
             <div>
               {workObj.statusWork === "adminReview" ? (
                 <div className="flex ">
-                  <p className="w-28">Status Work :</p>
+                  <p className="w-28 mr-1">Status Work :</p>
                   <p className="font-bold">{workObj.statusWork}</p>
                 </div>
               ) : (
@@ -48,13 +48,13 @@ export default function AdminWorkCard({ workObj }) {
             {workObj.statusWork === "adminReview" ? (
               <div className="flex gap-5 items-end">
                 <button
-                  className="bg-primaryDark px-10 h-10 rounded-xl text-backgroundWhiteBlue"
+                  className="bg-primaryDark px-10 h-10 rounded-xl text-backgroundWhiteBlue hover:bg-gradiantPrimaryDark hover:text-textWhite"
                   onClick={() => adminReview()}
                 >
                   Accept
                 </button>
                 <button
-                  className="bg-secondaryLight px-10 h-10 rounded-xl"
+                  className="bg-secondaryLight px-10 h-10 rounded-xl hover:bg-secondaryDark hover:text-textWhite"
                   onClick={() => rejectWrok()}
                 >
                   Reject
@@ -62,7 +62,7 @@ export default function AdminWorkCard({ workObj }) {
               </div>
             ) : (
               <div className="flex gap-5 items-end ">
-                Status work :{" "}
+                Status work :
                 <p className="font-bold text-xl">{workObj.statusWork}</p>
               </div>
             )}
