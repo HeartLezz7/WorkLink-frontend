@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import axios from "../../../configs/axios";
-import getDate from "../../../utils/getDate";
-import Loading from "../../Loading/Loading";
-import ChallengerItem from "./ChallengerItem";
-import { IoMdClose } from "react-icons/io";
-import EditWorkModal from "../EditWorkModal";
-import useWork from "../../../hooks/useWork";
+import { useState, useEffect } from 'react';
+import axios from '../../../configs/axios';
+import getDate from '../../../utils/getDate';
+import Loading from '../../Loading/Loading';
+import ChallengerItem from './ChallengerItem';
+import { IoMdClose } from 'react-icons/io';
+import EditWorkModal from '../EditWorkModal';
+import useWork from '../../../hooks/useWork';
 
 export default function OwnerWorkModal({ work, setIsOpen }) {
   const [thisWork, setThisWork] = useState({});
@@ -61,25 +61,25 @@ export default function OwnerWorkModal({ work, setIsOpen }) {
                     <div>Category : {thisWork.category.category}</div>
                     <div>CreateAt : {getDate(thisWork.createdAt)}</div>
                     <div>
-                      Work type : {thisWork.isOnsite ? "Onsite" : "Remote"}
+                      Work type : {thisWork.isOnsite ? 'Onsite' : 'Remote'}
                     </div>
                     {thisWork.isOnsite ? (
-                      <div>address : {thisWork.addressName}</div>
+                      <div>Address : {thisWork.addressName}</div>
                     ) : (
-                      ""
+                      ''
                     )}
                     <div>Price : {thisWork.price}</div>
                     <div>
                       Start-End Date: {getDate(thisWork.startDate)}
                       {thisWork.endDate ? (
-                        " - " + getDate(thisWork.endDate)
+                        ' - ' + getDate(thisWork.endDate)
                       ) : (
                         <span className="text-disable"> - NotSpecified</span>
-                      )}{" "}
+                      )}{' '}
                     </div>
                     <div>Description : {thisWork.description}</div>
                   </div>
-                  {thisWork.statusWork == "finding" && (
+                  {thisWork.statusWork == 'finding' && (
                     <div className="flex justify-center items-center p-2">
                       <div
                         onClick={() => setIsEditOpen(true)}
