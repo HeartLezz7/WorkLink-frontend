@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import getDateFormat from "../../utils/getDateFormat";
 import Loading from "../../components/Loading/Loading";
 import InputErrorMessage from "../../components/InputErroMessage";
+import toast from 'react-hot-toast'
 
 const dateFormat = "YYYY-MM-DD";
 
@@ -54,7 +55,8 @@ export default function ValidatePage() {
 
     const { value, error } = validateSchema(identifySchema, validateInput);
     if (error) {
-      // console.log(error);
+      setError({});
+      console.log(error);
       setError(error);
       return;
     } else if (file && value) {
@@ -71,12 +73,17 @@ export default function ValidatePage() {
       e.preventDefault();
       setLoading(true);
       const data = handleFormData();
-      console.log(data), "dataa";
+      if(!data){
+        console.log(error)
+        toast.error("Please add photo of id card")
+        return
+      }
+      console.log(data ,"dataa");
       setError({});
       const res = await axios.patch("/user/validateuser", data);
       // console.log(res.data.user);
       setUser(res.data.user);
-
+      toast.success('Successfully!')
       navigate(`/userprofile/${user.id}`);
     } catch (error) {
       console.log(error);

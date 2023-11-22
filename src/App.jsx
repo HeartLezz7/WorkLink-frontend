@@ -16,6 +16,7 @@ function App() {
     <ChatContextProvider>
       <WorkContextProvider>
       <Toaster 
+    duration= {6000}
     position="button-center"
   reverseOrder={false}/>
         <Route />
