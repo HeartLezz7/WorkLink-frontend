@@ -1,31 +1,31 @@
-import { useState, useRef } from "react";
-import { GOOGLE_MAP_API } from "../../configs/env";
+import { useState, useRef } from 'react';
+import { GOOGLE_MAP_API } from '../../configs/env';
 import {
   GoogleMap,
   useLoadScript,
   Marker,
   InfoWindow,
-} from "@react-google-maps/api";
-import { useCallback } from "react";
-import "@reach/combobox/styles.css";
-import Search from "./Search";
-import googleAxios from "../../configs/googleAxios";
-import useWork from "../../hooks/useWork";
-import useMap from "../../hooks/useMap";
+} from '@react-google-maps/api';
+import { useCallback } from 'react';
+import '@reach/combobox/styles.css';
+import Search from './Search';
+import googleAxios from '../../configs/googleAxios';
+import useWork from '../../hooks/useWork';
+import useMap from '../../hooks/useMap';
 
-import { MarkerClustererF } from "@react-google-maps/api";
-import { MarkerF } from "@react-google-maps/api";
+import { MarkerClustererF } from '@react-google-maps/api';
+import { MarkerF } from '@react-google-maps/api';
 
 const mapContainerStyle = {
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
 };
 const userLocation = {
   lat: 13.756331,
   lng: 100.501762,
 };
 const key = 1;
-const libraries = ["places"];
+const libraries = ['places'];
 
 function GoogleMapApi({
   open,
@@ -50,7 +50,12 @@ function GoogleMapApi({
   const [userSelected, setUserSelected] = useState(null);
 
   // Clusterer
-  const { latlng } = useMap();
+  let clusterLatLng;
+  if (onFindingWork) {
+    const { latlng } = useMap();
+    clusterLatLng = latlng;
+  }
+
   // console.log(latlng,"bbbbbbbbbbbbbbbbbbbbbbb")
   const [test, setTest] = useState([
     {
@@ -65,7 +70,7 @@ function GoogleMapApi({
   ]);
 
   const [redPin, setRedPin] = useState([]);
-  // console.log(redPin);
+  console.log(redPin);
 
   const thisPin = redPin[0];
   console.log(thisPin);
@@ -139,8 +144,8 @@ function GoogleMapApi({
     mapRef.current.setZoom(14);
   }, []);
 
-  if (loadError) return "Error loading maps";
-  if (!isLoaded) return "loading Maps";
+  if (loadError) return;
+  if (!isLoaded) return;
 
   // console.log(mapAddress, "xxxxx");
 
@@ -155,7 +160,7 @@ function GoogleMapApi({
               setAddress(mapAddress);
               setSearchRemote(false);
               if (onFindingWork) {
-                setFilter("address");
+                setFilter('address');
               }
               onClose();
             }}
@@ -188,27 +193,32 @@ function GoogleMapApi({
                     />
                   ))}
                   {/* Clusterer */}
-                  <MarkerClustererF
-                    // minimumClusterSize: The minimum number of markers needed to form a cluster.
-                    minimumClusterSize={2}
-                  >
-                    {(cluster) => (
-                      <>
-                        {latlng.map((position, index) => {
-                          return (
-                            <MarkerF
-                              position={{
-                                lat: +position.addressLat,
-                                lng: +position.addressLong,
-                              }}
-                              key={index}
-                              clusterer={cluster}
-                            />
-                          );
-                        })}
-                      </>
-                    )}
-                  </MarkerClustererF>
+                  {onFindingWork ? (
+                    <MarkerClustererF
+                      // minimumClusterSize: The minimum number of markers needed to form a cluster.
+                      minimumClusterSize={2}
+                    >
+                      {(cluster) => (
+                        <>
+                          {clusterLatLng.map((position, index) => {
+                            return (
+                              <MarkerF
+                                position={{
+                                  lat: +position.addressLat,
+                                  lng: +position.addressLong,
+                                }}
+                                key={index}
+                                clusterer={cluster}
+                              />
+                            );
+                          })}
+                        </>
+                      )}
+                    </MarkerClustererF>
+                  ) : (
+                    ''
+                  )}
+
                   {userSelected ? (
                     <InfoWindow
                       position={{
@@ -232,7 +242,7 @@ function GoogleMapApi({
                     className="bg-secondaryDark rounded-2xl px-5 py-1  text-textWhite text-lg font-bold cursor-pointer"
                     onClick={() => {
                       onClose();
-                      setAddress("");
+                      setAddress('');
                     }}
                   >
                     Cancel

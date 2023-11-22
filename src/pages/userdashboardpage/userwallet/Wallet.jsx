@@ -1,7 +1,7 @@
-import { useState } from "react";
-import WithdrawModal from "../../../components/modal/userTransactionModal/WithdrawModal";
-import DepositModal from "../../../components/modal/userTransactionModal/DepositModal";
-import useAuth from "../../../hooks/useAuth";
+import { useState } from 'react';
+import WithdrawModal from '../../../components/modal/userTransactionModal/WithdrawModal';
+import DepositModal from '../../../components/modal/userTransactionModal/DepositModal';
+import useAuth from '../../../hooks/useAuth';
 
 export default function Wallet() {
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
@@ -16,7 +16,7 @@ export default function Wallet() {
       </p>
       <div className="w-[100%] flex flex-col items-center justify-center gap-5 py-3">
         <p className="text-primary pt-4 text-2xl font-semibold">
-          {user.wallet} Baht
+          {(+user.wallet).toFixed(2)} Baht
         </p>
         <div className="w-full flex justify-evenly">
           <button
