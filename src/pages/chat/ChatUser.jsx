@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import formatTimeAgo from "../../utils/time-ago";
+import { Link } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+import formatTimeAgo from '../../utils/time-ago';
 
 export default function ChatUser({
   roomId,
@@ -13,7 +13,11 @@ export default function ChatUser({
 
   return (
     <Link to={`/chatRoom/${roomId}`}>
-      <div className="flex flex-col w-full bg-background rounded-lg">
+      <div
+        className={`flex flex-col w-full rounded-lg ${
+          dealer.id !== user.id ? 'bg-primaryLight/90' : 'bg-background'
+        }`}
+      >
         <div className="w-full shadow-md flex gap-5 items-center px-3 py-2">
           <img
             src={

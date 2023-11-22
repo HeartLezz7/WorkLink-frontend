@@ -1,10 +1,9 @@
-import search from "../../../public/icons/search.png";
-import ChatUser from "./ChatUser";
-import { useState } from "react";
-import { BiSearchAlt } from "react-icons/bi";
+import ChatUser from './ChatUser';
+import { useState } from 'react';
+import { BiSearchAlt } from 'react-icons/bi';
 
 export default function ChatList({ chatRoom }) {
-  const [searchName, setSearchName] = useState("");
+  const [searchName, setSearchName] = useState('');
 
   const handleInput = (e) => {
     setSearchName(e.target.value);

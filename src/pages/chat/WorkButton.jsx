@@ -18,7 +18,7 @@ export default function WorkButton({ title, workId, workerId, price, wallet }) {
       if (status === 'Submit') {
         workStatus = STATUS_MAKEDEAL;
         if (price > wallet) {
-          toast.error('Please add money');
+          return toast.error('Please add money');
         }
         await axios.patch('/work/makeDeal', {
           workStatus,

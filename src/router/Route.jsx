@@ -1,43 +1,44 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "../layout/Layout";
-import HomePage from "../pages/homepage/HomePage";
-import FindWorkPage from "../pages/findworkpage/FindWorkPage";
-import RegisterPage from "../pages/registerpage/RegisterPage";
-import LoginPage from "../pages/loginpage/LoginPage";
-import UserProfilePage from "../pages/userprofilepage/ProfilePage";
-import UserDashBoardPage from "../pages/userdashboardpage/UserDashBoardPage";
-import ValidatePage from "../pages/validatepage/ValidatePage";
-import ChatPage from "../pages/chat/ChatPage";
-import RedirectIfNotLogin from "./redirect/RedirectIfNotLogin";
-import RedirectIfLogin from "./redirect/RedirectIfLogin";
-import AdminPage from "../pages/adminpage/AdminPage";
-import LayoutAdmin from "../layout/LayoutAdmit";
-import ChatContent from "../pages/chat/ChatContent";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from '../layout/Layout';
+import HomePage from '../pages/homepage/HomePage';
+import FindWorkPage from '../pages/findworkpage/FindWorkPage';
+import RegisterPage from '../pages/registerpage/RegisterPage';
+import LoginPage from '../pages/loginpage/LoginPage';
+import UserProfilePage from '../pages/userprofilepage/ProfilePage';
+import UserDashBoardPage from '../pages/userdashboardpage/UserDashBoardPage';
+import ValidatePage from '../pages/validatepage/ValidatePage';
+import ChatPage from '../pages/chat/ChatPage';
+import RedirectIfNotLogin from './redirect/RedirectIfNotLogin';
+import RedirectIfLogin from './redirect/RedirectIfLogin';
+import AdminPage from '../pages/adminpage/AdminPage';
+import LayoutAdmin from '../layout/LayoutAdmit';
+import ChatContent from '../pages/chat/ChatContent';
 
-import AdminManageUser from "../pages/adminpage/AdminManageUser";
-import AdminManageTransction from "../pages/adminpage/AdminManageTransction";
-import AdminManageReport from "../pages/adminpage/AdminManageReport";
-import RedirectIsAdmin from "./redirect/RedirectIsAdmin";
-import AdminLoginPage from "../pages/loginpage/AdminLogin";
-import AdminRegisterPage from "../pages/registerpage/AdminRegister";
-import WalletContextProvider from "../contexts/WalletContext";
-import MapContextProvider from "../contexts/MapContext";
+import AdminManageUser from '../pages/adminpage/AdminManageUser';
+import AdminManageTransction from '../pages/adminpage/AdminManageTransction';
+import AdminManageReport from '../pages/adminpage/AdminManageReport';
+import RedirectIsAdmin from './redirect/RedirectIsAdmin';
+import AdminLoginPage from '../pages/loginpage/AdminLogin';
+import AdminRegisterPage from '../pages/registerpage/AdminRegister';
+import WalletContextProvider from '../contexts/WalletContext';
+import MapContextProvider from '../contexts/MapContext';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
-      { path: "", element: <HomePage /> },
-      { path: "findwork", element: 
-      (
-        <MapContextProvider>
-        <FindWorkPage />
-        </MapContextProvider>
-      )
-     },
+      { path: '', element: <HomePage /> },
       {
-        path: "userprofile/:userId",
+        path: 'findwork',
+        element: (
+          <MapContextProvider>
+            <FindWorkPage />
+          </MapContextProvider>
+        ),
+      },
+      {
+        path: 'userprofile/:userId',
         element: (
           <RedirectIfNotLogin>
             <UserProfilePage />
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "dashboard",
+        path: 'dashboard',
         element: (
           <WalletContextProvider>
             <RedirectIfNotLogin>
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "login",
+        path: 'login',
         element: (
           <RedirectIfLogin>
             <LoginPage />
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "register",
+        path: 'register',
         element: (
           <RedirectIfLogin>
             <RegisterPage />
@@ -71,7 +72,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/validate/:userId",
+        path: '/validate/:userId',
         element: (
           <RedirectIfNotLogin>
             <ValidatePage />
@@ -79,34 +80,34 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/chatroom",
+        path: '/chatroom',
         element: <ChatPage />,
         children: [
           {
-            path: "/chatroom/:chatRoomId",
+            path: '/chatroom/:chatRoomId',
             element: <ChatContent />,
           },
         ],
       },
     ],
   },
-  { path: "/loveworklink" },
+  { path: '/loveworklink' },
   {
-    path: "/admin",
+    path: '/admin',
     element: (
       <RedirectIsAdmin>
         <LayoutAdmin />
       </RedirectIsAdmin>
     ),
     children: [
-      { path: "", element: <AdminPage /> },
-      { path: "manageuser", element: <AdminManageUser /> },
-      { path: "managetransection", element: <AdminManageTransction /> },
-      { path: "managereport", element: <AdminManageReport /> },
+      { path: '', element: <AdminPage /> },
+      { path: 'manageuser', element: <AdminManageUser /> },
+      { path: 'managetransection', element: <AdminManageTransction /> },
+      { path: 'managereport', element: <AdminManageReport /> },
     ],
   },
-  { path: "adminlogin", element: <AdminLoginPage /> },
-  { path: "adminregister", element: <AdminRegisterPage /> },
+  { path: 'adminlogin', element: <AdminLoginPage /> },
+  { path: 'adminregister', element: <AdminRegisterPage /> },
 ]);
 
 export default function Route() {
