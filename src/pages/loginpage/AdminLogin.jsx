@@ -6,6 +6,7 @@ import { loginAdminSchema } from "../../utils/auth-validator";
 import { Link, useNavigate } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
 import BallAnimation from "../../components/BallAnimation";
+import toast from 'react-hot-toast'
 
 export default function AdminLoginPage() {
   const [input, setInput] = useState({ emailOrPhoneNumber: "", password: "" });
@@ -27,8 +28,10 @@ export default function AdminLoginPage() {
       }
       setError({});
       await adminlogin(result.value);
+      toast.success('Successfully login!')
       navigate(`/admin`);
     } catch (err) {
+      toast.error('Wrong username or password')
       console.log(err);
     }
   };

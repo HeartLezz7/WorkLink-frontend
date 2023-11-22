@@ -7,6 +7,7 @@ import useWork from "../../hooks/useWork";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import getDateFormat from "../../utils/getDateFormat";
+import toast from 'react-hot-toast'
 
 const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
@@ -86,8 +87,10 @@ export default function CreateWorkModal({ setIsOpen }) {
         }
       }
       await createWork(formData);
+      toast.success('Successfully')
       setIsOpen(false);
     } catch (err) {
+      toast.error('Please fill up this form')
       console.log(err);
     } finally {
       setLoading(false);
