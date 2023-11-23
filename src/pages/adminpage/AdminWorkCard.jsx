@@ -9,13 +9,14 @@ export default function AdminWorkCard({ workObj }) {
     }
   };
 
-  const rejectWrok = async () => {
+  const rejectWork = async () => {
     try {
       await axios.patch(`/work/reject/${workObj.id}`);
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div className="p-3 w-full">
       <div className="px-10 py-4 flex items-center shadow-lg justify-between bg-background rounded-2xl">
@@ -41,7 +42,7 @@ export default function AdminWorkCard({ workObj }) {
                 ""
               )}
               <div className="flex">
-                <p className="w-28">Price :</p>{" "}
+                <p className="w-[117px]">Price :</p>{" "}
                 <p className="font-bold">{workObj.price} THB</p>
               </div>
             </div>
@@ -55,7 +56,7 @@ export default function AdminWorkCard({ workObj }) {
                 </button>
                 <button
                   className="bg-secondaryLight px-10 h-10 rounded-xl hover:bg-secondaryDark hover:text-textWhite"
-                  onClick={() => rejectWrok()}
+                  onClick={() => rejectWork()}
                 >
                   Reject
                 </button>

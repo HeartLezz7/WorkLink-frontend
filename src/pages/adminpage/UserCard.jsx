@@ -48,12 +48,29 @@ export default function UserCard({ userObj }) {
         </div>
 
         <div className=" flex items-center gap-3">
-          <button
-            className="  w-24 h-12 rounded-xl  bg-primary border-spacing-2 hover:bg-gradiantPrimaryDark hover:text-textWhite"
-            onClick={() => setIsOpen(true)}
-          >
-            {userObj.verifyStatus}
-          </button>
+          {userObj.verifyStatus === "pending" ? (
+            <button
+              className="  w-24 h-12 rounded-xl  bg-yellow border-spacing-2 hover:bg-[#EDF241] hover:text-black"
+              onClick={() => setIsOpen(true)}
+            >
+              {userObj.verifyStatus}
+            </button>
+          ) : userObj.verifyStatus === "verify" ? (
+            <button
+              className="  w-24 h-12 rounded-xl  bg-primary border-spacing-2 hover:bg-gradiantPrimaryDark hover:text-textWhite"
+              onClick={() => setIsOpen(true)}
+            >
+              {userObj.verifyStatus}
+            </button>
+          ) : (
+            <button
+              className="  w-24 h-12 rounded-xl  bg-textGrayLight border-spacing-2 hover:bg-textGrayDark hover:text-textWhite"
+              onClick={() => setIsOpen(true)}
+            >
+              {userObj.verifyStatus}
+            </button>
+          )}
+
           {userObj.isBanned === false ? (
             <button
               className=" w-24 h-12 rounded-xl  bg-secondaryLight border-secondary hover:bg-secondaryDark hover:text-textWhite"
