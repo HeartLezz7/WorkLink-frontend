@@ -8,7 +8,6 @@ export default function ShowCaseCard({
   deleteShowcase,
   getShowcase,
 }) {
-  // console.log(showcase)
   const { user } = useAuth();
   const { userId } = useParams();
   const [isOpen, setIsOpen] = useState(false);

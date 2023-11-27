@@ -1,6 +1,4 @@
 import { useState } from "react";
-import OutstaindingModal from "../../components/modal/ownerworkmodal/OutstaindingModal";
-import PortfolioModal from "../../components/modal/PortfolioModal";
 import axios from "../../configs/axios";
 import { useEffect } from "react";
 import ShowCaseCard from "./showcasedetail/ShowCaseCard";
@@ -50,8 +48,6 @@ export default function ShowCase({ profileData }) {
       getShowcase();
     }
   }, [profileData]);
-
-  console.log(showcase);
 
   return (
     <>

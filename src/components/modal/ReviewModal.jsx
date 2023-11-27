@@ -8,7 +8,6 @@ export default function ReviewModal({ setOpenModal, workId }) {
 
   const [detail, setDetail] = useState("");
   const [rating, setRating] = useState(0);
-  console.log(workId, "check");
 
   const handleSubmitForm = async (e) => {
     try {
@@ -19,7 +18,6 @@ export default function ReviewModal({ setOpenModal, workId }) {
       }
       setLoading(true);
       const data = { rating, detail, workId };
-      console.log(data);
       await axios.patch("/work/success", data);
 
       setOpenModal(false);

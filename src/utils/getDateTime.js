@@ -1,5 +1,4 @@
 export default function getDateTime(dateTimeStr) {
-  // console.log(dateTimeStr);
   const utcDate = new Date(dateTimeStr);
 
   if (!isNaN(utcDate)) {

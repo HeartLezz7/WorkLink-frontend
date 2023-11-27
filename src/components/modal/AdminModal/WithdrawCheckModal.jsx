@@ -16,9 +16,7 @@ export default function WithdrawCheckModal({ setIsOpen, open, data }) {
     comment: "",
   });
 
-  console.log(input);
   const walletupdate = { wallet: +data.user.wallet - +data.amount };
-  console.log(walletupdate);
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };

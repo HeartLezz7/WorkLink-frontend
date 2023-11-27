@@ -16,7 +16,6 @@ export default function ReportModal({ setIsOpen, open, reportObj }) {
 
   const updateStatus = async () => {
     try {
-      console.log(input, "9999999");
       await axios.patch(`/report/changestatus/${reportObj.work.id}`, {
         statusWork: input,
       });
@@ -24,7 +23,6 @@ export default function ReportModal({ setIsOpen, open, reportObj }) {
       console.log(error);
     }
   };
-  console.log(reportObj);
   return (
     <>
       {open && (

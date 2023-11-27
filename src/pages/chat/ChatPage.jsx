@@ -11,7 +11,6 @@ export default function ChatPage() {
   useEffect(() => {
     if (getAccessToken()) {
       axios.get("/chat/get").then((res) => {
-        console.log(res.data.allChatRoom, "raw data");
         const array = res.data.allChatRoom;
         const allChatRoom = array.reduce((acc, item, index) => {
           acc.push(item.chatRoom);
@@ -23,8 +22,6 @@ export default function ChatPage() {
       });
     }
   }, []);
-
-  console.log(allChatRoom, "chat ROOM");
 
   return (
     <div className="w-full h-[calc(100vh-60px)]  grid grid-cols-12">

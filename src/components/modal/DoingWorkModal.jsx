@@ -28,7 +28,6 @@ export default function DoingWorkModal({ work, setIsOpen, isDoing }) {
     await signOut(work.id);
     setIsOpen(false);
   };
-  console.log(chatRoomId);
 
   return (
     <>

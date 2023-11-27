@@ -1,4 +1,3 @@
-import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import useDropdown from "../hooks/useDropdown";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +8,8 @@ export default function UserDropDown() {
   const { user, logout } = useAuth();
   const { isOpen, setIsOpen, dropDownEl } = useDropdown();
   const navigate = useNavigate();
-  // console.log(user);
 
   const handleLogout = () => {
-    console.log("click");
     logout();
     navigate("/");
     setIsOpen(false);

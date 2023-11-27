@@ -1,5 +1,4 @@
 export default function calculateAge(birthDate) {
-  // console.log(birthDate);
   let birthDateObj = new Date(birthDate);
   let currentDate = new Date();
 

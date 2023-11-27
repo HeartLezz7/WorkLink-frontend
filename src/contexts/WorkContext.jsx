@@ -1,7 +1,7 @@
 import axios from "../configs/axios";
 import { createContext, useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
-import { STATUS_FINDING, STATUS_MAKEDEAL } from "../configs/constants";
+import { STATUS_FINDING } from "../configs/constants";
 import findDistance from "../utils/findDistance";
 
 export const WorkContext = createContext();
@@ -107,7 +107,6 @@ export default function WorkContextProvider({ children }) {
 
   const cancelWork = async (workId) => {
     try {
-      console.log(workId);
       const res = await axios.patch(`work/cancel/${workId}`);
       const cancelWork = res.data.cancelWork;
       const cancelIndex = allWorks.findIndex((el) => el.id === cancelWork.id);
@@ -122,7 +121,6 @@ export default function WorkContextProvider({ children }) {
   const signOut = async (workId) => {
     try {
       const res = await axios.delete(`/work/signoutwork/${workId}`);
-      console.log(res.data.deleteChallenger); //{id: 5, userId: 3, workId: 8}
       const newSignUpWork = [...mySignWork];
       const signoutIndex = newSignUpWork.findIndex(
         (el) => el.id == res.data.deleteChallenger.workId
@@ -133,7 +131,6 @@ export default function WorkContextProvider({ children }) {
       console.log(error);
     }
   };
-  // console.log("address on context", searchLocation, locationName);
 
   return (
     <WorkContext.Provider

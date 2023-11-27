@@ -39,10 +39,8 @@ export default function OwnerWork() {
         );
         setDelegatedWork(filterWork);
       }
-      // console.log(ownerWork);
     }
   }, [allWorks, filter]);
-  // console.log(delegatedWork);
 
   const handleChangeFilter = (value) => {
     setFilter(value);

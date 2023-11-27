@@ -8,17 +8,8 @@ export default function InputForm({
   onChange,
   errorInput,
 }) {
-  // console.log(errorInput);
   return (
     <div className={`flex flex-col gap-2 w-full `}>
-      {/* <input
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        value={value}
-        onChange={onChange}
-        className=" rounded-xl py-2 px-4 border border-textGrayLight"
-      /> */}
       <div className="relative z-0">
         <input
           type={type}

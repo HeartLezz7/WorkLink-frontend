@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import Loading from "../Loading/Loading";
 import axios from "../../configs/axios";
 import { LuImagePlus } from "react-icons/lu";
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 
 export default function EditProfileModal({
   setIsOpen,
@@ -20,7 +20,6 @@ export default function EditProfileModal({
     description: showcase.description,
   });
 
-  console.log(showcase);
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -38,10 +37,10 @@ export default function EditProfileModal({
       await axios.patch("user/editshowcase", formData);
       //for re-render
       getShowcase();
-      toast.success('Successfully')
+      toast.success("Successfully");
       setIsOpen(false);
     } catch (err) {
-      toast.error('Please fill up this form')
+      toast.error("Please fill up this form");
       console.log(err);
     } finally {
       setLoading(false);

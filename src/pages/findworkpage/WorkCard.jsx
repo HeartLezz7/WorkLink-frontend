@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSpring, a } from "@react-spring/web";
 import getDate from "../../utils/getDate";
 import useAuth from "../../hooks/useAuth";
@@ -10,12 +10,10 @@ export default function WorkCard({
   id,
   workImage,
   title,
-  createdAt,
   addressName,
   startDate,
   endDate,
   price,
-  statusWork,
   description,
   ownerId,
   challenger,
@@ -42,7 +40,6 @@ export default function WorkCard({
       setLoading(true);
       const res = await axios.post(`/work/challenger/${id}`);
       setIsSignUp(true);
-      console.log(res);
     } catch (error) {
       console.log(error);
     } finally {

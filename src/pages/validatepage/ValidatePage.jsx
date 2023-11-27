@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import getDateFormat from "../../utils/getDateFormat";
 import Loading from "../../components/Loading/Loading";
 import InputErrorMessage from "../../components/InputErroMessage";
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 
 const dateFormat = "YYYY-MM-DD";
 
@@ -29,7 +29,6 @@ export default function ValidatePage() {
     birthDate: null,
     identifyId: user.identifyId || "",
   });
-  // console.log(user);
 
   const [file, setFile] = useState(null);
   const [error, setError] = useState({});
@@ -39,8 +38,7 @@ export default function ValidatePage() {
   const handleInput = (e) => {
     setValidateInput({ ...validateInput, [e.target.name]: e.target.value });
   };
-  const handleChangeDate = (date, dateString) => {
-    // console.log(date, dateString);
+  const handleChangeDate = (dateString) => {
     setValidateInput({ ...validateInput, birthDate: dateString });
   };
 
@@ -73,17 +71,15 @@ export default function ValidatePage() {
       e.preventDefault();
       setLoading(true);
       const data = handleFormData();
-      if(!data){
-        console.log(error)
-        toast.error("Please add photo of id card")
-        return
+      if (!data) {
+        console.log(error);
+        toast.error("Please add photo of id card");
+        return;
       }
-      console.log(data ,"dataa");
       setError({});
       const res = await axios.patch("/user/validateuser", data);
-      // console.log(res.data.user);
       setUser(res.data.user);
-      toast.success('Successfully!')
+      toast.success("Successfully!");
       navigate(`/userprofile/${user.id}`);
     } catch (error) {
       console.log(error);

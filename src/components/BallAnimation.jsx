@@ -36,9 +36,6 @@ export default function BallAnimation({
     };
   }, [position, velocity]);
 
-  // console.log(position);
-  // conssole.log(position);
-
   return (
     <div
       className={`whiteDivShadow`}

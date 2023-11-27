@@ -3,17 +3,17 @@ import {
   STATUS_MAKEDEAL,
   STATUS_ONPROCESS,
   STATUS_REQUEST,
-} from '../../configs/constants';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
-import { useState } from 'react';
-import WorkButton from './WorkButton';
-import ReportItem from './ReportItem';
-import useChat from '../../hooks/useChat';
-import useWork from '../../hooks/useWork';
-import useAuth from '../../hooks/useAuth';
-import ReviewModal from '../../components/modal/ReviewModal';
-import EditWorkModal from '../../components/modal/EditWorkModal';
-import getDate from '../../utils/getDate';
+} from "../../configs/constants";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { useState } from "react";
+import WorkButton from "./WorkButton";
+import ReportItem from "./ReportItem";
+import useChat from "../../hooks/useChat";
+import useWork from "../../hooks/useWork";
+import useAuth from "../../hooks/useAuth";
+import ReviewModal from "../../components/modal/ReviewModal";
+import EditWorkModal from "../../components/modal/EditWorkModal";
+import getDate from "../../utils/getDate";
 
 export default function ChatStatusWork() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,8 +26,6 @@ export default function ChatStatusWork() {
   const { chatRoom } = useChat();
 
   const work = allWorks.find((item) => item.id === chatRoom?.workId);
-  console.log(work?.price, 'price');
-  console.log(user?.wallet, 'wallet');
   return (
     <>
       <div className="h-[calc(100vh-60px)] col-span-4 flex flex-col">
@@ -63,31 +61,31 @@ export default function ChatStatusWork() {
               />
 
               <div>
-                <span className="font-bold">Work type</span> :{' '}
-                {work?.isOnsite ? 'Onsite' : 'Remote'}
+                <span className="font-bold">Work type</span> :{" "}
+                {work?.isOnsite ? "Onsite" : "Remote"}
               </div>
               {work?.isOnsite ? (
                 <div>
-                  <span className="font-bold">Address</span> :{' '}
+                  <span className="font-bold">Address</span> :{" "}
                   {work?.addressName}
                 </div>
               ) : (
-                ''
+                ""
               )}
               <div>
                 <span className="font-bold">Price</span> : {work?.price}
               </div>
               <div>
-                <span className="font-bold">Start-End Date</span> :{' '}
+                <span className="font-bold">Start-End Date</span> :{" "}
                 {getDate(work?.startDate)}
                 {work?.endDate ? (
-                  '-' + getDate(work?.endDate)
+                  "-" + getDate(work?.endDate)
                 ) : (
                   <span className="text-disable">- NotSpecified</span>
-                )}{' '}
+                )}{" "}
               </div>
               <div>
-                <span className="font-bold">Description</span> :{' '}
+                <span className="font-bold">Description</span> :{" "}
                 {work?.description}
               </div>
             </div>
@@ -129,10 +127,10 @@ export default function ChatStatusWork() {
                 </button>
               </>
             ) : (
-              ''
+              ""
             )
           ) : chatRoom?.dealer?.id && work?.statusWork === STATUS_FINDING ? (
-            ''
+            ""
           ) : chatRoom?.dealer?.id && work?.statusWork === STATUS_MAKEDEAL ? (
             <>
               <WorkButton
@@ -159,7 +157,7 @@ export default function ChatStatusWork() {
               />
             </>
           ) : (
-            ''
+            ""
           )}
         </div>
         {openModal && (

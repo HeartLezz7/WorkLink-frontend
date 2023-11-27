@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import axios from "../../configs/axios";
 import calculateAge from "../../utils/calculateAge";
 import Loading from "../../components/Loading/Loading";
-import { FaChessKing } from "react-icons/fa";
 
 export default function UserProfilePage() {
   const [profileData, setProfileData] = useState(null);
@@ -40,8 +39,6 @@ export default function UserProfilePage() {
       })
       .catch((err) => console.log(err));
   }, [userId]);
-
-  console.log(reviewScore);
 
   return (
     <div className="">

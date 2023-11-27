@@ -5,7 +5,6 @@ import validateSchema from "../../utils/validate-schema";
 import { loginSchema } from "../../utils/auth-validator";
 import { Link, useNavigate } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
-import BallAnimation from "../../components/BallAnimation";
 import jwtDecode from "jwt-decode";
 import toast from "react-hot-toast";
 
@@ -26,41 +25,20 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
-      console.log("first");
       const result = validateSchema(loginSchema, input);
       if (result.error) {
-        console.log(result.error);
         return setError(result.error);
       }
-      console.log("first1111");
       setError({});
-      console.log("before");
       await login(result.value);
       toast.success("Successfully login!");
       navigate("/dashboard");
-      // console.log("after");
     } catch (err) {
       toast.error("Wrong username or password");
       console.log(err);
     }
   };
 
-  const handleLoginGoogle = async (e) => {
-    try {
-      e.preventDefault();
-      const result = input;
-      if (result.error) {
-        return setError(result.error);
-      }
-      console.log(result);
-      const user = await loginGoogle(result.value);
-      navigate(`/validate/${user.id}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // console.log(handleLoginGoogle);
   return (
     <div
       className="w-screen relative overflow-hidden "
@@ -78,7 +56,6 @@ export default function LoginPage() {
             onSuccess={(credentialResponse) => {
               const data = jwtDecode(credentialResponse.credential);
               loginGoogle(data);
-              console.log(data);
             }}
             onError={() => {
               console.log("Login Failed");

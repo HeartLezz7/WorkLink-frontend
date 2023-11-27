@@ -16,7 +16,6 @@ export default function SearchContainer() {
     setSearchLocation,
     setSearchRemote,
   } = useWork();
-  console.log(locationName);
 
   return (
     <>

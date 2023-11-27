@@ -13,7 +13,6 @@ export default function ReportCard({ reportObj }) {
     }
   };
 
-  console.log(reportObj);
   return (
     <div className="flex justify-between gap-20 h-32 border p-4 border-textGrayLight rounded-2xl shadow-lg bg-background">
       <div className=" flex gap-10 items-center ">

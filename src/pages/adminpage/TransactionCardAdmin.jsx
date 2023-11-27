@@ -22,7 +22,6 @@ export default function TransactionCardAdmin({ data }) {
     second: "numeric",
   }).format(dateData);
 
-  console.log(data);
   return (
     <div className="flex flex-col w-full p-3">
       <div className="flex justify-between items-center gap-5 border px-8 py-4 border-textGrayLight rounded-2xl bg-background shadow-lg">

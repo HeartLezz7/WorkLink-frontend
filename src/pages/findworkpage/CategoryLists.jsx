@@ -1,11 +1,8 @@
-import { useState } from "react";
 import CategoryItem from "./CategoryItem";
 import useWork from "../../hooks/useWork";
 
 export default function CategoryLists() {
-  const [categoryId, setCategoryId] = useState(0);
   const { searchCatId, setSearchCatId } = useWork();
-  //   console.log(categoryId);
   const categoryLists = [
     {
       id: 0,
@@ -86,10 +83,8 @@ export default function CategoryLists() {
     },
   ];
   const handleClick = (id) => {
-    // console.log("click");
     setSearchCatId(id);
   };
-  //   console.log(isHover);
   return (
     <div className="bg-[#ffffff] max-w-fit  overflow-x-scroll h-[180px] rounded-3xl mt-10 flex items-end p-3 whiteDivShadow mx-auto hiddenScrollStyle">
       {categoryLists.map((el) => (

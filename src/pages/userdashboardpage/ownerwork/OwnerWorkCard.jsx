@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export default function OwnerWorkCard({ work }) {
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(isOpen);
 
   let colorStyle;
 

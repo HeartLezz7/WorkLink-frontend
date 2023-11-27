@@ -1,16 +1,12 @@
 import axios from "../configs/axios";
-import { createContext, useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth";
+import { createContext, useState } from "react";
 
 export const WalletContext = createContext();
 
 export default function WalletContextProvider({ children }) {
   const [myTransaction, setMyTransaction] = useState([]);
-  const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
-
-  // console.log(myTransaction);
 
   const createTransaction = async (data) => {
     try {
@@ -22,7 +18,6 @@ export default function WalletContextProvider({ children }) {
           formData.append(`${key}`, data[key]);
         }
       }
-      //   console.log(formData);
       const res = await axios.post("transaction/createtransaction", formData);
       setMyTransaction([res.data.transaction, ...myTransaction]);
     } catch (err) {

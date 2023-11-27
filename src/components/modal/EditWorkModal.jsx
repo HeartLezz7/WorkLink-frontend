@@ -1,7 +1,5 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Loading from "../Loading/Loading";
-import axios from "../../configs/axios";
-import { LuImagePlus } from "react-icons/lu";
 import useWork from "../../hooks/useWork";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -11,16 +9,14 @@ const dateFormat = "YYYY-MM-DD";
 const { RangePicker } = DatePicker;
 import ModalMap from "./ModalMap";
 import ConfirmCancelWork from "./ConfirmCancelWorkModal";
+import { toast } from "react-hot-toast";
 
 export default function EditWorkModal({ setIsOpen, work }) {
   const [loading, setLoading] = useState(false);
-  const [isHover, setIsHover] = useState(false);
-  const { allWorks, editWork, category } = useWork();
+  const { editWork, category } = useWork();
   const [address, setAddress] = useState([]);
-  // console.log(address);
   const [isOpen, setIsOpenMap] = useState(false);
   const [isCancelOpen, setIsCancelOpen] = useState(false);
-  const fileEl = useRef(null);
   const [input, setInput] = useState({
     id: work.id,
     isOnsite: work.isOnsite,
@@ -32,10 +28,8 @@ export default function EditWorkModal({ setIsOpen, work }) {
     startDate: work.startDate,
     endDate: work.endDate,
   });
-  // console.log(work, category);
 
   const handleChangeInput = (e) => {
-    // console.log(e.target.name, e.target.checked, e.target.value);
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -45,18 +39,10 @@ export default function EditWorkModal({ setIsOpen, work }) {
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
-
-      //   const { value, error } = schema.validate(input, {
-      //     abortEarly: false,
-      //   });
-      //   if (error) {
-      //     return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
-      //   }
       setLoading(true);
-      // console.log(input);
       if (input.isOnsite) {
         if (!input.addressName && !input.addressLong && !input.addressLat) {
-          return console.log("select your addriss");
+          return toast.error("select your address");
         }
       } else {
         input.addressName = null;
@@ -73,7 +59,6 @@ export default function EditWorkModal({ setIsOpen, work }) {
   };
 
   const handleChangeDate = (date, dateString) => {
-    console.log(date, dateString);
     setInput({
       ...input,
       startDate: dateString[0],
@@ -138,7 +123,7 @@ export default function EditWorkModal({ setIsOpen, work }) {
 
                   {category.map((el) => {
                     return (
-                      <option value={el.id} className="text-sm">
+                      <option key={el.id} value={el.id} className="text-sm">
                         {el.category}
                       </option>
                     );

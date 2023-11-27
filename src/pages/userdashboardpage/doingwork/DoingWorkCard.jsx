@@ -4,8 +4,6 @@ import DoingWorkModal from "../../../components/modal/DoingWorkModal";
 
 export default function DoingWorkCard({ work, isDoing }) {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(work);
-  // console.log(isOpen);
   let colorStyle;
 
   switch (work.statusWork) {

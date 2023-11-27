@@ -34,12 +34,10 @@ export default function AdminRegisterPage() {
       const result = validateSchema(registerAdminSchema, input);
 
       if (result.error) {
-        console.log(result.error, "validateError ");
         return setError(result.error);
       }
       setError({});
       const user = await adminregister(result.value);
-      console.log(user, "user");
       navigate(`/admin`);
     } catch (err) {
       console.log(err);

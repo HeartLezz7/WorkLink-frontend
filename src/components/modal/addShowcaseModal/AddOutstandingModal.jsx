@@ -14,7 +14,6 @@ export default function AddOutstandingModal({ setIsOpen, onSubmit }) {
   });
 
   const handleChangeInput = (e) => {
-    // console.log(e.target.name, e.target.checked, e.target.value);
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -26,7 +25,6 @@ export default function AddOutstandingModal({ setIsOpen, onSubmit }) {
       e.preventDefault();
       const formData = new FormData();
       setLoading(true);
-      console.log(input);
       for (let key in input) {
         if (input[key]) {
           formData.append(`${key}`, input[key]);

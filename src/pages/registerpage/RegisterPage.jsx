@@ -33,12 +33,10 @@ export default function RegisterPage() {
       const result = validateSchema(registerSchema, input);
 
       if (result.error) {
-        console.log(result.error, "validateError ");
         return setError(result.error);
       }
       setError({});
       const user = await register(result.value);
-      console.log(user, "user");
       navigate(`/validate/${user.id}`);
     } catch (err) {
       console.log(err);

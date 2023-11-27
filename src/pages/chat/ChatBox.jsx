@@ -45,16 +45,11 @@ export default function ChatBox() {
   }, []);
 
   useEffect(() => {
-    console.log("onEffect");
     getChatroomMessage(chatRoomId);
-    console.log("onEffect3");
-    // scrollToElement();
-    console.log("onEffect5");
   }, [allChatRoom, chatRoomId]);
 
   useEffect(() => {
     socket.on("receive_message", (obj) => {
-      console.log(obj.chatRoomId == chatRoomId, "check boolean");
       if (obj.chatRoomId == chatRoomId) {
         setChatMessage([...chatMessage, obj]);
       }
